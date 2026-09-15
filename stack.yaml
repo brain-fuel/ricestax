@@ -1,0 +1,12 @@
+# canon is taken from its checkout beside this project rather than as a git dependency, because
+# Stack clones a git dependency with its submodules and canon's lang_samples submodules point at
+# commits their remotes do not serve, so the clone fails before anything builds.
+snapshot:
+  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/24/58.yaml
+
+packages:
+- .
+- ../canon
+
+extra-deps:
+- grammatical-parsers-0.7.2.1

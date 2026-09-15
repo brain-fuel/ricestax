@@ -1,0 +1,158 @@
+DEC-obligation:
+  status: decided
+  question: What is the one thing that canon's comment vetting, wavelet's mutation review, and the review of the six questions all are, so that one ledger and one tool can hold them?
+  answer: |
+    An obligation: a fact a machine detected and cannot decide. Every obligation has a kind, a stable identity, a subject in the code, the digests of the material it was judged against so the verdict goes stale when that material changes, a verdict from the kind's own closed set of words, an optional written argument, and a sign-off derived from git rather than stored. Each verdict word maps to one of four dispositions, open, closed, work, or deferred, which is the only vocabulary the combined view and the check need.
+
+    canon already has this shape for comments, ledger entries, and registry entries, with the words pending, good, bad, and deferred. wavelet already has it for surviving mutants, with the words unreviewed, logical-equivalency, inadequate-testing, unnecessary-code, and needs-research. Neither names it. Rice's Tax names it, because by Rice's theorem every non-trivial semantic property is undecidable, so what remains after the compiler, property tests, and mutation testing is a tax a person pays.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [rice-1953, canon, wavelet-adr-0017, wavelet-adr-0019]
+
+DEC-home:
+  status: decided
+  question: Where does Rice's Tax live, given that canon holds the unit model and languages and wavelet holds the mutation review server?
+  answer: |
+    A new project that depends on canon for units, languages, comment extraction, and the sign-off from git blame. It absorbs wavelet's mutation review server and page as its first review UI and its first runtime adapter. wavelet keeps its specification-specific tools, tangling among them.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-mutation-review]
+
+DEC-queues:
+  status: decided
+  question: Which of Who, What, When, Where, Why, and How raise obligations with their own review queue and UI?
+  answer: |
+    Why, What, and How, each as a separate queue with its own page. Who and When are derived from git, and Where from package, file, and the chain of enclosing units, so they raise nothing. In canon today only Why has a queue and What is folded into the same verdict under Rule 8; here What is judged apart from the comment.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-what-queue:
+  status: decided
+  question: What does a What verdict decide, now that What is its own queue?
+  answer: |
+    Rule 8 plus signature: the name and the type or signature together state, in full words, the fact the unit establishes. One obligation per unit, judged apart from its comment. It goes stale when the name, the signature, or the body changes.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-how-queue:
+  status: decided
+  question: How does mutation review relate to the How queue?
+  answer: |
+    Mutation review is a subset of the How queue. The How queue is about whether tests have or lack observability of the body, and whether blind spots do or do not exist, together with surviving mutants. A surviving mutant is one How obligation, with wavelet's verdict words. What the other How kinds are exactly is open under DEC-how-subkinds.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [wavelet-adr-0017, wavelet-adr-0019, wavelet-adr-0021]
+
+DEC-ledger-shape:
+  status: decided
+  question: What shape does the ledger take on disk, given canon's one YAML file per project and wavelet's one markdown record per subject?
+  answer: |
+    Per kind and per subject: a directory per kind, a file per subject. Every verdict sits on its own line so git blame attributes it, as canon's vetting file does. The ledger lives in the repository, and the diff is the review, so no judgement is stored anywhere else. What a subject is for file purposes is open under DEC-subject-granularity.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-spec-form-review-surface]
+
+DEC-argument-optional:
+  status: decided
+  question: Must a closing verdict carry a written argument?
+  answer: |
+    No. The argument is optional everywhere, as it is in both canon and wavelet today. The sign-off alone is the evidence.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-adr-0017]
+
+DEC-join-key:
+  status: decided
+  question: What is the master identity of a subject, onto which mutants and test identities are resolved?
+  answer: |
+    The canon unit key: path, grammar rule, and name, as canon's vetting keys already use. Mutants resolve by location to a unit and tests by their test unit. The abstraction must allow a content address or an essence hash to be chosen later without reshaping the ledger, so the subject key is a sum type from the start.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-signer:
+  status: decided
+  question: Who may sign a verdict, given that a verdict committed by a model-authored commit is a claim nobody made?
+  answer: |
+    Record only, as canon does. The tool records the blame author of the verdict line and the co-authors the commit names in its trailers, and does not judge them.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-spec-attest-open-questions]
+
+DEC-runtime-first:
+  status: decided
+  question: Which test and mutation runtime is the first adapter?
+  answer: |
+    sydtest-mutation first, since wavelet already produces its report, augmented manifest, and run facts and the reading of them exists. Then tasty and hedgehog, so canon and this project can run under their own tax.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [sydtest-mutation-driver, tasty, hedgehog]
+
+DEC-work-items:
+  status: decided
+  question: Do work items, such as coverage gaps and the follow-up to an inadequate-testing verdict, belong in the ledger?
+  answer: |
+    Yes, as rows with disposition work and no verdict line. The combined view shows them, nobody signs them, and they disappear when the machine stops raising them.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [wavelet-adr-0021]
+
+DEC-ui-commit:
+  status: decided
+  question: Should the review UI commit a verdict, or only write the working tree?
+  answer: |
+    Write the working tree only, as both canon and wavelet do. The person commits, and until then the verdict is reported as not committed with its signer unknown.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-mutation-review]
+
+DEC-ui-shape:
+  status: decided
+  question: What review surfaces exist?
+  answer: |
+    One page per queue, so that Why, What, and How are reviewed apart from one another, and one combined page over all queues grouped by disposition. wavelet's mutation review server and page are the starting point: a small server that reads the ledger and the runtime report, serves the page, and rewrites the ledger file on a decision.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [wavelet-mutation-review]
+
+DEC-how-subkinds:
+  status: open
+  question: Beyond the surviving mutant, what are the How kinds exactly? DEC-how-queue names observability of the body by its tests and the existence of blind spots. wavelet's coverage gap, a condition that never took both outcomes under the tests, is a work item and a candidate observability kind. What raises a blind-spot obligation, what its subject is, and what its verdict words are is not yet decided.
+  opened: 0.1.0
+  revisit: 0.2.0
+  refs: [wavelet-adr-0021]
+
+DEC-why-digest-scope:
+  status: open
+  question: canon digests only the text of a Why, so a comment's verdict survives an edit to the code beneath it. wavelet's attestation ledger digests both sides of a prose-and-code pair. Should a Why obligation be judged against the comment and the unit body together, as What is under DEC-what-queue?
+  opened: 0.1.0
+  revisit: 0.2.0
+  refs: [canon, wavelet-adr-0018]
+
+DEC-subject-granularity:
+  status: open
+  question: DEC-ledger-shape puts one ledger file per subject under a directory per kind. Is the subject for that purpose the source file, so that rows are keyed by unit within it, or the unit itself, or the module prefix as wavelet's records use?
+  opened: 0.1.0
+  revisit: 0.2.0
+
+DEC-grammar-sharing:
+  status: open
+  question: The Haskell dialect is copied from canon at commit f639753 into grammars/haskell so canon can check this project. Should canon ship its dialect grammars as part of the package, or resolve them from the dependency, so that a copy does not drift?
+  opened: 0.1.0
+  revisit: 0.2.0
+  refs: [canon]
+
+DEC-mutant-location:
+  status: open
+  question: Does the sydtest-mutation driver's report carry source locations precise enough to land a mutant on a canon unit, and is a canon unit key stable enough across a rename for the join under DEC-join-key to hold? Neither was verified when the project was founded.
+  opened: 0.1.0
+  revisit: 0.2.0
+  refs: [sydtest-mutation-driver, canon]
+
+DEC-tangling:
+  status: open
+  question: wavelet tangles literate specifications into Haskell before its runtime runs. The founding assumption is that tangling stays in wavelet and the runtime adapter consumes what wavelet tangles, since canon reads source directly. Is that right?
+  opened: 0.1.0
+  revisit: 0.2.0

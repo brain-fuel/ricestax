@@ -1,0 +1,11 @@
+version: 0.1.0
+registry: canonical_refs.yaml
+decisions: canonical_decisions.yaml
+ignore:
+  - grammars
+languages:
+  haskell:
+    extensions: [.hs]
+    lexer: grammars/haskell/canonically_commented/HaskellLexer.g4
+    parser: grammars/haskell/canonically_commented/HaskellParser.g4
+    start: module

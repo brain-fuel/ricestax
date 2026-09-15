@@ -1,0 +1,43 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.39.6.
+--
+-- see: https://github.com/sol/hpack
+
+name:           rices-tax
+version:        0.1.0
+synopsis:       The ledger of what a machine raised about a codebase and a person must decide
+description:    Please see README.md
+author:         brain-fuel
+maintainer:     matthew.i.laine@gmail.com
+copyright:      2026 brain-fuel
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+library
+  exposed-modules:
+      RicesTax.Model
+  other-modules:
+      Paths_rices_tax
+  hs-source-dirs:
+      src
+  default-extensions:
+      DeriveTraversable
+      OverloadedStrings
+      RankNTypes
+      FlexibleContexts
+      RecordWildCards
+      LambdaCase
+      TupleSections
+      ScopedTypeVariables
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+    , canon
+    , containers
+    , text
+  default-language: Haskell2010

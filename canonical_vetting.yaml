@@ -1,0 +1,150 @@
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model:
+  comment: sha256:ba0ce8ada6e962ce
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Digest:
+  comment: sha256:15dc6eec9e7b4764
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Disposition:
+  comment: sha256:409f1d02a88e5425
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Judged:
+  comment: sha256:ab39eed4968a1df3
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Kind:
+  comment: sha256:0fc2697e5464f9fa
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/MutantRun:
+  comment: sha256:4f39b1652df740cb
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Obligation:
+  comment: sha256:375ade9842cb4104
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Outcome:
+  comment: sha256:e818bbd3d4143342
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Question:
+  comment: sha256:0b26825b0a22356b
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/RuntimeReport:
+  comment: sha256:d208c75da2c0632f
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/SignOff:
+  comment: sha256:6b7ec6396db8dc01
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Signer:
+  comment: sha256:223fb670284b4039
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/SubjectKey:
+  comment: sha256:1c137d7a3533d23f
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/TestRun:
+  comment: sha256:bca4774847b3bd7d
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Verdict:
+  comment: sha256:00baf0d41bb089be
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/disposition:
+  comment: sha256:bad88c0e896347bf
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/kindQuestion:
+  comment: sha256:f02d2aa249fb1d6c
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/verdicts:
+  comment: sha256:b991c10d6f1ec37e
+  verdict: pending
+ledger/DEC-argument-optional:
+  comment: sha256:10bb85f05bc70cc0
+  verdict: pending
+ledger/DEC-grammar-sharing:
+  comment: sha256:3a6c79154dab3e9a
+  verdict: pending
+ledger/DEC-home:
+  comment: sha256:2ff31bb50c4d0876
+  verdict: pending
+ledger/DEC-how-queue:
+  comment: sha256:f655be0cbc64f175
+  verdict: pending
+ledger/DEC-how-subkinds:
+  comment: sha256:597c4b819d7ab62f
+  verdict: pending
+ledger/DEC-join-key:
+  comment: sha256:9fb5ac35fa812e31
+  verdict: pending
+ledger/DEC-ledger-shape:
+  comment: sha256:e71d6ec0ad0a58d4
+  verdict: pending
+ledger/DEC-mutant-location:
+  comment: sha256:10159e7467984c93
+  verdict: pending
+ledger/DEC-obligation:
+  comment: sha256:8ff3a59fc4dbcdc5
+  verdict: pending
+ledger/DEC-queues:
+  comment: sha256:8702612c276f9dcf
+  verdict: pending
+ledger/DEC-runtime-first:
+  comment: sha256:b3bc0e1a67b4a5a4
+  verdict: pending
+ledger/DEC-signer:
+  comment: sha256:38701a67ab6dfbe9
+  verdict: pending
+ledger/DEC-subject-granularity:
+  comment: sha256:9ef305dc51761b4e
+  verdict: pending
+ledger/DEC-tangling:
+  comment: sha256:829ff3c34fd7d8d4
+  verdict: pending
+ledger/DEC-ui-commit:
+  comment: sha256:31ebe606222a4206
+  verdict: pending
+ledger/DEC-ui-shape:
+  comment: sha256:f66931d56be6f696
+  verdict: pending
+ledger/DEC-what-queue:
+  comment: sha256:41823f7d9d5dbdcb
+  verdict: pending
+ledger/DEC-why-digest-scope:
+  comment: sha256:a789179edfd883bb
+  verdict: pending
+ledger/DEC-work-items:
+  comment: sha256:18e80fbdb283c41d
+  verdict: pending
+registry/MIT:
+  comment: sha256:ed6c0abb656b1c69
+  verdict: pending
+registry/canon:
+  comment: sha256:2bdc64e6d0534e86
+  verdict: pending
+registry/hedgehog:
+  comment: sha256:57321ebd014b5707
+  verdict: pending
+registry/rice-1953:
+  comment: sha256:800b007ea0fe372c
+  verdict: pending
+registry/sydtest-mutation-driver:
+  comment: sha256:43d796af4a56b692
+  verdict: pending
+registry/tasty:
+  comment: sha256:6665636f1b3fdd5e
+  verdict: pending
+registry/wavelet-adr-0017:
+  comment: sha256:ac7beafbac36b912
+  verdict: pending
+registry/wavelet-adr-0018:
+  comment: sha256:3c88868520caee8e
+  verdict: pending
+registry/wavelet-adr-0019:
+  comment: sha256:be787d6950edb51d
+  verdict: pending
+registry/wavelet-adr-0021:
+  comment: sha256:c2488d5d8e1f4525
+  verdict: pending
+registry/wavelet-mutation-review:
+  comment: sha256:5b722488fe4ee27d
+  verdict: pending
+registry/wavelet-spec-attest-open-questions:
+  comment: sha256:494bcdaf21d8878b
+  verdict: pending
+registry/wavelet-spec-form-review-surface:
+  comment: sha256:d9ce23ce9cd9432b
+  verdict: pending

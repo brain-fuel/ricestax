@@ -1,0 +1,52 @@
+rice-1953:
+  kind: paper
+  title: Classes of recursively enumerable sets and their decision problems
+  locator: https://doi.org/10.2307/1990888
+canon:
+  kind: package
+  title: canon, the command line tool for canonical project documentation
+  locator: https://github.com/brain-fuel/canon
+wavelet-adr-0017:
+  kind: discussion
+  title: "wavelet ADR 0017: equivalent mutants are human reviewed"
+  locator: ../goforge/wavelet/spec/adr/0017-equivalent-mutants-are-human-reviewed.md
+wavelet-adr-0018:
+  kind: discussion
+  title: "wavelet ADR 0018: two halves of the toolchain"
+  locator: ../goforge/wavelet/spec/adr/0018-two-halves-of-the-toolchain.md
+wavelet-adr-0019:
+  kind: discussion
+  title: "wavelet ADR 0019: mutation testing is generated"
+  locator: ../goforge/wavelet/spec/adr/0019-mutation-testing-is-generated.md
+wavelet-adr-0021:
+  kind: discussion
+  title: "wavelet ADR 0021: coverage gaps are not equivalence questions"
+  locator: ../goforge/wavelet/spec/adr/0021-coverage-gaps-are-not-equivalence-questions.md
+wavelet-spec-form-review-surface:
+  kind: discussion
+  title: "wavelet SPEC-FORM S12.3: the record is a review surface, not a log"
+  locator: ../goforge/wavelet/spec/SPEC-FORM.md
+wavelet-spec-attest-open-questions:
+  kind: discussion
+  title: "wavelet SPEC-ATTEST section 9: open questions on who attests and on the founding ledger"
+  locator: ../goforge/wavelet/spec/SPEC-ATTEST.md
+wavelet-mutation-review:
+  kind: discussion
+  title: wavelet's mutation review server and page, the first review UI
+  locator: ../goforge/wavelet/spec-hs/app/mut/Main.hs
+sydtest-mutation-driver:
+  kind: package
+  title: sydtest-mutation-driver on Hackage
+  locator: https://hackage.haskell.org/package/sydtest-mutation-driver
+tasty:
+  kind: package
+  title: tasty on Hackage
+  locator: https://hackage.haskell.org/package/tasty
+hedgehog:
+  kind: package
+  title: hedgehog on Hackage
+  locator: https://hackage.haskell.org/package/hedgehog
+MIT:
+  kind: license
+  title: MIT License
+  locator: https://spdx.org/licenses/MIT.html
