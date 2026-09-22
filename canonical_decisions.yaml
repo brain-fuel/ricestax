@@ -125,17 +125,22 @@ DEC-how-subkinds:
   refs: [wavelet-adr-0021]
 
 DEC-why-digest-scope:
-  status: open
+  status: decided
   question: canon digests only the text of a Why, so a comment's verdict survives an edit to the code beneath it. wavelet's attestation ledger digests both sides of a prose-and-code pair. Should a Why obligation be judged against the comment and the unit body together, as What is under DEC-what-queue?
+  answer: |
+    No. A Why verdict is judged against the prose alone, and code drift is the What queue's, whose digest covers the name, the signature, and the body. Together the two queues watch both sides of every pair, which is what wavelet's attestation lock watched, so the lock is retired without losing what it proved. Decided with DEC-tangling on 2026-09-19.
   opened: 0.1.0
-  revisit: 0.2.0
+  decided: 0.1.0
   refs: [canon, wavelet-adr-0018]
 
 DEC-subject-granularity:
-  status: open
+  status: decided
   question: DEC-ledger-shape puts one ledger file per subject under a directory per kind. Is the subject for that purpose the source file, so that rows are keyed by unit within it, or the unit itself, or the module prefix as wavelet's records use?
+  answer: |
+    The source file. Under canonical_vetting/ there is a directory per kind; for comments the files mirror the source tree, so src/RicesTax/Model.hs is judged in canonical_vetting/comment/src/RicesTax/Model.hs.yaml, keyed by the unit path within the file. The ledger and the registry are each their own subject, so canonical_vetting/ledger/canonical_decisions.yaml and canonical_vetting/registry/canonical_refs.yaml hold one file each. A record sits beside the path it judges, a rename of a source file moves its record, and blame stays per line.
   opened: 0.1.0
-  revisit: 0.2.0
+  decided: 0.1.0
+  refs: [canon]
 
 DEC-grammar-sharing:
   status: open
@@ -145,14 +150,256 @@ DEC-grammar-sharing:
   refs: [canon]
 
 DEC-mutant-location:
-  status: open
+  status: decided
   question: Does the sydtest-mutation driver's report carry source locations precise enough to land a mutant on a canon unit, and is a canon unit key stable enough across a rename for the join under DEC-join-key to hold? Neither was verified when the project was founded.
+  answer: |
+    The report carries the source file, the line and end line, the column span, the binding, the operator, the original and mutated lines with context, and the tests that covered the mutant, checked on wavelet's run of 2026-09-15 with 3854 mutants. A mutant lands on the canon unit of its file whose span contains its line, with the binding name as the cross-check, and falls back to the binding name when the file did not parse. Its identity is wavelet's: an FNV-1a hash of module, binding, operator, the text before and after, and an ordinal among equals in reading order, so it survives a line shift and matches the probe's observations. A canon unit key changes on a rename, which stales the comment rows of that file; the mutant rows key by the hash and move with the file only.
   opened: 0.1.0
-  revisit: 0.2.0
+  decided: 0.1.0
   refs: [sydtest-mutation-driver, canon]
 
 DEC-tangling:
-  status: open
+  status: decided
   question: wavelet tangles literate specifications into Haskell before its runtime runs. The founding assumption is that tangling stays in wavelet and the runtime adapter consumes what wavelet tangles, since canon reads source directly. Is that right?
+  answer: |
+    No. Tangling moves into canon as canon tangle, ported byte for byte from wavelet's tangler, and canon reads the pages directly: it parses what they tangle to with the embedded grammar and relocates every unit into the pages. Rice's Tax reaches it as ricestax canon tangle, lands a mutant reported at a line of a tangled file on the unit whose page holds that line, and fails audit on a tangled file that differs from its pages. wavelet's attestation lock is retired: prose staleness is canon's comment digest, and code staleness is the What queue. Decided by the owner on 2026-09-19.
   opened: 0.1.0
-  revisit: 0.2.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-ui-frontend:
+  status: decided
+  question: In what language and runtime are the review pages written, given that wavelet's page is hand-written JavaScript in one HTML file?
+  answer: |
+    Haskell compiled to WebAssembly with the GHC wasm backend, using miso on that backend for the DOM, so the pages share RicesTax.Model with the server rather than restating it in JavaScript. The server stays native Haskell under DEC-ui-shape and serves the compiled page. The wasm toolchain is ghc-wasm-meta's, installed under the home directory.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [miso, ghc-wasm-meta, wavelet-mutation-review]
+
+DEC-why-ledger-in-canon:
+  status: decided
+  question: For Why material that canon already tracks, where does the verdict live, given that DEC-ledger-shape wants a directory per kind while canon keeps one canonical_vetting.yaml?
+  answer: |
+    canon moves to the per-kind layout of DEC-subject-granularity, so there is one layout everywhere and Rice's Tax reads and rewrites the same files canon checks. No mirror and no second ledger. canon's own vetting entries, all pending and unsigned at the time, are regenerated by canon ingest rather than converted.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-page-first-queue:
+  status: decided
+  question: What is the first working page?
+  answer: |
+    The Why queue over this project's own vetting ledger: a native server reads the ledger and the comment text, serves the page and a JSON endpoint, and rewrites the verdict line on a decision; the page shows each item as a card with the four verdict words and an optional argument, inside the combined page's shell with one tab per queue. Its look and behaviour follow wavelet's mutation review page, which is the reference for how a review surface should feel.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [wavelet-mutation-review, wavelet-spec-form-review-surface]
+
+DEC-kinds-in-canon:
+  status: decided
+  question: canon's vetting knew four verdict words and three kinds of key. Where do mutant verdicts live?
+  answer: |
+    canon's vetting learns kinds. canon.yaml declares each kind another tool raises with its verdict words and what each does: open, closed, work, or deferred. A row of such a kind is keyed kind/id, sits in canonical_vetting/<kind>/<subject>.yaml, and carries the kind's own word. canon counts an open row as pending so the report is invalid while a mutant is unreviewed, records the signer of the rest, reports a kind or word the declaration does not know, and leaves raising, staleness, and orphans to the tool that owns the kind. One writer serves every file. The digest field of every row is named digest, since it is no longer only a comment's.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-wavelet-first-target:
+  status: decided
+  question: The join key is the canon unit and only wavelet can be mutated today, but wavelet is not a canon project. What is the first project the How queue runs against?
+  answer: |
+    wavelet, made a canon project: canon.yaml with the Haskell dialect over spec-hs, the mutant and observability kinds declared, and rices-tax.yaml naming the runtime. Every Haddock comment in spec-hs joins the Why queue as pending alongside the mutants. Three of its files do not parse under canon's Haskell grammar yet, one on a NOINLINE pragma and two on bracket syntax; mutants in those files land by binding name until the grammar catches up.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-mutation-review]
+
+DEC-records-retired:
+  status: decided
+  question: wavelet's MUT- and COVERAGE- markdown records were both its sign-off ledger and its report. What becomes of them?
+  answer: |
+    They retire. Decisions live in the vetting directory's mutant files, coverage gaps in its observability files, and the facts, counts, and readings they carried are shown on the page. canon's Rule 2 then holds for them in wavelet. The 54 decided mutants in the charlint snapshot record, one logical equivalency and 53 inadequate testing, none with an argument, are imported into the ledger by their twelve-hex ids, marked stale where the definition's context changed since. wavelet records this in an ADR of its own and its mutate script stops before writing records.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [wavelet-adr-0019, wavelet-spec-form-review-surface]
+
+DEC-how-card:
+  status: decided
+  question: How much of wavelet's mutant card comes over in the first How page?
+  answer: |
+    The whole card: the diff with a numbered gutter, minus and plus marks, and the changed run highlighted; the rules that looked and missed with their sources; the probe readings with their caveats and the reading of the binding as a whole; coverage gaps as work rows apart from judgements; the zoom over the whole definition and over the rules; and wavelet's four verdicts with its tooltips, plus Reopen. Nothing about the card is invented here; where wavelet's page and its record disagree, the page wins.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [wavelet-mutation-review]
+
+DEC-runtime-config:
+  status: decided
+  question: Where does a project say which runtime produced its mutation artefacts and where they are?
+  answer: |
+    In rices-tax.yaml at the project root, beside canon.yaml, naming the runtime, the artefacts directory, the package directory whose sources the report names, and the tests directory whose sources the page shows. canon.yaml stays canon's, and a project without the file has no How queue.
+  opened: 0.1.0
+  decided: 0.1.0
+
+DEC-mutant-provenance:
+  status: decided
+  question: A verdict on a surviving mutant is made against one run of a mutation tester with a version, a seed, a toolchain, and sources at a commit, and a later run may not contain the same mutant. How is a verdict mapped to the run it was decided against?
+  answer: |
+    Each mutant and observability row carries a run field naming the run, and mutation_runs.yaml at the project root records every run once: its id, driver and version, seed, toolchain, controls, mutant count, and the commit and date when the runtime reports them. The id is the driver, the seed, and a short digest of the report, so two runs of the same driver and seed over different code are two runs. Verdict rows stay under canonical_vetting/ so canon counts them; canon carries the run field without reading it, under its DEC-vetting-run-field. wavelet's mutate script now writes commit and date into run.json.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, wavelet-adr-0019]
+
+DEC-verdict-carry-over:
+  status: decided
+  question: Does a verdict carry over to a later run with a different seed or driver version?
+  answer: |
+    Yes, while the definition it judged is unchanged: the mutant's identity and digest are about the code, not the run, so a verdict stands until the definition changes, and its row says which run it was decided against. A later run that no longer contains the mutant lists the row as not in the current run, to be deleted. The seed and the driver version should be kept stable so that an update does not raise the whole tax again; if a new mutator version changes what it generates, that bridge is crossed then, since re-judging everything is a lot of work. In the owner's words on 2026-09-16: ideally we keep the seed and driver version so as to not generate assloads of work when we update software.
+  opened: 0.1.0
+  decided: 0.1.0
+
+DEC-own-tests-sydtest:
+  status: decided
+  question: Rice's Tax had no tests of its own, and the owner wants its mutation run and its tax paid on this repository before any other. Which test framework do its tests use?
+  answer: |
+    sydtest, so that the first adapter, sydtest-mutation, runs against this project unchanged and the same driver, plugin, and versions as wavelet's produce the mutants. The corpus lives in test/Corpus.hs; each rule is a top-level property named for what it verifies, with a canonical comment citing its requirement, and is run under a describe path of corpus, subject, and rule name so the adapter recovers the rule name as it does for wavelet. The tasty adapter of DEC-runtime-first stays second and is for canon, whose tests are tasty.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [sydtest-mutation-driver]
+
+DEC-mutate-native:
+  status: decided
+  question: wavelet runs its mutation inside a podman image. Does Rice's Tax run its own the same way?
+  answer: |
+    Natively, with Stack: tools/mutate.sh builds the instrumented library and the corpus, builds the driver from the pinned extra-dep, and runs coverage and the mutation in place, writing .mut and run.json with seed, driver, toolchain, commit, and date. The container was wavelet's answer to a GHC floor and a browser cross-compiler, neither of which applies here. wavelet's probe, which records what each expression evaluated to, is wavelet's own tool and is not run here yet, so every mutant of this project is unobserved and only an uncovered one is a gap.
+  opened: 0.1.0
+  decided: 0.1.0
+
+DEC-three-verbs:
+  status: decided
+  question: The tax has three moments, and the tools were named canon, pay, and reconcile after the first two projects. What are the three tools?
+  answer: |
+    assess, pay, and audit, after the three actors of a tax. assess is the state of things: the machine determines what is owed, extracting units and comments through canon, reading the runtime's artefacts, writing a row for every obligation that lacks one, and reporting the totals per queue; it folds canon check, canon ingest, and the ingest of this project. pay is the person judging: the page and its server. audit is the proof, without judging anything: no row open outside an exemption, no digest stale, every verdict line committed so a signer exists, every mutant row naming a recorded run, and no exemption or deferral past its revisit version, as an exit code, a JSON report, and a text one, for CI and for a badge. canon names a tool and not an act, and stays the library and the format underneath assess; reconcile presumes two ledgers where the design has one.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-canon-is-the-format:
+  status: decided
+  question: "Each tool had begun to grow its own file: rices-tax.yaml for the runtime and mutation_runs.yaml for the runs. What format do the three tools share?"
+  answer: |
+    canon's. Every parameter and every ledger is a canon file that all three tools read and write through one library, so a file edited by pay is the file assess reads and audit checks. canon.yaml carries the languages, the kinds, and the runtime; canonical_refs.yaml, canonical_decisions.yaml, and canonical_vetting/ stay as they are; the runs move to canonical_runs.yaml; exemptions live in canonical_exemptions.yaml. rices-tax.yaml and mutation_runs.yaml are retired.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-exemptions:
+  status: decided
+  question: A project just imported, or a vendored part of one, owes thousands of rows nobody can pay yet. ignore hides the debt, and deferring rows one at a time does not scale. How does a project opt a subject out for a while?
+  answer: |
+    canonical_exemptions.yaml, one entry per exempt subject: a path pattern in gitignore form or a unit or ledger key, optionally the kinds it covers, a reason, and the version to revisit by, signed by git blame like every other row. assess still raises and counts the rows so the size of the debt is known; pay folds the subject with its reason and can add or lift an exemption; audit passes while an exemption is inside its revisit version and fails once the project reaches it, as an open decision past its revisit fails canon check. An exemption is Rule 3's not-yet-canonical given a canonical place and an expiry.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-audit:
+  status: decided
+  question: What does audit prove, and what fails it?
+  answer: |
+    It fails on any open row outside an exemption, any stale digest, any verdict line not committed, any mutant row naming a run canonical_runs.yaml does not record, and any exemption or deferral past its revisit version. It reports counts per queue and per exemption, as an exit code, JSON, and text. Stale rows and uncommitted verdicts fail rather than warn, so a passing audit means the books are true, not merely unopened.
+  opened: 0.1.0
+  decided: 0.1.0
+
+DEC-npm-packaging:
+  status: decided
+  question: How are the three tools packaged and distributed?
+  answer: |
+    As an npm package: JavaScript wrappers and executors, generated deterministically from the public API, around the Haskell compiled to WebAssembly, so anyone in the node or bun ecosystem installs and runs assess, pay, and audit without a Haskell toolchain. The wasm core holds the logic; what a wasm module cannot do, run git and listen on a port, the wrapper supplies through the JavaScript FFI and a small node server for pay. What of canon's dependencies compiles on the wasm toolchain, and how git reaches the core, are the first things to establish. In the owner's words on 2026-09-18: I would like the thing to be npm installable as js wrappers and executors which are deterministically generated around the public API + executable code in haskell compiled to wasm.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [ghc-wasm-meta]
+
+DEC-wasm-toolchain:
+  status: decided
+  question: "The toolchain must be the basic Stack chain, nothing obscure, and both the page and the back end must compile to WebAssembly and run from Node. Stack cannot cross-compile. What builds the wasm half, and how does it plug into Stack?"
+  answer: |
+    GHC's own WebAssembly backend is the only living way to compile Haskell to wasm: GHCJS is dead and Asterius, with its ahc-cabal, was deprecated in 2022 in its favour. The backend is a cross compiler, wasm32-wasi-ghc, installed with the standard installer, ghcup install ghc wasm32-wasi-9.14 from ghc-wasm-meta's release channel. Stack has no cross-compilation support and no build hook beyond stack build --exec, and it compiles Setup with the project compiler, which a cross compiler cannot run, so Stack cannot drive it; cabal-install can, through the wasm32-wasi-cabal wrapper, which is the ordinary cabal told which compiler to use. So: Stack builds, tests, and mutates natively as before; package.yaml stays the one description of every package, and the .cabal files hpack writes from it are what cabal reads for wasm; tools/wasm.sh runs the wasm build, and stack build --exec tools/wasm.sh runs it as part of a Stack build. Both halves run under Node with the browser WASI shim, the same package the page loads; Node's built-in WASI throws at initialisation for GHC's reactor modules and is not used. canon's library compiles for wasm once grammatical-parsers is vendored with a plain build type, since its custom Setup serves only its doctests. In the owner's words on 2026-09-18: Stack for native; figure out another build tool to plug into stack for wasm.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [ghc-wasm-meta]
+
+DEC-what-raised:
+  status: decided
+  question: DEC-what-queue says what a What verdict decides and nothing raised one. Which units raise a What obligation, and how does a project that cannot pay yet quiet the queue?
+  answer: |
+    Every unit that requires a canonical comment, which is the set Rule 8 already binds: the dialect's required label, the export rule, and tests. One row per unit, keyed name/<unit id> in canonical_vetting/name/<source path>.yaml, pending until judged with canon's four words, and stale when the name, the signature, or the body changes; the comment is not an input. A module has no body side, since its body is the whole module. The queue is always raised; a project quiets it with an exemption for the kind name, such as the pattern "*" with a reason and a revisit version, so the debt stays counted and expires. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-whole-block:
+  status: decided
+  question: The whole definition on a mutant card, and the rule sources beside it, were cut at column-one chunks named by their first word, which drops the doc comment and the pragmas above a binding. What does the whole block hold?
+  answer: |
+    The binding's chunks from the first to the last, the comment and pragma chunks touching it above, and the comment chunks touching it below that do not open the next definition's documentation; a blank line ends the block on either side. The same block is a rule's source, so a test's comment and its requirement citation lead it. The digest a verdict is judged against stays the binding's own chunks, so an edit to a comment stales no How verdict. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-umbrella-surface:
+  status: decided
+  question: With the What queue, the Folio, tangling, and a site, what is the command line of Rice's Tax, and how does the Node package keep up with it?
+  answer: |
+    assess, pay, and audit stay the three moments of the tax. Around them is tooling: gen, which writes the wasm entry and the Node wrappers and exists only natively; canon, which runs any canon command at the root, so one npm package carries canon too and tangling is reached as ricestax canon tangle rather than as a verb of its own; and site, which renders every root's pages. The verbs are a table in RicesTax.Api beside the exports, the usage text and the Node binary's table are generated from it, and a corpus rule keeps the two in step. Exit codes: 0 paid, 1 not paid, 2 could not audit; audit --json says whether a runtime was present, since a ledger-only audit re-digests no mutant. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-site:
+  status: decided
+  question: The owner owns ricestax.org and ricestax.com and wants the projects documented by Diátaxis, with videos beside the tutorials and how-to guides. What is the site?
+  answer: |
+    A static directory ricestax site writes: each root's pages rendered by canon under the project's name, an index naming the projects, and the pay page copied to pay/ over a snapshot of the first root's obligations, so a visitor can read the queues without a server. Pages are addressed by project and quadrant, /<project>/<quadrant>/<name>/, and a video a page names is embedded when canon knows the host and linked otherwise. Two renders of one tree are one directory, so a pipeline can build and compare it. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon, diataxis]
+
+DEC-self-folio:
+  status: decided
+  question: Rice's Tax asks every project to write pages that tangle. Does it write its own sources that way?
+  answer: |
+    Yes. Its modules become reference pages under docs/reference/, each tangling to the source file it always was, with the module's comment as the page's purpose and each unit's comment as the prose of the section above its block; the design moves to an explanation page and the procedures to how-to pages. The sources stay committed as tangled output, and a stale one fails the check. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+
+DEC-doc-kind:
+  status: decided
+  question: canon now reads Folio pages as material of the kind doc. Where does a page appear in Rice's Tax?
+  answer: |
+    In the Why queue, as a card of kind doc: the page's prose is the text, what it cites is shown beside it, and the page itself is the code window. Its verdict is keyed doc/<path> under canonical_vetting/doc/, with canon's four words, and it goes stale when the prose changes. The full decision is canon's DEC-doc-kind.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-mutation-rerun:
+  status: decided
+  question: A file that changed since the run leaves its mutants without a definition, and the page said to re-run the mutation by hand. The owner wants the command in the configuration, a button on the page that runs it, decisions to go on while it runs and to survive it where they still apply, and the same code, tests, and seed to give the same run. What is the design?
+  answer: |
+    canon.yaml's runtime section names the command, here make mutate, so every tool reads it from one place. The pay page shows a button when a command is named; it starts the command in the project, writes its output to a log the page reads the tail of, and polls until it ends, deciding all the while, since a decision writes only its ledger row and reads the run the server already holds. The script builds the run beside the current artefacts and swaps it in whole at the end, and a re-read asked for while it runs is refused, so a half-written run is never read. When it ends the server re-reads the project: a verdict carries over to every mutant that is the same, by its identity and its context digest, and a verdict whose mutant is gone is listed as not in the current run to be deleted, as DEC-verdict-carry-over already says. The run's identity is its driver, its seed, and the digest of its mutants with their outcomes, never of timings; the plugin enumerates mutants from the code and the driver runs the suite under the seed, so the same code, tests, and seed give the same mutants and the same readings, and the date and the commit are facts of the run rather than parts of its identity. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]
+
+DEC-line-diff:
+  status: decided
+  question: The driver reports a mutant as the expression it changed, so a mutant that removes one alternative of a long case shows the whole case gone and come back. What does the page show?
+  answer: |
+    A line diff of the span: the lines both sides share are context, and only the lines that went and came are marked, in the card, in the zoom, and in the copied text, with the whole definition marking only the lines that went. Where one line went and one came, the run within the line that changed is tinted as before. The diff is the longest common subsequence of lines, in a module the page and the library share so the corpus checks it. Asked for by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+
+DEC-highlighting:
+  status: decided
+  question: The owner wants every code window of the page and every fenced block of the site coloured per language, as GitHub does. How does the page get its colours?
+  answer: |
+    From canon's lexers, on the server: beside every list of code lines the wire carries one mark per line, a run-length string of class letters and character counts, and the page only paints spans from it, so it needs no lexer and no dependency. A mark is written by highlighting a fragment or a file with the profile that owns its path; a Folio page gets none, and a file no profile owns gets none. The mutant's four fragments, the rule sources, and the whole definition are marked the same way, and the changed run of a one-line change is tinted by cutting the runs where the text is cut, so token colours show through. The palette is GitHub's, light and dark. The copied text stays plain. Decided by the owner on 2026-09-19.
+  opened: 0.1.0
+  decided: 0.1.0
+  refs: [canon]

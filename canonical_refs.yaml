@@ -50,3 +50,108 @@ MIT:
   kind: license
   title: MIT License
   locator: https://spdx.org/licenses/MIT.html
+miso:
+  kind: package
+  title: miso on Hackage, a Haskell front-end framework with WebAssembly support
+  locator: https://hackage.haskell.org/package/miso
+ghc-wasm-meta:
+  kind: article
+  title: ghc-wasm-meta, the GHC WebAssembly backend toolchain
+  locator: https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta
+REQ-self-taxed:
+  kind: discussion
+  title: Rice's Tax runs its own mutation and pays its own tax before any other project; no test verifies this, the run does
+  locator: canonical_decisions.yaml#DEC-own-tests-sydtest
+REQ-identity-joins:
+  kind: requirement
+  title: A mutant's identity reproduces wavelet's hash so the probe's observations join
+  locator: canonical_decisions.yaml#DEC-mutant-location
+REQ-context-digest:
+  kind: requirement
+  title: A verdict's digest covers the whole definition of the binding as the file has it now
+  locator: canonical_decisions.yaml#DEC-mutant-location
+REQ-coverage-words:
+  kind: requirement
+  title: Coverage gaps are told apart from judgements by wavelet's coverage words
+  locator: canonical_decisions.yaml#DEC-how-subkinds
+REQ-dispositions:
+  kind: requirement
+  title: Every verdict word carries a disposition and every kind answers one question
+  locator: canonical_decisions.yaml#DEC-obligation
+REQ-what-raised:
+  kind: requirement
+  title: A What row is raised for every unit that requires a comment, keyed by its unit id in the file of its source
+  locator: canonical_decisions.yaml#DEC-what-raised
+REQ-what-digest:
+  kind: requirement
+  title: A What verdict's digest follows the name, the signature, and the body, and the text is the signature
+  locator: canonical_decisions.yaml#DEC-what-queue
+REQ-whole-block:
+  kind: requirement
+  title: The whole block of a binding and of a rule carries its comments, and the digest does not
+  locator: canonical_decisions.yaml#DEC-whole-block
+diataxis:
+  kind: article
+  title: Diátaxis, a systematic approach to technical documentation authoring
+  locator: https://diataxis.fr
+REQ-one-table:
+  kind: requirement
+  title: The verbs and the exports are one table, and the Node binary's table is generated from it
+  locator: canonical_decisions.yaml#DEC-umbrella-surface
+REQ-canon-delegated:
+  kind: requirement
+  title: ricestax canon passes its arguments to canon unchanged
+  locator: canonical_decisions.yaml#DEC-umbrella-surface
+REQ-exit-codes:
+  kind: requirement
+  title: audit exits 0 when paid, 1 when not, and 2 when it could not audit
+  locator: canonical_decisions.yaml#DEC-umbrella-surface
+REQ-site-layout:
+  kind: requirement
+  title: A page is published under its quadrant and name
+  locator: canonical_decisions.yaml#DEC-site
+REQ-video-embed:
+  kind: requirement
+  title: A video locator canon knows is embedded and any other is linked
+  locator: canonical_decisions.yaml#DEC-site
+REQ-site-deterministic:
+  kind: requirement
+  title: Two renders of one tree are one site
+  locator: canonical_decisions.yaml#DEC-site
+REQ-tangle-audited:
+  kind: requirement
+  title: audit fails on a tangled file that differs from its pages
+  locator: canonical_decisions.yaml#DEC-tangling
+REQ-mutant-lands-through-manifest:
+  kind: requirement
+  title: A line of a tangled file maps to the line of the page that produced it
+  locator: canonical_decisions.yaml#DEC-tangling
+REQ-mutation-rerun:
+  kind: requirement
+  title: The mutation's state travels the wire whole, and the run's command is a fact of the payload
+  locator: canonical_decisions.yaml#DEC-mutation-rerun
+REQ-line-diff:
+  kind: requirement
+  title: A mutant's diff marks only the lines that went and came, and keeps the shared lines as context
+  locator: canonical_decisions.yaml#DEC-line-diff
+REQ-marks:
+  kind: requirement
+  title: Marks travel beside every code line, tile it, and cut without losing their classes
+  locator: canonical_decisions.yaml#DEC-highlighting
+
+pep-8:
+  kind: article
+  title: PEP 8 – Style Guide for Python Code
+  locator: https://peps.python.org/pep-0008/
+pep-257:
+  kind: article
+  title: PEP 257 – Docstring Conventions
+  locator: https://peps.python.org/pep-0257/
+calm-1.2:
+  kind: article
+  title: FINOS CALM 1.2 schema
+  locator: https://calm.finos.org/release/1.2/meta/calm.json
+antlr4-tool:
+  kind: package
+  title: ANTLR 4.13.2 complete tool and runtime
+  locator: https://www.antlr.org/download.html

@@ -1,0 +1,33 @@
+# The umbrella audits itself: canon's check and Rice's Tax's audit, built with Stack because this
+# repository is ahead of the published package. The how-to page docs/how-to/audit-in-ci.md shows
+# the npm flavour a project uses. ref:DEC-umbrella-surface
+name: audit
+on: [push, pull_request]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ricestax
+          fetch-depth: 0 # blame names signers; a shallow clone reads every verdict as uncommitted
+      - uses: actions/checkout@v4
+        with:
+          repository: brain-fuel/canon
+          path: canon
+          submodules: false # the sample submodules point at commits their remotes do not serve
+      - uses: haskell-actions/setup@v2
+        with:
+          enable-stack: true
+          stack-version: latest
+      - run: stack build --no-terminal
+        working-directory: ricestax
+      - run: stack exec --no-terminal -- ricestax canon check
+        working-directory: ricestax
+      - run: stack exec --no-terminal -- ricestax audit --json > audit.json
+        working-directory: ricestax
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audit
+          path: ricestax/audit.json

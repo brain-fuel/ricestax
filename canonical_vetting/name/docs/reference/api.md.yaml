@@ -1,0 +1,30 @@
+name/folio/docs/reference/api.md/doc/ricestax.reference.api:
+  digest: sha256:d51b219c63baffc6
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/data/Export:
+  digest: sha256:08a1bfe82424d471
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/data/Verb:
+  digest: sha256:21618cdb02d758e1
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/call:
+  digest: sha256:396b8f4dfec31a55
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/exports:
+  digest: sha256:76ea2259f68bb6ce
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/newSession:
+  digest: sha256:d40045139b62c104
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/usageText:
+  digest: sha256:db9a55d4cef3ab4a
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/verbs:
+  digest: sha256:4afa08a20dc2c57c
+  verdict: pending
+name/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/newtype/Session:
+  digest: sha256:0ce4d7cafa3d3b97
+  verdict: pending
+name/haskell/src/RicesTax/Gen.hs/module/RicesTax.Gen/function/generate:
+  digest: sha256:1cde64525cc6a532
+  verdict: pending

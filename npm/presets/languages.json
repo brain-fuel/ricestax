@@ -1,0 +1,498 @@
+{
+  "java": {
+    "extensions": [
+      ".java"
+    ],
+    "lexer": ".ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+    "parser": ".ricestax/grammars/java/canonically_commented/JavaParser.g4",
+    "start": "compilationUnit"
+  },
+  "javascript": {
+    "extensions": [
+      ".js",
+      ".mjs",
+      ".cjs"
+    ],
+    "lexer": ".ricestax/grammars/javascript/JavaScriptLexer.g4",
+    "parser": ".ricestax/grammars/javascript/JavaScriptParser.g4",
+    "start": "program",
+    "comments": {
+      "line": "//",
+      "blockOpen": "/*",
+      "blockClose": "*/",
+      "strings": [
+        "\"",
+        "'",
+        "`"
+      ]
+    },
+    "units": [
+      {
+        "rule": "functionDeclaration",
+        "kind": "function",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "classDeclaration",
+        "kind": "class",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "methodDefinition",
+        "kind": "method",
+        "name": {
+          "rule": "classElementName"
+        },
+        "required": true
+      },
+      {
+        "rule": "variableDeclaration",
+        "kind": "binding",
+        "name": {
+          "rule": "assignable"
+        },
+        "required": true
+      }
+    ]
+  },
+  "typescript": {
+    "extensions": [
+      ".ts",
+      ".mts",
+      ".cts"
+    ],
+    "lexer": ".ricestax/grammars/typescript/TypeScriptLexer.g4",
+    "parser": ".ricestax/grammars/typescript/TypeScriptParser.g4",
+    "start": "program",
+    "comments": {
+      "line": "//",
+      "blockOpen": "/*",
+      "blockClose": "*/",
+      "strings": [
+        "\"",
+        "'",
+        "`"
+      ]
+    },
+    "units": [
+      {
+        "rule": "functionDeclaration",
+        "kind": "function",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "classDeclaration",
+        "kind": "class",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "interfaceDeclaration",
+        "kind": "interface",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "typeAliasDeclaration",
+        "kind": "type",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "enumDeclaration",
+        "kind": "enum",
+        "name": {
+          "rule": "identifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "propertyMemberDeclaration",
+        "kind": "member",
+        "name": {
+          "rule": "classElementName"
+        },
+        "required": false
+      },
+      {
+        "rule": "variableDeclaration",
+        "kind": "binding",
+        "name": {
+          "rule": "identifierOrKeyWord"
+        },
+        "required": true
+      }
+    ]
+  },
+  "python": {
+    "extensions": [
+      ".py"
+    ],
+    "lexer": ".ricestax/grammars/python/Python3Lexer.g4",
+    "parser": ".ricestax/grammars/python/Python3Parser.g4",
+    "start": "file_input",
+    "comments": {
+      "line": "#",
+      "strings": [
+        "\"\"\"",
+        "'''",
+        "\"",
+        "'"
+      ]
+    },
+    "units": [
+      {
+        "rule": "funcdef",
+        "kind": "function",
+        "name": {
+          "rule": "name"
+        },
+        "required": true
+      },
+      {
+        "rule": "classdef",
+        "kind": "class",
+        "name": {
+          "rule": "name"
+        },
+        "required": true
+      }
+    ]
+  },
+  "go": {
+    "extensions": [
+      ".go"
+    ],
+    "lexer": ".ricestax/grammars/golang/GoLexer.g4",
+    "parser": ".ricestax/grammars/golang/GoParser.g4",
+    "start": "sourceFile",
+    "comments": {
+      "line": "//",
+      "blockOpen": "/*",
+      "blockClose": "*/",
+      "strings": [
+        "\"",
+        "`",
+        "'"
+      ]
+    },
+    "units": [
+      {
+        "rule": "functionDecl",
+        "kind": "function",
+        "name": {
+          "token": "IDENTIFIER",
+          "index": 1
+        },
+        "required": true
+      },
+      {
+        "rule": "methodDecl",
+        "kind": "method",
+        "name": {
+          "token": "IDENTIFIER",
+          "index": 1,
+          "direct": true
+        },
+        "required": true
+      },
+      {
+        "rule": "typeDef",
+        "kind": "type",
+        "name": {
+          "token": "IDENTIFIER",
+          "index": 1
+        },
+        "required": true
+      },
+      {
+        "rule": "aliasDecl",
+        "kind": "type",
+        "name": {
+          "token": "IDENTIFIER",
+          "index": 1
+        },
+        "required": true
+      }
+    ]
+  },
+  "haskell": {
+    "extensions": [
+      ".hs"
+    ],
+    "lexer": ".ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+    "parser": ".ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+    "start": "module"
+  },
+  "kotlin": {
+    "extensions": [
+      ".kt"
+    ],
+    "lexer": ".ricestax/grammars/kotlin/KotlinLexer.g4",
+    "parser": ".ricestax/grammars/kotlin/KotlinParser.g4",
+    "start": "kotlinFile",
+    "comments": {
+      "line": "//",
+      "blockOpen": "/*",
+      "blockClose": "*/",
+      "strings": [
+        "\""
+      ]
+    },
+    "units": [
+      {
+        "rule": "functionDeclaration",
+        "kind": "function",
+        "name": {
+          "rule": "simpleIdentifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "classDeclaration",
+        "kind": "class",
+        "name": {
+          "rule": "simpleIdentifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "objectDeclaration",
+        "kind": "object",
+        "name": {
+          "rule": "simpleIdentifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "typeAlias",
+        "kind": "type",
+        "name": {
+          "rule": "simpleIdentifier"
+        },
+        "required": true
+      },
+      {
+        "rule": "propertyDeclaration",
+        "kind": "property",
+        "name": {
+          "rule": "simpleIdentifier"
+        },
+        "required": false
+      }
+    ]
+  },
+  "antlr4": {
+    "extensions": [
+      ".g4"
+    ],
+    "lexer": ".ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+    "parser": ".ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+    "start": "grammarSpec"
+  },
+  "folio": {
+    "extensions": [
+      ".md"
+    ],
+    "lexer": ".ricestax/grammars/folio/FolioLexer.g4",
+    "parser": ".ricestax/grammars/folio/FolioParser.g4",
+    "start": "document",
+    "embeds": {
+      "java": {
+        "language": "java",
+        "comments": {
+          "line": "//",
+          "blockOpen": "/*",
+          "blockClose": "*/",
+          "strings": [
+            "\"",
+            "'"
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "/** ",
+          "continue": " * ",
+          "blank": " *",
+          "banner": "// ",
+          "markup": "javadoc"
+        }
+      },
+      "javascript": {
+        "language": "javascript",
+        "comments": {
+          "line": "//",
+          "blockOpen": "/*",
+          "blockClose": "*/",
+          "strings": [
+            "\"",
+            "'",
+            "`"
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "/** ",
+          "continue": " * ",
+          "blank": " *",
+          "banner": "// ",
+          "markup": "javadoc"
+        }
+      },
+      "typescript": {
+        "language": "typescript",
+        "comments": {
+          "line": "//",
+          "blockOpen": "/*",
+          "blockClose": "*/",
+          "strings": [
+            "\"",
+            "'",
+            "`"
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "/** ",
+          "continue": " * ",
+          "blank": " *",
+          "banner": "// ",
+          "markup": "javadoc"
+        }
+      },
+      "python": {
+        "language": "python",
+        "comments": {
+          "line": "#",
+          "strings": [
+            "\"\"\"",
+            "'''",
+            "\"",
+            "'"
+          ]
+        },
+        "width": 79,
+        "doc": {
+          "open": "# | ",
+          "continue": "# ",
+          "blank": "#",
+          "banner": "# ",
+          "markup": "plain"
+        }
+      },
+      "go": {
+        "language": "go",
+        "comments": {
+          "line": "//",
+          "blockOpen": "/*",
+          "blockClose": "*/",
+          "strings": [
+            "\"",
+            "`",
+            "'"
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "/** ",
+          "continue": " * ",
+          "blank": " *",
+          "banner": "// ",
+          "markup": "javadoc"
+        }
+      },
+      "haskell": {
+        "language": "haskell",
+        "comments": {
+          "line": "--",
+          "blockOpen": "{-",
+          "blockClose": "-}",
+          "strings": [
+            "\""
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "-- | ",
+          "continue": "-- ",
+          "blank": "--",
+          "banner": "-- ",
+          "markup": "haddock"
+        }
+      },
+      "kotlin": {
+        "language": "kotlin",
+        "comments": {
+          "line": "//",
+          "blockOpen": "/*",
+          "blockClose": "*/",
+          "strings": [
+            "\""
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "/** ",
+          "continue": " * ",
+          "blank": " *",
+          "banner": "// ",
+          "markup": "javadoc"
+        }
+      },
+      "antlr4": {
+        "language": "antlr4",
+        "comments": {
+          "line": "//",
+          "blockOpen": "/*",
+          "blockClose": "*/",
+          "strings": [
+            "\"",
+            "'"
+          ]
+        },
+        "width": 98,
+        "doc": {
+          "open": "/** ",
+          "continue": " * ",
+          "blank": " *",
+          "banner": "// ",
+          "markup": "javadoc"
+        }
+      },
+      "calm": {
+        "language": "calm",
+        "comments": {},
+        "width": 98,
+        "doc": {
+          "open": "",
+          "continue": "",
+          "blank": "",
+          "banner": "",
+          "markup": "none"
+        }
+      }
+    }
+  },
+  "calm": {
+    "extensions": [
+      ".calm.json"
+    ],
+    "grammar": ".ricestax/grammars/calm/Calm.g4",
+    "start": "json"
+  }
+}

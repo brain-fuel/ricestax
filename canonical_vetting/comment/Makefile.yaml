@@ -1,0 +1,60 @@
+decision/make/Makefile/rule/assess:
+  digest: sha256:f3e02072ebc01623
+  verdict: pending
+decision/make/Makefile/rule/audit:
+  digest: sha256:ca8f80baf727708d
+  verdict: pending
+decision/make/Makefile/rule/build:
+  digest: sha256:03dd1c53aa6dfda7
+  verdict: pending
+decision/make/Makefile/rule/check:
+  digest: sha256:b2a3d2d85942ab8f
+  verdict: pending
+decision/make/Makefile/rule/clean:
+  digest: sha256:da826d27cf42846c
+  verdict: pending
+decision/make/Makefile/rule/gen:
+  digest: sha256:d8fd32a650ea9a29
+  verdict: pending
+decision/make/Makefile/rule/help:
+  digest: sha256:53f7e4881f6d1923
+  verdict: pending
+decision/make/Makefile/rule/mutate:
+  digest: sha256:026f2b13acdec16d
+  verdict: pending
+decision/make/Makefile/rule/pay:
+  digest: sha256:36a10d29cddf5d64
+  verdict: pending
+decision/make/Makefile/rule/site:
+  digest: sha256:651d3ab8c8905ab4
+  verdict: pending
+decision/make/Makefile/rule/tangle:
+  digest: sha256:f6ed525a8f31570d
+  verdict: pending
+decision/make/Makefile/rule/tangle-check:
+  digest: sha256:b42bfbcb34320b7c
+  verdict: pending
+decision/make/Makefile/rule/test:
+  digest: sha256:c25b5fcff67a13e4
+  verdict: pending
+decision/make/Makefile/rule/wasm:
+  digest: sha256:aedf9d1eb7e7560f
+  verdict: pending
+decision/make/Makefile/variable/BIN:
+  digest: sha256:1484b33bb84c512a
+  verdict: pending
+decision/make/Makefile/variable/JOBS:
+  digest: sha256:07c300c31e5b88b9
+  verdict: pending
+decision/make/Makefile/variable/OUT:
+  digest: sha256:1eb048428d43eba4
+  verdict: pending
+decision/make/Makefile/variable/PAGES:
+  digest: sha256:e06745363d8dd48a
+  verdict: pending
+decision/make/Makefile/variable/PORT:
+  digest: sha256:54ecdb1b899acf51
+  verdict: pending
+decision/make/Makefile/variable/SEED:
+  digest: sha256:c819d15384ec91f1
+  verdict: pending

@@ -1,0 +1,8 @@
+{
+  "package": "ricestax",
+  "profiles": [
+    "javascript",
+    "calm",
+    "folio"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "compile": [
+    "tsc",
+    "--target",
+    "es2022",
+    "--module",
+    "commonjs",
+    "--outDir",
+    "build",
+    "src/greeting.ts"
+  ],
+  "run": [
+    "node",
+    "tools/typed-main.cjs"
+  ]
+}

@@ -1,0 +1,21 @@
+name/folio/docs/reference/what.md/doc/ricestax.reference.what:
+  digest: sha256:89f26dba78af10aa
+  verdict: pending
+name/haskell/src/RicesTax/What.hs/module/RicesTax.What/function/bodyOf:
+  digest: sha256:45e873fd95753f46
+  verdict: pending
+name/haskell/src/RicesTax/What.hs/module/RicesTax.What/function/signatureOf:
+  digest: sha256:15110f586b05abc6
+  verdict: pending
+name/haskell/src/RicesTax/What.hs/module/RicesTax.What/function/whatDigest:
+  digest: sha256:75a1cae9816f29f2
+  verdict: pending
+name/haskell/src/RicesTax/What.hs/module/RicesTax.What/function/whatFile:
+  digest: sha256:8673b1aedfd5f61d
+  verdict: pending
+name/haskell/src/RicesTax/What.hs/module/RicesTax.What/function/whatKey:
+  digest: sha256:01040ae0a56b889b
+  verdict: pending
+name/haskell/src/RicesTax/What.hs/module/RicesTax.What/function/whatMaterials:
+  digest: sha256:6ab8858f54a3a4de
+  verdict: pending

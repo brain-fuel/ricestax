@@ -1,0 +1,21 @@
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks:
+  digest: sha256:1cf5dd9014e85cb3
+  verdict: pending
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/classLetter:
+  digest: sha256:1f6c6e8cf3c255ee
+  verdict: pending
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/cutRuns:
+  digest: sha256:d82886d850cf7204
+  verdict: pending
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/padRuns:
+  digest: sha256:bc49bb02bac24399
+  verdict: pending
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/parseRuns:
+  digest: sha256:27dde87adc25972e
+  verdict: pending
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/renderRuns:
+  digest: sha256:82d8259b674a328d
+  verdict: pending
+decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/type/Run:
+  digest: sha256:a053ba865cd3d1d4
+  verdict: pending

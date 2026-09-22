@@ -1,0 +1,86 @@
+[
+  {
+    "id": "ricestax@0.2.0",
+    "name": "ricestax",
+    "version": "0.2.0",
+    "size": 3154557,
+    "unpackedSize": 17058453,
+    "shasum": "838b3add6d3bcc1e42afc47dfafa14c089012e60",
+    "integrity": "sha512-MPhGPIGF9IYKZaYvpK9w4lRW15lVr4qwt1kzsnr+96zNKHYYsJF/RWvDHofS1j+rJkBQ8cLuL8XmnLuyj7rXJw==",
+    "filename": "ricestax-0.2.0.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "api.mjs",
+        "size": 3807,
+        "mode": 420
+      },
+      {
+        "path": "bin/ricestax.mjs",
+        "size": 2220,
+        "mode": 493
+      },
+      {
+        "path": "core_jsffi.js",
+        "size": 5104,
+        "mode": 420
+      },
+      {
+        "path": "core.wasm",
+        "size": 12436094,
+        "mode": 493
+      },
+      {
+        "path": "index.d.ts",
+        "size": 5568,
+        "mode": 420
+      },
+      {
+        "path": "launcher.mjs",
+        "size": 2173,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 466,
+        "mode": 420
+      },
+      {
+        "path": "page/ghc_wasm_jsffi.js",
+        "size": 90819,
+        "mode": 420
+      },
+      {
+        "path": "page/index.html",
+        "size": 299,
+        "mode": 420
+      },
+      {
+        "path": "page/index.js",
+        "size": 783,
+        "mode": 420
+      },
+      {
+        "path": "page/rices-tax-web.wasm",
+        "size": 4484955,
+        "mode": 493
+      },
+      {
+        "path": "page/style.css",
+        "size": 19612,
+        "mode": 420
+      },
+      {
+        "path": "pay.mjs",
+        "size": 5486,
+        "mode": 420
+      }
+    ],
+    "entryCount": 14,
+    "bundled": []
+  }
+]

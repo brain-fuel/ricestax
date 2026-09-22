@@ -1,0 +1,57 @@
+name/folio/docs/reference/sydtest.md/doc/ricestax.reference.sydtest:
+  digest: sha256:164ffcfda42f7fe5
+  verdict: pending
+name/haskell/src/RicesTax/Fnv.hs/module/RicesTax.Fnv/function/fnv1a64:
+  digest: sha256:13b52a103cd8b9db
+  verdict: pending
+name/haskell/src/RicesTax/Fnv.hs/module/RicesTax.Fnv/function/fnv1aHex:
+  digest: sha256:0ab4c9e28c6d7f01
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/data/Mutant:
+  digest: sha256:90859dc71fec3502
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/data/Reading:
+  digest: sha256:080057e8050df327
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/data/Run:
+  digest: sha256:d6d9ce20722c0cf6
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/bindingLines:
+  digest: sha256:fe6fe002a3c8aa7a
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/blockOf:
+  digest: sha256:92840a8840acae6d
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/chunksOf:
+  digest: sha256:9b0b1be0eb1648cc
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/contextOf:
+  digest: sha256:12df97c9c6a52f2d
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/coverageOf:
+  digest: sha256:4e2b0ee0269fad7f
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/effectiveReading:
+  digest: sha256:dd2838731dadbcf2
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/gapOf:
+  digest: sha256:02199af49445b8cb
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/headWord:
+  digest: sha256:acc8d1f9279ade14
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/isCommentChunk:
+  digest: sha256:46641281e8d9ebec
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/liveMutants:
+  digest: sha256:e1c8b52e91291dd2
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/readRun:
+  digest: sha256:8b58a4bd5994bb7a
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/ruleSourcesIn:
+  digest: sha256:402932b319e3baa3
+  verdict: pending
+name/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/sidedOf:
+  digest: sha256:e20a9d5057b9dd9a
+  verdict: pending

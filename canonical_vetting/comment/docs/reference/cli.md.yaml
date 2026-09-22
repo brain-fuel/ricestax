@@ -1,0 +1,15 @@
+decision/haskell/app/Main.hs/module/Main:
+  digest: sha256:421fcba304ba866e
+  verdict: pending
+decision/haskell/app/Main.hs/module/Main/function/application:
+  digest: sha256:81ac420680fa818d
+  verdict: pending
+decision/haskell/app/Main.hs/module/Main/function/main:
+  digest: sha256:a65bbfb5a467e35a
+  verdict: pending
+decision/haskell/app/Main.hs/module/Main/type/Cache:
+  digest: sha256:32c5530bcacd1853
+  verdict: pending
+decision/haskell/app/Main.hs/module/Main/type/Mutating:
+  digest: sha256:5fa2147179714d85
+  verdict: pending

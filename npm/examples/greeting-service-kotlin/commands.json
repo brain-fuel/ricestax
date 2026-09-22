@@ -1,0 +1,14 @@
+{
+  "compile": [
+    "kotlinc",
+    "src/Greeting.kt",
+    "-include-runtime",
+    "-d",
+    "build/greeting.jar"
+  ],
+  "run": [
+    "java",
+    "-jar",
+    "build/greeting.jar"
+  ]
+}

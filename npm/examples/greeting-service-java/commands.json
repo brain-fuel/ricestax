@@ -1,0 +1,14 @@
+{
+  "compile": [
+    "javac",
+    "-d",
+    "build",
+    "src/Greeting.java"
+  ],
+  "run": [
+    "java",
+    "-cp",
+    "build",
+    "Greeting"
+  ]
+}

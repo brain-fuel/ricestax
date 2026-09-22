@@ -11,6 +11,48 @@ packages:
       size: 3003
   original:
     hackage: grammatical-parsers-0.7.2.1
+- completed:
+    hackage: sydtest-0.30.0.0@sha256:982c5a91e7693ac56ac7d2f6b423dedbcdcdea4ec207d5aa8f058b5b2ea536a9,2831
+    pantry-tree:
+      sha256: 2345af376ebc0de06a640c193e8698327b94aebc94839c9d16e532aa47cb588a
+      size: 2842
+  original:
+    hackage: sydtest-0.30.0.0
+- completed:
+    hackage: opt-env-conf-0.15.0.3@sha256:26414c1bd18b7ecf0735ea1ff5c69b9ef10f430a8ea23343dbac2b9597296664,1868
+    pantry-tree:
+      sha256: 815adb9a2149951d0a4b4e7a7da89709535223b8466781ba4819269e7bce70a9
+      size: 1575
+  original:
+    hackage: opt-env-conf-0.15.0.3
+- completed:
+    hackage: sydtest-mutation-0.1.0.1@sha256:0b2972ab96f7939ebdaf6a918e02ecae788d5cdcab8b85ba5c1faad7299b5a44,2253
+    pantry-tree:
+      sha256: e3f3ffdea6b8f05d982804f54c84037ae352e87f61cd5a11cab67328ba91c561
+      size: 1312
+  original:
+    hackage: sydtest-mutation-0.1.0.1
+- completed:
+    hackage: sydtest-mutation-driver-0.1.0.0@sha256:65aff3775286c5c170be764ad88dd1193cdc6d96a8599269816c508663731793,1954
+    pantry-tree:
+      sha256: 056f9a8be9b4ec7a17eede71e479f482ef0d0bf4c32e7f6028e5972a3e609011
+      size: 950
+  original:
+    hackage: sydtest-mutation-driver-0.1.0.0
+- completed:
+    hackage: sydtest-mutation-plugin-0.4.6.0@sha256:b508b63e71a20bae09a7a87a915e40af9520897f2acc6048f9b6e84cd33c4324,3133
+    pantry-tree:
+      sha256: 6a5366dbcf5f148f3d423a9331052e02a961a65ed22e6e4de0ddfb885676f3b3
+      size: 2671
+  original:
+    hackage: sydtest-mutation-plugin-0.4.6.0
+- completed:
+    hackage: sydtest-mutation-runtime-0.1.1.0@sha256:206ff334282334a2a35a6c490fc5c60349927563b5a5fb9f979e8389df571daa,1760
+    pantry-tree:
+      sha256: 00e87966a6072cc9ce076190c70d0f5131501a7c44c95805c47d0a40b3393acc
+      size: 849
+  original:
+    hackage: sydtest-mutation-runtime-0.1.1.0
 snapshots:
 - completed:
     sha256: d4d51e01349a3e51b7aa6c500a9da8b0b578043badaec1d5f210cfe27672f18d

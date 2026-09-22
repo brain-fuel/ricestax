@@ -1,0 +1,8 @@
+{
+  "package": "ricestax",
+  "profiles": [
+    "antlr4",
+    "calm",
+    "folio"
+  ]
+}

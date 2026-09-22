@@ -1,0 +1,108 @@
+decision/haskell/web/app/Main.hs/module/Main:
+  digest: sha256:45f52be9b076a57c
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/data/Action:
+  digest: sha256:468079fd8bed0dfd
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/data/Draft:
+  digest: sha256:10e8edb39e36dbab
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/data/ExemptForm:
+  digest: sha256:1036d185affbdc9b
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/data/Model:
+  digest: sha256:c46dc4714f59da52
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/data/Tab:
+  digest: sha256:43cc357ff61e7985
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/data/Zoom:
+  digest: sha256:315c39ff0993e056
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/card:
+  digest: sha256:e4a58be4b0dc173e
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/changedRuns:
+  digest: sha256:2b8a571bee584c7f
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/copyButton:
+  digest: sha256:3060eb21ff666c79
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/diffView:
+  digest: sha256:e3bf62288d2658c8
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/done:
+  digest: sha256:b6a5f2c3a863e23a
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/editViews:
+  digest: sha256:3d564b27c0bd524a
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/exemptControl:
+  digest: sha256:cc98c59a82ddcf6d
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/exemptGroups:
+  digest: sha256:9ac9c52eac29e56d
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/exemptKindsFor:
+  digest: sha256:99bb4bf16ec91393
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/gapRow:
+  digest: sha256:fdb234c0be37b0eb
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/main:
+  digest: sha256:1f1eca6f1b03f649
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/markedLine:
+  digest: sha256:5da2d25a9e023d2e
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/mutantCard:
+  digest: sha256:136e06906341efb6
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/mutationBanner:
+  digest: sha256:59da8fc8729d6c43
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/mutationButton:
+  digest: sha256:d4693f2a070574bd
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/mutationReport:
+  digest: sha256:098abacad535e08e
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/mutationRunning:
+  digest: sha256:01d9438d916ec2e8
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/open:
+  digest: sha256:922e37e0677c25f8
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/pageSize:
+  digest: sha256:4c9fd6eef48ef5e8
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/paged:
+  digest: sha256:0ee1c039a8775a86
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/pieceViews:
+  digest: sha256:ff6ee2194bee871b
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/piecesOf:
+  digest: sha256:2211cc142859d46d
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/plainLine:
+  digest: sha256:883639a71d0b9c2d
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/recordedPanel:
+  digest: sha256:3f5261f2b1f2c4db
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/whatCard:
+  digest: sha256:f480e68b2666d1d4
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/whatEvidence:
+  digest: sha256:14002f0e264bad98
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/wholeView:
+  digest: sha256:c90fee7f16aa11fa
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/withMarks:
+  digest: sha256:2766c67b8d050864
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/zoomView:
+  digest: sha256:8837529f7ef98368
+  verdict: pending

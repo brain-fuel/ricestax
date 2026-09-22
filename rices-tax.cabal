@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           rices-tax
-version:        0.1.0
+version:        0.3.0
 synopsis:       The ledger of what a machine raised about a codebase and a person must decide
 description:    Please see README.md
 author:         brain-fuel
@@ -18,15 +18,31 @@ extra-source-files:
     README.md
     CHANGELOG.md
 
+flag mutation
+  description: Instrument the library for mutation testing with the sydtest-mutation plugin.
+  manual: True
+  default: False
+
 library
   exposed-modules:
+      RicesTax.Api
+      RicesTax.Core
+      RicesTax.Diff
+      RicesTax.Fnv
+      RicesTax.Gen
+      RicesTax.Marks
       RicesTax.Model
+      RicesTax.Site
+      RicesTax.Sydtest
+      RicesTax.What
+      RicesTax.Wire
   other-modules:
       Paths_rices_tax
   hs-source-dirs:
       src
   default-extensions:
       DeriveTraversable
+      DeriveGeneric
       OverloadedStrings
       RankNTypes
       FlexibleContexts
@@ -36,8 +52,91 @@ library
       ScopedTypeVariables
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
     , canon
     , containers
+    , cryptohash-sha256
+    , directory
+    , filepath
+    , scientific
+    , text
+    , time
+    , yaml
+  default-language: Haskell2010
+  if flag(mutation)
+    ghc-options: -fplugin=Test.Syd.Mutation.Plugin -fplugin-opt=Test.Syd.Mutation.Plugin:--manifest=mutation-manifest
+    build-depends:
+        sydtest-mutation-plugin
+      , sydtest-mutation-runtime
+
+executable ricestax
+  main-is: Main.hs
+  other-modules:
+      Paths_rices_tax
+  hs-source-dirs:
+      app
+  default-extensions:
+      DeriveTraversable
+      DeriveGeneric
+      OverloadedStrings
+      RankNTypes
+      FlexibleContexts
+      RecordWildCards
+      LambdaCase
+      TupleSections
+      ScopedTypeVariables
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , canon
+    , containers
+    , directory
+    , filepath
+    , http-types
+    , process
+    , rices-tax
+    , text
+    , time
+    , wai
+    , wai-extra
+    , warp
+    , yaml
+  default-language: Haskell2010
+
+test-suite corpus
+  type: exitcode-stdio-1.0
+  main-is: Corpus.hs
+  other-modules:
+      Paths_rices_tax
+  hs-source-dirs:
+      test
+  default-extensions:
+      DeriveTraversable
+      DeriveGeneric
+      OverloadedStrings
+      RankNTypes
+      FlexibleContexts
+      RecordWildCards
+      LambdaCase
+      TupleSections
+      ScopedTypeVariables
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , aeson
+    , base >=4.7 && <5
+    , bytestring
+    , canon
+    , containers
+    , directory
+    , filepath
+    , process
+    , rices-tax
+    , sydtest
+    , sydtest-mutation
     , text
   default-language: Haskell2010

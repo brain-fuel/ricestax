@@ -1,0 +1,114 @@
+{
+  "version": "0.1.0",
+  "ignore": [
+    ".ricestax",
+    "node_modules",
+    "target",
+    "build",
+    "dist",
+    ".venv",
+    "__pycache__"
+  ],
+  "languages": {
+    "python": {
+      "extensions": [
+        ".py"
+      ],
+      "lexer": ".ricestax/grammars/python/Python3Lexer.g4",
+      "parser": ".ricestax/grammars/python/Python3Parser.g4",
+      "start": "file_input",
+      "comments": {
+        "line": "#",
+        "strings": [
+          "\"\"\"",
+          "'''",
+          "\"",
+          "'"
+        ]
+      },
+      "units": [
+        {
+          "rule": "funcdef",
+          "kind": "function",
+          "name": {
+            "rule": "name"
+          },
+          "required": true
+        },
+        {
+          "rule": "classdef",
+          "kind": "class",
+          "name": {
+            "rule": "name"
+          },
+          "required": true
+        }
+      ]
+    },
+    "calm": {
+      "extensions": [
+        ".calm.json"
+      ],
+      "grammar": ".ricestax/grammars/calm/Calm.g4",
+      "start": "json"
+    },
+    "folio": {
+      "extensions": [
+        ".md"
+      ],
+      "lexer": ".ricestax/grammars/folio/FolioLexer.g4",
+      "parser": ".ricestax/grammars/folio/FolioParser.g4",
+      "start": "document",
+      "embeds": {
+        "python": {
+          "language": "python",
+          "comments": {
+            "line": "#",
+            "strings": [
+              "\"\"\"",
+              "'''",
+              "\"",
+              "'"
+            ]
+          },
+          "width": 79,
+          "doc": {
+            "open": "# | ",
+            "continue": "# ",
+            "blank": "#",
+            "banner": "# ",
+            "markup": "plain"
+          }
+        },
+        "calm": {
+          "language": "calm",
+          "comments": {},
+          "width": 98,
+          "doc": {
+            "open": "",
+            "continue": "",
+            "blank": "",
+            "banner": "",
+            "markup": "none"
+          }
+        }
+      }
+    }
+  },
+  "runtime": {
+    "name": "ricestax-catalog",
+    "artefacts": ".mut/current",
+    "package": ".",
+    "tests": "test",
+    "command": "ricestax mutate"
+  },
+  "kinds": {
+    "mutant": {
+      "unreviewed": "open",
+      "logical-equivalency": "closed",
+      "inadequate-testing": "work",
+      "unnecessary-code": "work",
+      "needs-research": "deferred"
+    }
+  }
+}

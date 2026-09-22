@@ -1,0 +1,31 @@
+{
+  "name": "ricestax",
+  "version": "0.3.0",
+  "description": "Rice's Tax: assess what a codebase owes, pay it, and audit that it was paid. Haskell compiled to WebAssembly, run from Node.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "ricestax": "bin/ricestax.mjs"
+  },
+  "main": "api.mjs",
+  "types": "index.d.ts",
+  "files": [
+    "pay.mjs",
+    "bin",
+    "api.mjs",
+    "index.d.ts",
+    "launcher.mjs",
+    "core.wasm",
+    "core_jsffi.js",
+    "page",
+    "setup.mjs",
+    "presets",
+    "mutate.mjs",
+    "scaffold.mjs",
+    "docs",
+    "examples"
+  ],
+  "engines": {
+    "node": ">=22"
+  }
+}

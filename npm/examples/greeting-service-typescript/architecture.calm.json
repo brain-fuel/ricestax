@@ -1,0 +1,12 @@
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/calm.json",
+  "nodes": [
+    {
+      "unique-id": "greeting-api",
+      "node-type": "service",
+      "name": "Greeting API",
+      "description": "Owns greeting responses."
+    }
+  ],
+  "relationships": []
+}

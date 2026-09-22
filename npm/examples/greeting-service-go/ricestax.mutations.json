@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "inputs": [
+    "src",
+    "tools",
+    "test",
+    "commands.json",
+    "docs",
+    "canon.yaml",
+    "architecture.calm.json"
+  ],
+  "compile": [
+    "node",
+    "tools/build.mjs"
+  ],
+  "test": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "test/service.test.mjs"
+  ],
+  "evidence": {
+    "passed": "# pass 1",
+    "failed": "not ok"
+  },
+  "mutations": [
+    {
+      "file": "src/main.go",
+      "original": "len(name) == 0",
+      "replacement": "false"
+    }
+  ]
+}

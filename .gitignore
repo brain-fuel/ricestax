@@ -1,3 +1,19 @@
 .stack-work/
 .canon-cache/
 dist-newstyle/
+.mut/
+mutation-manifest/
+.mut.next/
+.mut.log
+
+.mut-attempt.json
+canonical_history/.lock/
+canonical_history/.mutations.yaml.tmp*
+
+/dist/
+
+# Generated site and example compiler output.
+/_site/
+/examples/**/build/
+/examples/**/__pycache__/
+*.pyc

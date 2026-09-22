@@ -1,0 +1,80 @@
+mutant/10b90474beb0:
+  digest: "ff233f219a3b0a6a"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/10bc6674beb3:
+  digest: "ff233f219a3b0a6a"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/10bfcc74beb6:
+  digest: "ff233f219a3b0a6a"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/1bde9ff68b9e:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/1be209f68ba1:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/211956b95b3e:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/211cb8b95b41:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/21202eb95b44:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/218d12325ac7:
+  digest: "ff233f219a3b0a6a"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/219074325aca:
+  digest: "ff233f219a3b0a6a"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/2193ea325acd:
+  digest: "ff233f219a3b0a6a"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/31432ad3004b:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/31468cd3004e:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/c102b648bc36:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/c1061848bc38:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-77f17a"
+  verdict: unreviewed
+mutant/c10cd848bc3e:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/e43fbd972acf:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/e4431f972ad2:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing
+mutant/e590ef6cbf57:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: unreviewed
+mutant/ef40a7fe2ca9:
+  digest: "1e27400624686453"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: inadequate-testing

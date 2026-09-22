@@ -1,0 +1,12 @@
+name/folio/docs/reference/diff.md/doc/ricestax.reference.diff:
+  digest: sha256:8dc40a8224d4cb43
+  verdict: pending
+name/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff/data/Edit:
+  digest: sha256:0b4e0c88eb495861
+  verdict: pending
+name/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff/function/goneLines:
+  digest: sha256:d66171157589eab1
+  verdict: pending
+name/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff/function/lineDiff:
+  digest: sha256:63b1f2bbd0d00e72
+  verdict: pending

@@ -1,0 +1,105 @@
+registry/MIT:
+  digest: sha256:ed6c0abb656b1c69
+  verdict: pending
+registry/REQ-canon-delegated:
+  digest: sha256:2fc12961007368e9
+  verdict: pending
+registry/REQ-context-digest:
+  digest: sha256:6abfdad78dd79686
+  verdict: pending
+registry/REQ-coverage-words:
+  digest: sha256:eb7f0a4d882ca982
+  verdict: pending
+registry/REQ-dispositions:
+  digest: sha256:a9f219f4eb34e3e1
+  verdict: pending
+registry/REQ-exit-codes:
+  digest: sha256:027e9f2a6b48816a
+  verdict: pending
+registry/REQ-identity-joins:
+  digest: sha256:b376009dbe216581
+  verdict: pending
+registry/REQ-line-diff:
+  digest: sha256:c7ec1e7eb3c91b59
+  verdict: pending
+registry/REQ-marks:
+  digest: sha256:99c27e69a73fa64a
+  verdict: pending
+registry/REQ-mutant-lands-through-manifest:
+  digest: sha256:847a6771303c0d55
+  verdict: pending
+registry/REQ-mutation-rerun:
+  digest: sha256:28e43e7a89d4ee5a
+  verdict: pending
+registry/REQ-one-table:
+  digest: sha256:6c47db6454d4a451
+  verdict: pending
+registry/REQ-self-taxed:
+  digest: sha256:50c6892c79b4afc4
+  verdict: pending
+registry/REQ-site-deterministic:
+  digest: sha256:94376952111540a5
+  verdict: pending
+registry/REQ-site-layout:
+  digest: sha256:9621babb9cbd5b12
+  verdict: pending
+registry/REQ-tangle-audited:
+  digest: sha256:bf2a28be4e84906f
+  verdict: pending
+registry/REQ-video-embed:
+  digest: sha256:011c8902816caa81
+  verdict: pending
+registry/REQ-what-digest:
+  digest: sha256:96a4ff493896a13b
+  verdict: pending
+registry/REQ-what-raised:
+  digest: sha256:cb9271a1aac4a9d2
+  verdict: pending
+registry/REQ-whole-block:
+  digest: sha256:1af3c5b6412a3d72
+  verdict: pending
+registry/canon:
+  digest: sha256:2bdc64e6d0534e86
+  verdict: pending
+registry/diataxis:
+  digest: sha256:10ca97f8ffe93ea6
+  verdict: pending
+registry/ghc-wasm-meta:
+  digest: sha256:9d159edf3ff808ec
+  verdict: pending
+registry/hedgehog:
+  digest: sha256:57321ebd014b5707
+  verdict: pending
+registry/miso:
+  digest: sha256:ed497847685337a6
+  verdict: pending
+registry/rice-1953:
+  digest: sha256:800b007ea0fe372c
+  verdict: pending
+registry/sydtest-mutation-driver:
+  digest: sha256:43d796af4a56b692
+  verdict: pending
+registry/tasty:
+  digest: sha256:6665636f1b3fdd5e
+  verdict: pending
+registry/wavelet-adr-0017:
+  digest: sha256:ac7beafbac36b912
+  verdict: pending
+registry/wavelet-adr-0018:
+  digest: sha256:3c88868520caee8e
+  verdict: pending
+registry/wavelet-adr-0019:
+  digest: sha256:be787d6950edb51d
+  verdict: pending
+registry/wavelet-adr-0021:
+  digest: sha256:c2488d5d8e1f4525
+  verdict: pending
+registry/wavelet-mutation-review:
+  digest: sha256:5b722488fe4ee27d
+  verdict: pending
+registry/wavelet-spec-attest-open-questions:
+  digest: sha256:494bcdaf21d8878b
+  verdict: pending
+registry/wavelet-spec-form-review-surface:
+  digest: sha256:d9ce23ce9cd9432b
+  verdict: pending

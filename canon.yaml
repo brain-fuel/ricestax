@@ -1,11 +1,97 @@
-version: 0.1.0
+version: 0.3.0
 registry: canonical_refs.yaml
 decisions: canonical_decisions.yaml
 ignore:
+  - "*.md"
+  - "!docs/**/*.md"
   - grammars
+  - wasm/vendor
+  - wasm/dist-newstyle
+  - npm/node_modules
+  - npm/presets
+  - npm/docs
+  - npm/examples
+  - npm/page
+  - npm/api.mjs
+  - npm/core_jsffi.js
+  - web/public
 languages:
+  folio:
+    extensions: [.md]
+    lexer: grammars/folio/FolioLexer.g4
+    parser: grammars/folio/FolioParser.g4
+    start: document
+    embeds:
+      haskell:
+        language: haskell
+        comments: {line: "--", blockOpen: "{-", blockClose: "-}", strings: ["\""]}
+        width: 98
+        doc: {open: "-- | ", continue: "-- ", blank: "--", banner: "-- ", markup: haddock}
+  make:
+    extensions: [Makefile]
+    lexer: grammars/make/canonically_commented/MakefileLexer.g4
+    parser: grammars/make/canonically_commented/MakefileParser.g4
+    start: makefile
+    highlight: {meta: [IFEQ, IFDEF, ELSE, INCLUDE, DEFINE, ENDEF], comment: [HELP], string: [VALUE], type: [SPECIAL], plain: [NAME]}
   haskell:
     extensions: [.hs]
     lexer: grammars/haskell/canonically_commented/HaskellLexer.g4
     parser: grammars/haskell/canonically_commented/HaskellParser.g4
     start: module
+  javascript:
+    extensions:
+    - .js
+    - .mjs
+    - .cjs
+    lexer: npm/presets/grammars/javascript/JavaScriptLexer.g4
+    parser: npm/presets/grammars/javascript/JavaScriptParser.g4
+    start: program
+    comments:
+      line: //
+      blockOpen: /*
+      blockClose: '*/'
+      strings:
+      - '"'
+      - ''''
+      - '`'
+    units:
+    - rule: functionDeclaration
+      kind: function
+      name:
+        rule: identifier
+      required: true
+    - rule: classDeclaration
+      kind: class
+      name:
+        rule: identifier
+      required: true
+    - rule: methodDefinition
+      kind: method
+      name:
+        rule: classElementName
+      required: true
+    - rule: variableDeclaration
+      kind: binding
+      name:
+        rule: assignable
+      required: true
+runtime:
+  name: sydtest-mutation
+  artefacts: .mut
+  package: .
+  tests: test
+  command: make mutate
+kinds:
+  name:
+    pending: open
+    good: closed
+    bad: work
+    deferred: deferred
+  mutant:
+    unreviewed: open
+    logical-equivalency: closed
+    inadequate-testing: work
+    unnecessary-code: work
+    needs-research: deferred
+  observability:
+    gap: work

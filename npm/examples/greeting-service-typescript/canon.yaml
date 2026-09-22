@@ -1,0 +1,158 @@
+{
+  "version": "0.1.0",
+  "ignore": [
+    ".ricestax",
+    "node_modules",
+    "target",
+    "build",
+    "dist",
+    ".venv",
+    "__pycache__"
+  ],
+  "languages": {
+    "typescript": {
+      "extensions": [
+        ".ts",
+        ".mts",
+        ".cts"
+      ],
+      "lexer": ".ricestax/grammars/typescript/TypeScriptLexer.g4",
+      "parser": ".ricestax/grammars/typescript/TypeScriptParser.g4",
+      "start": "program",
+      "comments": {
+        "line": "//",
+        "blockOpen": "/*",
+        "blockClose": "*/",
+        "strings": [
+          "\"",
+          "'",
+          "`"
+        ]
+      },
+      "units": [
+        {
+          "rule": "functionDeclaration",
+          "kind": "function",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "classDeclaration",
+          "kind": "class",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "interfaceDeclaration",
+          "kind": "interface",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "typeAliasDeclaration",
+          "kind": "type",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "enumDeclaration",
+          "kind": "enum",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "propertyMemberDeclaration",
+          "kind": "member",
+          "name": {
+            "rule": "classElementName"
+          },
+          "required": false
+        },
+        {
+          "rule": "variableDeclaration",
+          "kind": "binding",
+          "name": {
+            "rule": "identifierOrKeyWord"
+          },
+          "required": true
+        }
+      ]
+    },
+    "calm": {
+      "extensions": [
+        ".calm.json"
+      ],
+      "grammar": ".ricestax/grammars/calm/Calm.g4",
+      "start": "json"
+    },
+    "folio": {
+      "extensions": [
+        ".md"
+      ],
+      "lexer": ".ricestax/grammars/folio/FolioLexer.g4",
+      "parser": ".ricestax/grammars/folio/FolioParser.g4",
+      "start": "document",
+      "embeds": {
+        "typescript": {
+          "language": "typescript",
+          "comments": {
+            "line": "//",
+            "blockOpen": "/*",
+            "blockClose": "*/",
+            "strings": [
+              "\"",
+              "'",
+              "`"
+            ]
+          },
+          "width": 98,
+          "doc": {
+            "open": "/** ",
+            "continue": " * ",
+            "blank": " *",
+            "banner": "// ",
+            "markup": "javadoc"
+          }
+        },
+        "calm": {
+          "language": "calm",
+          "comments": {},
+          "width": 98,
+          "doc": {
+            "open": "",
+            "continue": "",
+            "blank": "",
+            "banner": "",
+            "markup": "none"
+          }
+        }
+      }
+    }
+  },
+  "runtime": {
+    "name": "ricestax-catalog",
+    "artefacts": ".mut/current",
+    "package": ".",
+    "tests": "test",
+    "command": "ricestax mutate"
+  },
+  "kinds": {
+    "mutant": {
+      "unreviewed": "open",
+      "logical-equivalency": "closed",
+      "inadequate-testing": "work",
+      "unnecessary-code": "work",
+      "needs-research": "deferred"
+    }
+  }
+}

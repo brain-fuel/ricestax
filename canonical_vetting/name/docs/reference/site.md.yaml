@@ -1,0 +1,9 @@
+name/folio/docs/reference/site.md/doc/ricestax.reference.site:
+  digest: sha256:33777003b75aadbd
+  verdict: pending
+name/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/projectNameOf:
+  digest: sha256:8c82bce6f7956587
+  verdict: pending
+name/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/renderSites:
+  digest: sha256:11d8162a5c23b75d
+  verdict: pending

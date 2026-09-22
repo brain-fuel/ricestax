@@ -1,0 +1,136 @@
+{
+  "version": "0.1.0",
+  "ignore": [
+    ".ricestax",
+    "node_modules",
+    "target",
+    "build",
+    "dist",
+    ".venv",
+    "__pycache__"
+  ],
+  "languages": {
+    "kotlin": {
+      "extensions": [
+        ".kt"
+      ],
+      "lexer": ".ricestax/grammars/kotlin/KotlinLexer.g4",
+      "parser": ".ricestax/grammars/kotlin/KotlinParser.g4",
+      "start": "kotlinFile",
+      "comments": {
+        "line": "//",
+        "blockOpen": "/*",
+        "blockClose": "*/",
+        "strings": [
+          "\""
+        ]
+      },
+      "units": [
+        {
+          "rule": "functionDeclaration",
+          "kind": "function",
+          "name": {
+            "rule": "simpleIdentifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "classDeclaration",
+          "kind": "class",
+          "name": {
+            "rule": "simpleIdentifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "objectDeclaration",
+          "kind": "object",
+          "name": {
+            "rule": "simpleIdentifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "typeAlias",
+          "kind": "type",
+          "name": {
+            "rule": "simpleIdentifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "propertyDeclaration",
+          "kind": "property",
+          "name": {
+            "rule": "simpleIdentifier"
+          },
+          "required": false
+        }
+      ]
+    },
+    "calm": {
+      "extensions": [
+        ".calm.json"
+      ],
+      "grammar": ".ricestax/grammars/calm/Calm.g4",
+      "start": "json"
+    },
+    "folio": {
+      "extensions": [
+        ".md"
+      ],
+      "lexer": ".ricestax/grammars/folio/FolioLexer.g4",
+      "parser": ".ricestax/grammars/folio/FolioParser.g4",
+      "start": "document",
+      "embeds": {
+        "kotlin": {
+          "language": "kotlin",
+          "comments": {
+            "line": "//",
+            "blockOpen": "/*",
+            "blockClose": "*/",
+            "strings": [
+              "\""
+            ]
+          },
+          "width": 98,
+          "doc": {
+            "open": "/** ",
+            "continue": " * ",
+            "blank": " *",
+            "banner": "// ",
+            "markup": "javadoc"
+          }
+        },
+        "calm": {
+          "language": "calm",
+          "comments": {},
+          "width": 98,
+          "doc": {
+            "open": "",
+            "continue": "",
+            "blank": "",
+            "banner": "",
+            "markup": "none"
+          }
+        }
+      }
+    }
+  },
+  "runtime": {
+    "name": "ricestax-catalog",
+    "artefacts": ".mut/current",
+    "package": ".",
+    "tests": "test",
+    "command": "ricestax mutate"
+  },
+  "kinds": {
+    "mutant": {
+      "unreviewed": "open",
+      "logical-equivalency": "closed",
+      "inadequate-testing": "work",
+      "unnecessary-code": "work",
+      "needs-research": "deferred"
+    }
+  }
+}

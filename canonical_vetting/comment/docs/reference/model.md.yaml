@@ -1,0 +1,54 @@
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model:
+  digest: sha256:ba0ce8ada6e962ce
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Digest:
+  digest: sha256:9111599939319251
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Disposition:
+  digest: sha256:ac576b946479c7bf
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Judged:
+  digest: sha256:8bd5d1fa92d628cd
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Kind:
+  digest: sha256:1e3e6edd82b14064
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/MutantRun:
+  digest: sha256:860fbe17e15cf2a8
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Obligation:
+  digest: sha256:c40b59a1688211e9
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Outcome:
+  digest: sha256:922bf974d9cd9cbd
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Question:
+  digest: sha256:96edfec3871e457a
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/RuntimeReport:
+  digest: sha256:9f685faca60ccd5e
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/SignOff:
+  digest: sha256:4d3a25cc23a45ea9
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Signer:
+  digest: sha256:34ec9cf014afd79b
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/SubjectKey:
+  digest: sha256:07e348c8a68d8572
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/TestRun:
+  digest: sha256:75321f74f48b8bbb
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Verdict:
+  digest: sha256:255ad7bf13a6a5a0
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/disposition:
+  digest: sha256:c809a79ef1d22b3f
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/kindQuestion:
+  digest: sha256:9c6f3900d045d766
+  verdict: pending
+decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/verdicts:
+  digest: sha256:eb4cb1f9c4c24717
+  verdict: pending

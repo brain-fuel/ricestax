@@ -1,0 +1,10 @@
+-- The WebAssembly build of the back end. Run tools/wasm.sh, which points cabal at ghcup's
+-- wasm32-wasi GHC; Stack builds the same packages natively from the same package.yaml
+-- (DEC-wasm-toolchain).
+packages:
+  .
+  ..
+  ../../canon
+  vendor/grammatical-parsers-0.7.2.1
+
+allow-newer: all

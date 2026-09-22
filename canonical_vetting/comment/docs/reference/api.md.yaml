@@ -1,0 +1,39 @@
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api:
+  digest: sha256:b436d42afaf46515
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/data/Export:
+  digest: sha256:e0deac4bdcbe79fd
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/data/Verb:
+  digest: sha256:d552947939f474e9
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/call:
+  digest: sha256:ad8b0d918bd2d6dd
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/exports:
+  digest: sha256:01de0f4b378850a5
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/field:
+  digest: sha256:3eb7830fd9b4a71b
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/insertRow:
+  digest: sha256:d193159612cc7419
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/newSession:
+  digest: sha256:b5a6f4e5567dc7d9
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/usageText:
+  digest: sha256:e419a142f76eae7d
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/verbs:
+  digest: sha256:beb9dcf602731265
+  verdict: pending
+decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/newtype/Session:
+  digest: sha256:3ef3662232ef7736
+  verdict: pending
+decision/haskell/src/RicesTax/Gen.hs/module/RicesTax.Gen:
+  digest: sha256:33b4eb18d918c4ec
+  verdict: pending
+decision/haskell/src/RicesTax/Gen.hs/module/RicesTax.Gen/function/generate:
+  digest: sha256:ba057929ca12a0b9
+  verdict: pending

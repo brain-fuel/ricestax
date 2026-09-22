@@ -1,0 +1,48 @@
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire:
+  digest: sha256:abf59e08104dcd0f
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Bound:
+  digest: sha256:33b36b20b3a8b1d4
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Count:
+  digest: sha256:adac92ff1ed3c826
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Decide:
+  digest: sha256:cd39a2e78231308f
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/ExemptRequest:
+  digest: sha256:a748727158c30102
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Facts:
+  digest: sha256:cc19c0ef9ce6cc75
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Item:
+  digest: sha256:49355ad5d38a1be1
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/MutantView:
+  digest: sha256:b52f210004d4bf5d
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Mutation:
+  digest: sha256:b3aff63ba96efd10
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Observed:
+  digest: sha256:cb45f21c9d8701bb
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Payload:
+  digest: sha256:c6f6197b79006cbd
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Ref:
+  digest: sha256:f2516708c304b989
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/RuleSource:
+  digest: sha256:6392f166aaf6c4ac
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Signer:
+  digest: sha256:09cfb91e0f81fa54
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Subject:
+  digest: sha256:91f60c7038a4bde4
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Whole:
+  digest: sha256:b7aee1d417aaca53
+  verdict: pending

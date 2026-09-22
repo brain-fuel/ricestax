@@ -1,0 +1,12 @@
+decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site:
+  digest: sha256:782b4859f3dd3d16
+  verdict: pending
+decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/indexPage:
+  digest: sha256:a4ba56367650f1c8
+  verdict: pending
+decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/projectNameOf:
+  digest: sha256:8cfa10f4b1a06aff
+  verdict: pending
+decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/renderSites:
+  digest: sha256:6c5d3a7fad3f7118
+  verdict: pending

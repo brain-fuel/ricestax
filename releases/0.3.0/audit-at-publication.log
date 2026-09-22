@@ -1,0 +1,208 @@
+audit failed: rices-tax
+Why   open 361  stale 0  exempt 0  decided 0  work 0
+What  open 445  stale 0  exempt 445  decided 0  work 0
+How   open 77  stale 168  exempt 554  decided 37  work 1896
+  exempt findings: 160
+  runtime: present
+
+  decision DEC-grammar-sharing is open past its revisit version 0.2.0 at version 0.3.0
+  decision DEC-how-subkinds is open past its revisit version 0.2.0 at version 0.3.0
+  page docs/explanation/design.md is pending sign-off
+  page docs/explanation/ingestion-generation-evidence.md is pending sign-off
+  page docs/explanation/mutant-decision-lifecycle.md is pending sign-off
+  page docs/explanation/release-0.3.md is pending sign-off
+  page docs/how-to/adopt-existing-project.md is pending sign-off
+  page docs/how-to/audit-in-ci.md is pending sign-off
+  page docs/how-to/build-for-webassembly.md is pending sign-off
+  page docs/how-to/generate-from-documentation.md is pending sign-off
+  page docs/how-to/pay-your-tax.md is pending sign-off
+  page docs/how-to/publish-to-npm.md is pending sign-off
+  page docs/how-to/review-java-mutations.md is pending sign-off
+  page docs/how-to/run-mutations.md is pending sign-off
+  page docs/reference/api.md is pending sign-off
+  page docs/reference/cli.md is pending sign-off
+  page docs/reference/core.md is pending sign-off
+  page docs/reference/corpus.md is pending sign-off
+  page docs/reference/diff.md is pending sign-off
+  page docs/reference/language-antlr4.md is pending sign-off
+  page docs/reference/language-calm.md is pending sign-off
+  page docs/reference/language-go.md is pending sign-off
+  page docs/reference/language-haskell.md is pending sign-off
+  page docs/reference/language-java.md is pending sign-off
+  page docs/reference/language-javascript.md is pending sign-off
+  page docs/reference/language-kotlin.md is pending sign-off
+  page docs/reference/language-python.md is pending sign-off
+  page docs/reference/language-typescript.md is pending sign-off
+  page docs/reference/languages.md is pending sign-off
+  page docs/reference/marks.md is pending sign-off
+  page docs/reference/model.md is pending sign-off
+  page docs/reference/project-commands.md is pending sign-off
+  page docs/reference/site.md is pending sign-off
+  page docs/reference/sydtest.md is pending sign-off
+  page docs/reference/what.md is pending sign-off
+  page docs/reference/wire.md is pending sign-off
+  page docs/tutorials/architecture-to-service.md is pending sign-off
+  page docs/tutorials/first-audit.md is pending sign-off
+  page docs/tutorials/new-project.md is pending sign-off
+  src/RicesTax/Api.hs: git exited with 128: fatal: no such path 'src/RicesTax/Api.hs' in HEAD
+  docs/reference/api.md:10:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api is pending vetting
+  docs/reference/api.md:51:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/data/Export is pending vetting
+  docs/reference/api.md:67:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/data/Verb is pending vetting
+  docs/reference/api.md:88:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/verbs is pending vetting
+  docs/reference/api.md:105:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/usageText is pending vetting
+  docs/reference/api.md:123:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/exports is pending vetting
+  docs/reference/api.md:149:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/newtype/Session is pending vetting
+  docs/reference/api.md:157:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/newSession is pending vetting
+  docs/reference/api.md:166:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/call is pending vetting
+  docs/reference/api.md:264:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/field is pending vetting
+  docs/reference/api.md:275:1: decision/haskell/src/RicesTax/Api.hs/module/RicesTax.Api/function/insertRow is pending vetting
+  src/RicesTax/Gen.hs: git exited with 128: fatal: no such path 'src/RicesTax/Gen.hs' in HEAD
+  docs/reference/api.md:316:1: decision/haskell/src/RicesTax/Gen.hs/module/RicesTax.Gen is pending vetting
+  docs/reference/api.md:336:1: decision/haskell/src/RicesTax/Gen.hs/module/RicesTax.Gen/function/generate is pending vetting
+  app/Main.hs: git exited with 128: fatal: no such path 'app/Main.hs' in HEAD
+  docs/reference/cli.md:10:1: decision/haskell/app/Main.hs/module/Main is pending vetting
+  docs/reference/cli.md:52:1: decision/haskell/app/Main.hs/module/Main/function/main is pending vetting
+  docs/reference/cli.md:110:1: decision/haskell/app/Main.hs/module/Main/type/Cache is pending vetting
+  docs/reference/cli.md:132:1: decision/haskell/app/Main.hs/module/Main/function/application is pending vetting
+  docs/reference/cli.md:231:1: decision/haskell/app/Main.hs/module/Main/type/Mutating is pending vetting
+  src/RicesTax/Core.hs: git exited with 128: fatal: no such path 'src/RicesTax/Core.hs' in HEAD
+  docs/reference/core.md:10:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core is pending vetting
+  docs/reference/core.md:150:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/languageOf is pending vetting
+  docs/reference/core.md:162:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/marksOf is pending vetting
+  docs/reference/core.md:176:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/wholeOf is pending vetting
+  docs/reference/core.md:189:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/applyDecision is pending vetting
+  docs/reference/core.md:212:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/withLoaded is pending vetting
+  docs/reference/core.md:226:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/data/Gathered is pending vetting
+  docs/reference/core.md:250:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/gather is pending vetting
+  docs/reference/core.md:295:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/assemble is pending vetting
+  docs/reference/core.md:356:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/undecidedItem is pending vetting
+  docs/reference/core.md:377:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/docItem is pending vetting
+  docs/reference/core.md:396:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/whatItem is pending vetting
+  docs/reference/core.md:506:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/exemptionOf is pending vetting
+  docs/reference/core.md:556:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/howItems is pending vetting
+  docs/reference/core.md:649:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/unitFor is pending vetting
+  docs/reference/core.md:675:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/goneItem is pending vetting
+  docs/reference/core.md:703:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/assess is pending vetting
+  docs/reference/core.md:736:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/auditExit is pending vetting
+  docs/reference/core.md:750:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/queueCounts is pending vetting
+  docs/reference/core.md:764:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/writeExemption is pending vetting
+  docs/reference/core.md:807:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/reExempt is pending vetting
+  docs/reference/core.md:818:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/audit is pending vetting
+  docs/reference/core.md:872:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/ingestHow is pending vetting
+  docs/reference/core.md:902:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/ingestWhat is pending vetting
+  docs/reference/core.md:918:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/recordRun is pending vetting
+  docs/reference/core.md:946:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/importRecord is pending vetting
+  docs/reference/core.md:1002:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/refOf is pending vetting
+  docs/reference/core.md:1047:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/decideWith is pending vetting
+  docs/reference/core.md:1102:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/instance/FromJSONs=>FromJSON(Items) is pending vetting
+  docs/reference/core.md:1123:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/historyPath is pending vetting
+  docs/reference/core.md:1230:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/readAttemptIssue is pending vetting
+  docs/reference/core.md:1249:1: decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/snapshotDigest is pending vetting
+  test/Corpus.hs: git exited with 128: fatal: no such path 'test/Corpus.hs' in HEAD
+  docs/reference/corpus.md:658:1: missing canonical comment on haskell/test/Corpus.hs/module/Main/function/prop_cutRunsKeepsTotals
+  docs/reference/corpus.md:685:1: test haskell/test/Corpus.hs/module/Main/function/prop_foreignContextChanges cites no requirement
+  docs/reference/corpus.md:743:1: test haskell/test/Corpus.hs/module/Main/function/prop_historyLifecycle cites no requirement
+  docs/reference/corpus.md:780:1: test haskell/test/Corpus.hs/module/Main/function/prop_historyEvidence cites no requirement
+  docs/reference/corpus.md:10:1: decision/haskell/test/Corpus.hs/module/Main is pending vetting
+  docs/reference/corpus.md:59:1: decision/haskell/test/Corpus.hs/module/Main/function/main is pending vetting
+  docs/reference/corpus.md:68:1: decision/haskell/test/Corpus.hs/module/Main/function/spec is pending vetting
+  docs/reference/corpus.md:122:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_fnvMatchesWaveletVectors is pending vetting
+  docs/reference/corpus.md:137:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_fnvNewlineTerminatesEachLine is pending vetting
+  docs/reference/corpus.md:148:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_chunksStartAtColumnOne is pending vetting
+  docs/reference/corpus.md:162:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_headWordNamesTheBinding is pending vetting
+  docs/reference/corpus.md:176:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_coverageWordsFollowTheReading is pending vetting
+  docs/reference/corpus.md:192:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_uncoveredIsAlwaysAGap is pending vetting
+  docs/reference/corpus.md:206:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_oneOutcomeNamesTheValue is pending vetting
+  docs/reference/corpus.md:219:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_workKindsHaveNoWords is pending vetting
+  docs/reference/corpus.md:234:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_aWordDecides is pending vetting
+  docs/reference/corpus.md:251:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_everyKindHasAQuestion is pending vetting
+  docs/reference/corpus.md:273:1: decision/haskell/test/Corpus.hs/module/Main/function/unitOf is pending vetting
+  docs/reference/corpus.md:293:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_whatRaisedForRequiredUnitsOnly is pending vetting
+  docs/reference/corpus.md:310:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_whatDigestFollowsNameSignatureAndBody is pending vetting
+  docs/reference/corpus.md:327:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_whatTextIsTheSignature is pending vetting
+  docs/reference/corpus.md:342:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_bindingBlockCarriesItsComments is pending vetting
+  docs/reference/corpus.md:356:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_bindingBlockStopsAtABlankLine is pending vetting
+  docs/reference/corpus.md:372:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_ruleSourceCarriesItsRequirement is pending vetting
+  docs/reference/corpus.md:385:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_contextIgnoresComments is pending vetting
+  docs/reference/corpus.md:401:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_exportsAndVerbsAreOneTable is pending vetting
+  docs/reference/corpus.md:417:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_unknownExportIsAnError is pending vetting
+  docs/reference/corpus.md:433:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_canonArgumentsReachCanon is pending vetting
+  docs/reference/corpus.md:445:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_auditExitCodes is pending vetting
+  docs/reference/corpus.md:457:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_pagePathFollowsDiataxis is pending vetting
+  docs/reference/corpus.md:471:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_youtubeLocatorEmbeds is pending vetting
+  docs/reference/corpus.md:485:1: decision/haskell/test/Corpus.hs/module/Main/function/withScratch is pending vetting
+  docs/reference/corpus.md:546:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_siteIsDeterministic is pending vetting
+  docs/reference/corpus.md:573:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_auditFailsOnStaleTangle is pending vetting
+  docs/reference/corpus.md:594:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_mutantLandsThroughTheLineMap is pending vetting
+  docs/reference/corpus.md:614:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_mutationStateRoundTrips is pending vetting
+  docs/reference/corpus.md:626:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_lineDiffKeepsSharedLines is pending vetting
+  docs/reference/corpus.md:642:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_runsTileTheLine is pending vetting
+  docs/reference/corpus.md:667:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_marksParallelToCode is pending vetting
+  docs/reference/corpus.md:685:1: decision/haskell/test/Corpus.hs/module/Main/function/prop_foreignContextChanges is pending vetting
+  docs/reference/corpus.md:701:1: decision/haskell/test/Corpus.hs/module/Main/function/withHistoryScratch is pending vetting
+  src/RicesTax/Diff.hs: git exited with 128: fatal: no such path 'src/RicesTax/Diff.hs' in HEAD
+  docs/reference/diff.md:10:1: decision/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff is pending vetting
+  docs/reference/diff.md:27:1: decision/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff/data/Edit is pending vetting
+  docs/reference/diff.md:40:1: decision/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff/function/lineDiff is pending vetting
+  docs/reference/diff.md:78:1: decision/haskell/src/RicesTax/Diff.hs/module/RicesTax.Diff/function/goneLines is pending vetting
+  src/RicesTax/Marks.hs: git exited with 128: fatal: no such path 'src/RicesTax/Marks.hs' in HEAD
+  docs/reference/marks.md:81:1: missing canonical comment on haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/classWord
+  docs/reference/marks.md:10:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks is pending vetting
+  docs/reference/marks.md:32:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/type/Run is pending vetting
+  docs/reference/marks.md:40:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/parseRuns is pending vetting
+  docs/reference/marks.md:54:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/renderRuns is pending vetting
+  docs/reference/marks.md:65:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/classLetter is pending vetting
+  docs/reference/marks.md:95:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/cutRuns is pending vetting
+  docs/reference/marks.md:110:1: decision/haskell/src/RicesTax/Marks.hs/module/RicesTax.Marks/function/padRuns is pending vetting
+  docs/reference/model.md:10:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model is pending vetting
+  docs/reference/model.md:39:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Question is pending vetting
+  docs/reference/model.md:50:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Kind is pending vetting
+  docs/reference/model.md:72:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/kindQuestion is pending vetting
+  docs/reference/model.md:90:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Disposition is pending vetting
+  docs/reference/model.md:103:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/SubjectKey is pending vetting
+  docs/reference/model.md:118:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Digest is pending vetting
+  docs/reference/model.md:134:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Judged is pending vetting
+  docs/reference/model.md:150:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Verdict is pending vetting
+  docs/reference/model.md:164:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/verdicts is pending vetting
+  docs/reference/model.md:196:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/function/disposition is pending vetting
+  docs/reference/model.md:211:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Signer is pending vetting
+  docs/reference/model.md:229:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/SignOff is pending vetting
+  docs/reference/model.md:243:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Obligation is pending vetting
+  docs/reference/model.md:261:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/Outcome is pending vetting
+  docs/reference/model.md:272:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/TestRun is pending vetting
+  docs/reference/model.md:287:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/MutantRun is pending vetting
+  docs/reference/model.md:307:1: decision/haskell/src/RicesTax/Model.hs/module/RicesTax.Model/data/RuntimeReport is pending vetting
+  src/RicesTax/Site.hs: git exited with 128: fatal: no such path 'src/RicesTax/Site.hs' in HEAD
+  docs/reference/site.md:10:1: decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site is pending vetting
+  docs/reference/site.md:36:1: decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/projectNameOf is pending vetting
+  docs/reference/site.md:47:1: decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/renderSites is pending vetting
+  docs/reference/site.md:89:1: decision/haskell/src/RicesTax/Site.hs/module/RicesTax.Site/function/indexPage is pending vetting
+  src/RicesTax/Sydtest.hs: git exited with 128: fatal: no such path 'src/RicesTax/Sydtest.hs' in HEAD
+  docs/reference/sydtest.md:10:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest is pending vetting
+  docs/reference/sydtest.md:63:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/data/Mutant is pending vetting
+  docs/reference/sydtest.md:94:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/data/Reading is pending vetting
+  docs/reference/sydtest.md:108:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/data/Run is pending vetting
+  docs/reference/sydtest.md:220:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/readRun is pending vetting
+  docs/reference/sydtest.md:348:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/spanText is pending vetting
+  docs/reference/sydtest.md:419:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/liveMutants is pending vetting
+  docs/reference/sydtest.md:430:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/effectiveReading is pending vetting
+  docs/reference/sydtest.md:445:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/coverageOf is pending vetting
+  docs/reference/sydtest.md:464:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/gapOf is pending vetting
+  docs/reference/sydtest.md:479:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/sidedOf is pending vetting
+  docs/reference/sydtest.md:492:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/contextOf is pending vetting
+  docs/reference/sydtest.md:506:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/chunksOf is pending vetting
+  docs/reference/sydtest.md:522:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/headWord is pending vetting
+  docs/reference/sydtest.md:533:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/isCommentChunk is pending vetting
+  docs/reference/sydtest.md:550:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/endsBlank is pending vetting
+  docs/reference/sydtest.md:561:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/isDocOpener is pending vetting
+  docs/reference/sydtest.md:572:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/blockOf is pending vetting
+  docs/reference/sydtest.md:599:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/bindingLines is pending vetting
+  docs/reference/sydtest.md:615:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/ruleNameOf is pending vetting
+  docs/reference/sydtest.md:634:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/ruleSourcesFor is pending vetting
+  docs/reference/sydtest.md:653:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/ruleSourcesIn is pending vetting
+  docs/reference/sydtest.md:726:1: decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/checkSourceHashes is pending vetting
+  src/RicesTax/Fnv.hs: git exited with 128: fatal: no such path 'src/RicesTax/Fnv.hs' in HEAD
+  docs/reference/sydtest.md:682:1: decision/haskell/src/RicesTax/Fnv.hs/module/RicesTax.Fnv is pending vetting
+  docs/reference/sydtest.md:702:1: decision/haskell/src/RicesTax/Fnv.hs/module/RicesTax.Fnv/function/fnv1a64 is pending vetting
+  docs/reference/sydtest.md:717:1: decision/haskell/src/RicesTax/Fnv.hs/module/RicesTax.Fnv/function/fnv1aHex is pending vetting
+  ... 3562 more

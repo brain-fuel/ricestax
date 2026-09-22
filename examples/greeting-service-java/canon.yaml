@@ -1,0 +1,87 @@
+{
+  "version": "0.1.0",
+  "ignore": [
+    ".ricestax",
+    "node_modules",
+    "target",
+    "build",
+    "dist",
+    ".venv",
+    "__pycache__"
+  ],
+  "languages": {
+    "java": {
+      "extensions": [
+        ".java"
+      ],
+      "lexer": ".ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+      "parser": ".ricestax/grammars/java/canonically_commented/JavaParser.g4",
+      "start": "compilationUnit"
+    },
+    "calm": {
+      "extensions": [
+        ".calm.json"
+      ],
+      "grammar": ".ricestax/grammars/calm/Calm.g4",
+      "start": "json"
+    },
+    "folio": {
+      "extensions": [
+        ".md"
+      ],
+      "lexer": ".ricestax/grammars/folio/FolioLexer.g4",
+      "parser": ".ricestax/grammars/folio/FolioParser.g4",
+      "start": "document",
+      "embeds": {
+        "java": {
+          "language": "java",
+          "comments": {
+            "line": "//",
+            "blockOpen": "/*",
+            "blockClose": "*/",
+            "strings": [
+              "\"",
+              "'"
+            ]
+          },
+          "width": 98,
+          "doc": {
+            "open": "/** ",
+            "continue": " * ",
+            "blank": " *",
+            "banner": "// ",
+            "markup": "javadoc"
+          }
+        },
+        "calm": {
+          "language": "calm",
+          "comments": {},
+          "width": 98,
+          "doc": {
+            "open": "",
+            "continue": "",
+            "blank": "",
+            "banner": "",
+            "markup": "none"
+          }
+        }
+      }
+    }
+  },
+  "runtime": {
+    "name": "ricestax-catalog",
+    "artefacts": ".mut/current",
+    "package": ".",
+    "tests": "test",
+    "command": "ricestax mutate"
+  },
+  "kinds": {
+    "mutant": {
+      "unreviewed": "open",
+      "logical-equivalency": "closed",
+      "inadequate-testing": "work",
+      "unnecessary-code": "work",
+      "needs-research": "deferred"
+    }
+  }
+}

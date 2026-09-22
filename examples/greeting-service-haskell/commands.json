@@ -1,0 +1,13 @@
+{
+  "compile": [
+    "ghc",
+    "-outputdir",
+    "build",
+    "-o",
+    "build/greeting",
+    "src/Main.hs"
+  ],
+  "run": [
+    "build/greeting"
+  ]
+}

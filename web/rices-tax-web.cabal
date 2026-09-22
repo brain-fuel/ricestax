@@ -1,0 +1,37 @@
+cabal-version:      3.0
+name:               rices-tax-web
+version:            0.3.0
+synopsis:           The review pages of Rice's Tax, compiled to WebAssembly
+license:            MIT
+license-file:       ../LICENSE
+author:             brain-fuel
+maintainer:         matthew.i.laine@gmail.com
+copyright:          2026 brain-fuel
+category:           Web
+build-type:         Simple
+
+common options
+  if arch(wasm32)
+    ghc-options:
+      -no-hs-main -optl-mexec-model=reactor "-optl-Wl,--export=hs_start"
+
+executable rices-tax-web
+  import:
+    options
+  main-is:
+    Main.hs
+  other-modules:
+    RicesTax.Wire
+    RicesTax.Diff
+    RicesTax.Marks
+  build-depends:
+    base < 5, containers, ghc-experimental, miso >= 1.14
+  hs-source-dirs:
+    app, ../src
+  default-extensions:
+    OverloadedStrings, LambdaCase, DeriveGeneric
+  ghc-options:
+    -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns
+    -Wmissing-export-lists -Wpartial-fields -Wredundant-constraints
+  default-language:
+    Haskell2010

@@ -1,0 +1,138 @@
+ledger/DEC-argument-optional:
+  digest: sha256:10bb85f05bc70cc0
+  verdict: pending
+ledger/DEC-audit:
+  digest: sha256:fb8a97e5f34104bd
+  verdict: pending
+ledger/DEC-canon-is-the-format:
+  digest: sha256:bcc6d6b4fd4745de
+  verdict: pending
+ledger/DEC-doc-kind:
+  digest: sha256:f514e36616f539d1
+  verdict: pending
+ledger/DEC-exemptions:
+  digest: sha256:343cbd38e799d9da
+  verdict: pending
+ledger/DEC-grammar-sharing:
+  digest: sha256:3a6c79154dab3e9a
+  verdict: pending
+ledger/DEC-highlighting:
+  digest: sha256:e4f3d69161692030
+  verdict: pending
+ledger/DEC-home:
+  digest: sha256:2ff31bb50c4d0876
+  verdict: pending
+ledger/DEC-how-card:
+  digest: sha256:53d9e1b45b97c2d8
+  verdict: pending
+ledger/DEC-how-queue:
+  digest: sha256:f655be0cbc64f175
+  verdict: pending
+ledger/DEC-how-subkinds:
+  digest: sha256:597c4b819d7ab62f
+  verdict: pending
+ledger/DEC-join-key:
+  digest: sha256:9fb5ac35fa812e31
+  verdict: pending
+ledger/DEC-kinds-in-canon:
+  digest: sha256:820e272af3d0e6d5
+  verdict: pending
+ledger/DEC-ledger-shape:
+  digest: sha256:e71d6ec0ad0a58d4
+  verdict: pending
+ledger/DEC-line-diff:
+  digest: sha256:aed8f0511d3cdba0
+  verdict: pending
+ledger/DEC-mutant-location:
+  digest: sha256:84c759b592e6cc13
+  verdict: pending
+ledger/DEC-mutant-provenance:
+  digest: sha256:e566b601eea58258
+  verdict: pending
+ledger/DEC-mutate-native:
+  digest: sha256:9c55972b4458e1d1
+  verdict: pending
+ledger/DEC-mutation-rerun:
+  digest: sha256:d4ccbc1746319a56
+  verdict: pending
+ledger/DEC-npm-packaging:
+  digest: sha256:809537d2c0b1195a
+  verdict: pending
+ledger/DEC-obligation:
+  digest: sha256:8ff3a59fc4dbcdc5
+  verdict: pending
+ledger/DEC-own-tests-sydtest:
+  digest: sha256:9e730f160c0a256e
+  verdict: pending
+ledger/DEC-page-first-queue:
+  digest: sha256:f16e4818942b24fd
+  verdict: pending
+ledger/DEC-queues:
+  digest: sha256:8702612c276f9dcf
+  verdict: pending
+ledger/DEC-records-retired:
+  digest: sha256:eb7b26b28077080d
+  verdict: pending
+ledger/DEC-runtime-config:
+  digest: sha256:a07bac92b299dbf5
+  verdict: pending
+ledger/DEC-runtime-first:
+  digest: sha256:b3bc0e1a67b4a5a4
+  verdict: pending
+ledger/DEC-self-folio:
+  digest: sha256:fe05759154ec6d95
+  verdict: pending
+ledger/DEC-signer:
+  digest: sha256:38701a67ab6dfbe9
+  verdict: pending
+ledger/DEC-site:
+  digest: sha256:d2fca0a86ef111de
+  verdict: pending
+ledger/DEC-subject-granularity:
+  digest: sha256:8959e9fd0c257314
+  verdict: pending
+ledger/DEC-tangling:
+  digest: sha256:829ff3c34fd7d8d4
+  verdict: pending
+ledger/DEC-three-verbs:
+  digest: sha256:defbd760e42576bd
+  verdict: pending
+ledger/DEC-ui-commit:
+  digest: sha256:31ebe606222a4206
+  verdict: pending
+ledger/DEC-ui-frontend:
+  digest: sha256:05cd1292775a2543
+  verdict: pending
+ledger/DEC-ui-shape:
+  digest: sha256:f66931d56be6f696
+  verdict: pending
+ledger/DEC-umbrella-surface:
+  digest: sha256:86ac06b074c33a97
+  verdict: pending
+ledger/DEC-verdict-carry-over:
+  digest: sha256:8428614dcee4f9cc
+  verdict: pending
+ledger/DEC-wasm-toolchain:
+  digest: sha256:bf0055beb35ca6a6
+  verdict: pending
+ledger/DEC-wavelet-first-target:
+  digest: sha256:3b144cb3a39bb47d
+  verdict: pending
+ledger/DEC-what-queue:
+  digest: sha256:41823f7d9d5dbdcb
+  verdict: pending
+ledger/DEC-what-raised:
+  digest: sha256:61dd56427f8e844a
+  verdict: pending
+ledger/DEC-whole-block:
+  digest: sha256:a64645d0c6d94f56
+  verdict: pending
+ledger/DEC-why-digest-scope:
+  digest: sha256:a789179edfd883bb
+  verdict: pending
+ledger/DEC-why-ledger-in-canon:
+  digest: sha256:b07070077c860ce3
+  verdict: pending
+ledger/DEC-work-items:
+  digest: sha256:18e80fbdb283c41d
+  verdict: pending

@@ -1,0 +1,12 @@
+{
+  "compile": [
+    "python3",
+    "-m",
+    "py_compile",
+    "src/greeting.py"
+  ],
+  "run": [
+    "python3",
+    "src/greeting.py"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "package": "ricestax",
+  "profiles": [
+    "python",
+    "calm",
+    "folio"
+  ]
+}

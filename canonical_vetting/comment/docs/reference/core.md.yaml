@@ -1,0 +1,84 @@
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core:
+  digest: sha256:3840e248eab68a8d
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/data/Gathered:
+  digest: sha256:1fdf887914c73dab
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/applyDecision:
+  digest: sha256:37c58ca4c1e03795
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/assemble:
+  digest: sha256:21067ad4eac7cc6f
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/assess:
+  digest: sha256:4b44789bdc54f676
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/audit:
+  digest: sha256:4d3d65766fe31f14
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/auditExit:
+  digest: sha256:b101dd9b56bc3845
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/decideWith:
+  digest: sha256:f03670d2683c9d6e
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/docItem:
+  digest: sha256:1edac186d7d779ee
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/exemptionOf:
+  digest: sha256:cfe4ca237db00931
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/gather:
+  digest: sha256:4e5702cf4ee1efcd
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/goneItem:
+  digest: sha256:6009c55c8489506d
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/howItems:
+  digest: sha256:ad1f7038683c2129
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/importRecord:
+  digest: sha256:35980b706aa94824
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/ingestHow:
+  digest: sha256:d401073efe2e7786
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/ingestWhat:
+  digest: sha256:cb32c0eedb8adb1f
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/languageOf:
+  digest: sha256:4d7ee77da80d66c7
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/marksOf:
+  digest: sha256:fecde7a14795ef2e
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/queueCounts:
+  digest: sha256:4b9078d91d1581bf
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/reExempt:
+  digest: sha256:2ec2de6bc936e307
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/recordRun:
+  digest: sha256:1c3448bd1fbff7a3
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/refOf:
+  digest: sha256:1604e86ef04a4c91
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/undecidedItem:
+  digest: sha256:a9157d9ce31a8b8d
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/unitFor:
+  digest: sha256:3e957bb729b3d2a5
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/whatItem:
+  digest: sha256:2eaa42f7754f994b
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/wholeOf:
+  digest: sha256:401e30cd8c298cf1
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/withLoaded:
+  digest: sha256:a4c848db26cef82e
+  verdict: pending
+decision/haskell/src/RicesTax/Core.hs/module/RicesTax.Core/function/writeExemption:
+  digest: sha256:ef72e7ecb2b61653
+  verdict: pending

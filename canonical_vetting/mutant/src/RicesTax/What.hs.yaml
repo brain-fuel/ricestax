@@ -1,0 +1,12 @@
+mutant/004587b64abe:
+  digest: "b84a70841016a7fa"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-d10468"
+  verdict: inadequate-testing
+mutant/10bf7224c728:
+  digest: "b84a70841016a7fa"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-d10468"
+  verdict: inadequate-testing
+mutant/b5ed67c56b40:
+  digest: "b84a70841016a7fa"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-d10468"
+  verdict: inadequate-testing

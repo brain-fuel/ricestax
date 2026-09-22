@@ -1,0 +1,48 @@
+name/folio/docs/reference/wire.md/doc/ricestax.reference.wire:
+  digest: sha256:d3039438639e7992
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Bound:
+  digest: sha256:18d0d164690166d2
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Count:
+  digest: sha256:9f3ca38c893ab0c2
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Decide:
+  digest: sha256:352ffc6964c6a410
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/ExemptRequest:
+  digest: sha256:054f6f882ffd7351
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Facts:
+  digest: sha256:df9fe02e3bb622f7
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Item:
+  digest: sha256:a9ca4651f2c5265d
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/MutantView:
+  digest: sha256:b22502df6539e106
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Mutation:
+  digest: sha256:c12cfae98c14d149
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Observed:
+  digest: sha256:5a25482eaa1fd755
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Payload:
+  digest: sha256:a883a641cc4cd739
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Ref:
+  digest: sha256:6822ab6f2d91675c
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/RuleSource:
+  digest: sha256:5e995420f5f9b9be
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Signer:
+  digest: sha256:aceb5580d95549b9
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Subject:
+  digest: sha256:11c559db02f54fa6
+  verdict: pending
+name/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Whole:
+  digest: sha256:399c5c4388cd732f
+  verdict: pending

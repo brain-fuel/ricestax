@@ -1,0 +1,12 @@
+{
+  "compile": [
+    "go",
+    "build",
+    "-o",
+    "build/greeting",
+    "src/main.go"
+  ],
+  "run": [
+    "build/greeting"
+  ]
+}

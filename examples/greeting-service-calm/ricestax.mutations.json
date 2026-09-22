@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "inputs": [
+    "src",
+    "test",
+    "docs",
+    "canon.yaml",
+    "architecture.calm.json"
+  ],
+  "compile": [
+    "node",
+    "--check",
+    "src/server.mjs"
+  ],
+  "test": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "test/architecture.test.mjs",
+    "test/service.test.mjs"
+  ],
+  "evidence": {
+    "passed": "# pass 2",
+    "failed": "not ok"
+  },
+  "mutations": [
+    {
+      "file": "architecture.calm.json",
+      "original": "\"node-type\": \"service\"",
+      "replacement": "\"node-type\": \"actor\""
+    }
+  ]
+}

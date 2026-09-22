@@ -1,0 +1,8 @@
+src/RicesTax/Sydtest.hs:
+  kinds: [observability]
+  reason: "the adapter's file reading has no corpus reaching it yet; a corpus over a recorded run is the work of 0.2.0"
+  revisit: 0.2.0
+"*":
+  kinds: [name]
+  reason: "the What queue is new and every name of this project is owed at once; paying it is the work of 0.2.0"
+  revisit: 0.2.0

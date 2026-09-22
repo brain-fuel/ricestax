@@ -1,0 +1,105 @@
+decision/haskell/test/Corpus.hs/module/Main:
+  digest: sha256:47f6ab6d3b308bd9
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/main:
+  digest: sha256:2c979a713acc0e41
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_aWordDecides:
+  digest: sha256:0a2c7925a1e4fcf5
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_auditExitCodes:
+  digest: sha256:ea2039e3d84a5f29
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_auditFailsOnStaleTangle:
+  digest: sha256:50fbfd6989029c81
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_bindingBlockCarriesItsComments:
+  digest: sha256:3e2076f2ef5d0a16
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_bindingBlockStopsAtABlankLine:
+  digest: sha256:9cc9f5e10d972212
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_canonArgumentsReachCanon:
+  digest: sha256:eb0da2d9db0e0fdf
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_chunksStartAtColumnOne:
+  digest: sha256:91f97e3af3220b3f
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_contextIgnoresComments:
+  digest: sha256:639db819b39a0ded
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_coverageWordsFollowTheReading:
+  digest: sha256:3cd5a8c4ed6b106e
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_everyKindHasAQuestion:
+  digest: sha256:2220d8fed975babf
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_exportsAndVerbsAreOneTable:
+  digest: sha256:d751d2448501dd43
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_fnvMatchesWaveletVectors:
+  digest: sha256:41ce8e37f61114ec
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_fnvNewlineTerminatesEachLine:
+  digest: sha256:967c4751dffca4ad
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_headWordNamesTheBinding:
+  digest: sha256:dfc7a0bd061369eb
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_lineDiffKeepsSharedLines:
+  digest: sha256:6bc64e433188b930
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_marksParallelToCode:
+  digest: sha256:b963f226f1c7c67f
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_mutantLandsThroughTheLineMap:
+  digest: sha256:183271074d667c72
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_mutationStateRoundTrips:
+  digest: sha256:1027396883f04af0
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_oneOutcomeNamesTheValue:
+  digest: sha256:50967a4d054c0d18
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_pagePathFollowsDiataxis:
+  digest: sha256:cac79b19f0a19500
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_ruleSourceCarriesItsRequirement:
+  digest: sha256:b898fbc558fbce8a
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_runsTileTheLine:
+  digest: sha256:683a9b7aef31cdb6
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_siteIsDeterministic:
+  digest: sha256:2e9015376836abac
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_uncoveredIsAlwaysAGap:
+  digest: sha256:4934289f0b1f988d
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_unknownExportIsAnError:
+  digest: sha256:b6ef4c1250824df6
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_whatDigestFollowsNameSignatureAndBody:
+  digest: sha256:da64100dec619507
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_whatRaisedForRequiredUnitsOnly:
+  digest: sha256:81178b5b44bdd169
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_whatTextIsTheSignature:
+  digest: sha256:94dc8f7fd73e9eb4
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_workKindsHaveNoWords:
+  digest: sha256:440ad9cfe2c2fe3b
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_youtubeLocatorEmbeds:
+  digest: sha256:a7ded26ad67fef4c
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/spec:
+  digest: sha256:7d3e82fff22c337f
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/unitOf:
+  digest: sha256:501ba16a8802659f
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/withScratch:
+  digest: sha256:d53d3fecc389e4c1
+  verdict: pending

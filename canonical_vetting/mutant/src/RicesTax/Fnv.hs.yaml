@@ -1,0 +1,4 @@
+mutant/5ce9b34d1cd5:
+  digest: "54ada8fa0ab8c2dd"
+  run: "sydtest-mutation-driver-0.1.0.0-seed42-ba7e60"
+  verdict: logical-equivalency

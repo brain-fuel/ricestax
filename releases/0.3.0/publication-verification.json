@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-09-22T20:28:09.921Z",
+  "version": "0.3.0",
+  "integrity": "sha512-nosoNquD8r0IQ7Nt5h7AXuWzrv3J7HQt7EYGmboqKjKOgvnyXkR+u2dA6y+mghrtsdOuTOQSLJIa+IDznzuxhw==",
+  "tags": {
+    "latest": "0.3.0"
+  },
+  "installedAt": "/var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-public-030-kw9POW",
+  "examples": [
+    "greeting-service",
+    "greeting-service-antlr4",
+    "greeting-service-calm",
+    "greeting-service-go",
+    "greeting-service-haskell",
+    "greeting-service-java",
+    "greeting-service-kotlin",
+    "greeting-service-python",
+    "greeting-service-typescript"
+  ]
+}
