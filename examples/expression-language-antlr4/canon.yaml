@@ -1,0 +1,171 @@
+{
+  "version": "0.1.0",
+  "ignore": [
+    ".ricestax",
+    "node_modules",
+    "target",
+    "build",
+    "dist",
+    ".venv",
+    "__pycache__"
+  ],
+  "languages": {
+    "antlr4": {
+      "extensions": [
+        ".g4"
+      ],
+      "lexer": ".ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+      "parser": ".ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+      "start": "grammarSpec"
+    },
+    "java": {
+      "extensions": [
+        ".java"
+      ],
+      "lexer": ".ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+      "parser": ".ricestax/grammars/java/canonically_commented/JavaParser.g4",
+      "start": "compilationUnit"
+    },
+    "folio": {
+      "extensions": [
+        ".md"
+      ],
+      "lexer": ".ricestax/grammars/folio/FolioLexer.g4",
+      "parser": ".ricestax/grammars/folio/FolioParser.g4",
+      "start": "document",
+      "embeds": {
+        "java": {
+          "language": "java",
+          "comments": {
+            "line": "//",
+            "blockOpen": "/*",
+            "blockClose": "*/",
+            "strings": [
+              "\"",
+              "'"
+            ]
+          },
+          "width": 98,
+          "doc": {
+            "open": "/** ",
+            "continue": " * ",
+            "blank": " *",
+            "banner": "// ",
+            "markup": "javadoc"
+          }
+        },
+        "antlr4": {
+          "language": "antlr4",
+          "comments": {
+            "line": "//",
+            "blockOpen": "/*",
+            "blockClose": "*/",
+            "strings": [
+              "\"",
+              "'"
+            ]
+          },
+          "width": 98,
+          "doc": {
+            "open": "/** ",
+            "continue": " * ",
+            "blank": " *",
+            "banner": "// ",
+            "markup": "javadoc"
+          }
+        },
+        "javascript": {
+          "language": "javascript",
+          "comments": {
+            "line": "//",
+            "blockOpen": "/*",
+            "blockClose": "*/",
+            "strings": [
+              "\"",
+              "'",
+              "`"
+            ]
+          },
+          "width": 98,
+          "doc": {
+            "open": "/** ",
+            "continue": " * ",
+            "blank": " *",
+            "banner": "// ",
+            "markup": "javadoc"
+          }
+        }
+      }
+    },
+    "javascript": {
+      "extensions": [
+        ".js",
+        ".mjs",
+        ".cjs"
+      ],
+      "lexer": ".ricestax/grammars/javascript/JavaScriptLexer.g4",
+      "parser": ".ricestax/grammars/javascript/JavaScriptParser.g4",
+      "start": "program",
+      "comments": {
+        "line": "//",
+        "blockOpen": "/*",
+        "blockClose": "*/",
+        "strings": [
+          "\"",
+          "'",
+          "`"
+        ]
+      },
+      "units": [
+        {
+          "rule": "functionDeclaration",
+          "kind": "function",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "classDeclaration",
+          "kind": "class",
+          "name": {
+            "rule": "identifier"
+          },
+          "required": true
+        },
+        {
+          "rule": "methodDefinition",
+          "kind": "method",
+          "name": {
+            "rule": "classElementName"
+          },
+          "required": true
+        },
+        {
+          "rule": "variableDeclaration",
+          "kind": "binding",
+          "name": {
+            "rule": "assignable"
+          },
+          "required": true
+        }
+      ]
+    }
+  },
+  "runtime": {
+    "name": "ricestax-catalog",
+    "artefacts": ".mut/current",
+    "package": ".",
+    "tests": "test",
+    "command": "ricestax mutate"
+  },
+  "kinds": {
+    "mutant": {
+      "unreviewed": "open",
+      "logical-equivalency": "closed",
+      "inadequate-testing": "work",
+      "unnecessary-code": "work",
+      "needs-research": "deferred"
+    }
+  }
+}

@@ -1,0 +1,109 @@
+---
+id: checkout.reference.architecture
+kind: reference
+title: Checkout architecture
+---
+# Checkout ownership and access boundaries
+
+## topology
+
+Customers enter through a gateway. Orders owns persistence and calls Payments.
+Only Orders may reach the order database. This model and its assertions describe
+design intent; they do not deploy services or enforce network policy.
+
+```calm file=architecture.calm.json part=topology
+{
+  "$schema": "https://calm.finos.org/release/1.2/meta/calm.json",
+  "nodes": [
+    {
+      "unique-id": "customer",
+      "node-type": "actor",
+      "name": "Customer",
+      "description": "Places orders through the gateway."
+    },
+    {
+      "unique-id": "gateway",
+      "node-type": "service",
+      "name": "API Gateway",
+      "description": "Routes public order requests."
+    },
+    {
+      "unique-id": "orders",
+      "node-type": "service",
+      "name": "Order Service",
+      "description": "Owns order state and coordinates payment."
+    },
+    {
+      "unique-id": "payments",
+      "node-type": "service",
+      "name": "Payment Service",
+      "description": "Authorizes payments without access to the order database."
+    },
+    {
+      "unique-id": "order-db",
+      "node-type": "database",
+      "name": "Order Database",
+      "description": "Stores state exclusively owned by Order Service."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "customer-gateway",
+      "description": "customer gateway",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "customer"
+          },
+          "destination": {
+            "node": "gateway"
+          }
+        }
+      }
+    },
+    {
+      "unique-id": "gateway-orders",
+      "description": "gateway orders",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "gateway"
+          },
+          "destination": {
+            "node": "orders"
+          }
+        }
+      }
+    },
+    {
+      "unique-id": "orders-payments",
+      "description": "orders payments",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "orders"
+          },
+          "destination": {
+            "node": "payments"
+          }
+        }
+      }
+    },
+    {
+      "unique-id": "orders-storage",
+      "description": "orders storage",
+      "relationship-type": {
+        "connects": {
+          "source": {
+            "node": "orders"
+          },
+          "destination": {
+            "node": "order-db"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+

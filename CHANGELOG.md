@@ -6,7 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
-## 0.3.0 — unreleased
+## 0.3.1 — 22 September 2026
+
+- Replace the ANTLR greeting example with a documented integer-expression grammar,
+  generated Java parser, evaluator, positive/negative tests and two grammar mutations.
+- Replace the CALM greeting example with a checkout architecture and independent
+  gateway-access/database-ownership assertions, challenged by two architecture mutations.
+- Separate language-specific tutorials and explain exactly what each example proves.
+- Keep the seven general-purpose greeting examples and validate all packaged projects.
+
+## 0.3.0 — 22 September 2026
 
 - Package Java, JavaScript, TypeScript, Python, Go, Haskell, Kotlin, CALM 1.2,
   ANTLR4 and Folio ingestion profiles with project initialization and grammar provenance.

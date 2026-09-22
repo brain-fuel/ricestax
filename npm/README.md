@@ -168,5 +168,6 @@ Commit that file to record authorship. An archived mutant returning as a survivo
 reappears for attention, and history changes never waive the audit gate.
 See [the review guide](docs/how-to/pay-your-tax.md).
 
-The [worked greeting service examples](examples/README.md) cover all nine targets,
-with explicit implementation roles, HTTP assertions and mutation checks.
+The [worked examples](examples/README.md) include greeting services in seven
+general-purpose languages, an ANTLR4 expression language and a CALM checkout
+architecture. Each has appropriate assertions and mutation checks.

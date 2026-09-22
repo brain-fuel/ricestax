@@ -1,0 +1,1961 @@
+[
+  {
+    "id": "ricestax@0.3.1",
+    "name": "ricestax",
+    "version": "0.3.1",
+    "size": 3763786,
+    "unpackedSize": 21808147,
+    "shasum": "6586945b691b3561466ae9007132f0bc41648c69",
+    "integrity": "sha512-0NN/nFWtO542q1QMFwpX60QX3zt4VTMOB/uGQCFjSe0/UMCdnKDUeOPaBYDw/gBkasV/Ii+I5DNktNsccNgXLw==",
+    "filename": "ricestax-0.3.1.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 9215,
+        "mode": 420
+      },
+      {
+        "path": "api.mjs",
+        "size": 3960,
+        "mode": 420
+      },
+      {
+        "path": "bin/ricestax.mjs",
+        "size": 3493,
+        "mode": 493
+      },
+      {
+        "path": "core_jsffi.js",
+        "size": 5104,
+        "mode": 420
+      },
+      {
+        "path": "core.wasm",
+        "size": 12718400,
+        "mode": 493
+      },
+      {
+        "path": "docs/design/mutant-decision-lifecycle.html",
+        "size": 15571,
+        "mode": 420
+      },
+      {
+        "path": "docs/explanation/design.md",
+        "size": 5331,
+        "mode": 420
+      },
+      {
+        "path": "docs/explanation/ingestion-generation-evidence.md",
+        "size": 1928,
+        "mode": 420
+      },
+      {
+        "path": "docs/explanation/language-specific-examples.md",
+        "size": 1589,
+        "mode": 420
+      },
+      {
+        "path": "docs/explanation/mutant-decision-lifecycle.md",
+        "size": 14158,
+        "mode": 420
+      },
+      {
+        "path": "docs/explanation/release-0.3.md",
+        "size": 3462,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/adopt-existing-project.md",
+        "size": 2828,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/audit-in-ci.md",
+        "size": 1540,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/build-for-webassembly.md",
+        "size": 1477,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/generate-from-documentation.md",
+        "size": 2951,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/pay-your-tax.md",
+        "size": 3435,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/publish-to-npm.md",
+        "size": 1502,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/review-java-mutations.md",
+        "size": 2511,
+        "mode": 420
+      },
+      {
+        "path": "docs/how-to/run-mutations.md",
+        "size": 3498,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/api.md",
+        "size": 23451,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/cli.md",
+        "size": 14240,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/core.md",
+        "size": 57016,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/corpus.md",
+        "size": 35605,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/diff.md",
+        "size": 2873,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-antlr4.md",
+        "size": 2050,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-calm.md",
+        "size": 2012,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-go.md",
+        "size": 1899,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-haskell.md",
+        "size": 1948,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-java.md",
+        "size": 1862,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-javascript.md",
+        "size": 1914,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-kotlin.md",
+        "size": 1895,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-python.md",
+        "size": 2001,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/language-typescript.md",
+        "size": 1933,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/languages.md",
+        "size": 3195,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/marks.md",
+        "size": 3031,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/model.md",
+        "size": 8037,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/project-commands.md",
+        "size": 2393,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/site.md",
+        "size": 4338,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/sydtest.md",
+        "size": 28951,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/what.md",
+        "size": 3094,
+        "mode": 420
+      },
+      {
+        "path": "docs/reference/wire.md",
+        "size": 8696,
+        "mode": 420
+      },
+      {
+        "path": "docs/tutorials/architecture-to-service.md",
+        "size": 6092,
+        "mode": 420
+      },
+      {
+        "path": "docs/tutorials/checkout-architecture.md",
+        "size": 2202,
+        "mode": 420
+      },
+      {
+        "path": "docs/tutorials/expression-language.md",
+        "size": 2329,
+        "mode": 420
+      },
+      {
+        "path": "docs/tutorials/first-audit.md",
+        "size": 1781,
+        "mode": 420
+      },
+      {
+        "path": "docs/tutorials/new-project.md",
+        "size": 2695,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/languages.json",
+        "size": 91,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/architecture.calm.json",
+        "size": 2132,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/canon.yaml",
+        "size": 2896,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/docs/reference/architecture.md",
+        "size": 2563,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/README.md",
+        "size": 1939,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/ricestax.mutations.json",
+        "size": 1064,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/test/architecture.test.mjs",
+        "size": 1426,
+        "mode": 420
+      },
+      {
+        "path": "examples/checkout-architecture-calm/tools/build.mjs",
+        "size": 104,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/languages.json",
+        "size": 105,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/canon.yaml",
+        "size": 3928,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/docs/reference/grammar.md",
+        "size": 1403,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/README.md",
+        "size": 2097,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/ricestax.mutations.json",
+        "size": 599,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/src/Evaluate.java",
+        "size": 2069,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/src/Expression.g4",
+        "size": 929,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/test/expression.test.mjs",
+        "size": 889,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/tools/build.mjs",
+        "size": 717,
+        "mode": 420
+      },
+      {
+        "path": "examples/expression-language-antlr4/tools/evaluate.mjs",
+        "size": 331,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/languages.json",
+        "size": 83,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/canon.yaml",
+        "size": 2905,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/commands.json",
+        "size": 133,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/docs/reference/service.md",
+        "size": 623,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/README.md",
+        "size": 1195,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/ricestax.mutations.json",
+        "size": 503,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/src/main.go",
+        "size": 652,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/test/service.test.mjs",
+        "size": 965,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/tools/build.mjs",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-go/tools/server.mjs",
+        "size": 1159,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/languages.json",
+        "size": 88,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/canon.yaml",
+        "size": 1908,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/commands.json",
+        "size": 152,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/docs/reference/service.md",
+        "size": 807,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/README.md",
+        "size": 1206,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/ricestax.mutations.json",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/src/Main.hs",
+        "size": 818,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/test/service.test.mjs",
+        "size": 965,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/tools/build.mjs",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-haskell/tools/server.mjs",
+        "size": 1159,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/languages.json",
+        "size": 85,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/canon.yaml",
+        "size": 1916,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/commands.json",
+        "size": 150,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/docs/reference/service.md",
+        "size": 625,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/README.md",
+        "size": 1202,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/ricestax.mutations.json",
+        "size": 509,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/src/Greeting.java",
+        "size": 643,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/test/service.test.mjs",
+        "size": 965,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/tools/build.mjs",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-java/tools/server.mjs",
+        "size": 1159,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/languages.json",
+        "size": 87,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/canon.yaml",
+        "size": 2969,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/commands.json",
+        "size": 185,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/docs/reference/service.md",
+        "size": 590,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/README.md",
+        "size": 1208,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/ricestax.mutations.json",
+        "size": 507,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/src/Greeting.kt",
+        "size": 603,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/test/service.test.mjs",
+        "size": 965,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/tools/build.mjs",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-kotlin/tools/server.mjs",
+        "size": 1159,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/languages.json",
+        "size": 87,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/canon.yaml",
+        "size": 2362,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/commands.json",
+        "size": 141,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/docs/reference/service.md",
+        "size": 799,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/README.md",
+        "size": 1208,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/ricestax.mutations.json",
+        "size": 509,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/src/greeting.py",
+        "size": 806,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/test/service.test.mjs",
+        "size": 965,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/tools/build.mjs",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-python/tools/server.mjs",
+        "size": 1159,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/languages.json",
+        "size": 91,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/canon.yaml",
+        "size": 3461,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/commands.json",
+        "size": 202,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/docs/reference/service.md",
+        "size": 642,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/README.md",
+        "size": 1212,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/ricestax.mutations.json",
+        "size": 510,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/src/greeting.ts",
+        "size": 644,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/test/service.test.mjs",
+        "size": 965,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/tools/build.mjs",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/tools/server.mjs",
+        "size": 1159,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service-typescript/tools/typed-main.cjs",
+        "size": 106,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/languages.json",
+        "size": 91,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/.ricestax/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/architecture.calm.json",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/canon.yaml",
+        "size": 2896,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/docs/reference/service.md",
+        "size": 1451,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/package.json",
+        "size": 72,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/README.md",
+        "size": 392,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/ricestax.mutations.json",
+        "size": 541,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/src/greeting.mjs",
+        "size": 467,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/src/server.mjs",
+        "size": 1026,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/src/topology.mjs",
+        "size": 202,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/test/service.test.mjs",
+        "size": 947,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/test/topology.test.mjs",
+        "size": 198,
+        "mode": 420
+      },
+      {
+        "path": "examples/greeting-service/tools/build.mjs",
+        "size": 963,
+        "mode": 420
+      },
+      {
+        "path": "examples/README.md",
+        "size": 2500,
+        "mode": 420
+      },
+      {
+        "path": "index.d.ts",
+        "size": 5757,
+        "mode": 420
+      },
+      {
+        "path": "launcher.mjs",
+        "size": 2173,
+        "mode": 420
+      },
+      {
+        "path": "mutate.mjs",
+        "size": 9753,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 612,
+        "mode": 420
+      },
+      {
+        "path": "page/ghc_wasm_jsffi.js",
+        "size": 90819,
+        "mode": 420
+      },
+      {
+        "path": "page/index.html",
+        "size": 299,
+        "mode": 420
+      },
+      {
+        "path": "page/index.js",
+        "size": 783,
+        "mode": 420
+      },
+      {
+        "path": "page/rices-tax-web.wasm",
+        "size": 4490498,
+        "mode": 493
+      },
+      {
+        "path": "page/style.css",
+        "size": 19612,
+        "mode": 420
+      },
+      {
+        "path": "pay.mjs",
+        "size": 5486,
+        "mode": 420
+      },
+      {
+        "path": "presets/CANON-LICENSE",
+        "size": 1067,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/antlr4/canonically_commented/ANTLRv4Lexer.g4",
+        "size": 14187,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/antlr4/canonically_commented/ANTLRv4Parser.g4",
+        "size": 15146,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/calm/Calm.g4",
+        "size": 504,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/folio/FolioLexer.g4",
+        "size": 2076,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/folio/FolioParser.g4",
+        "size": 1578,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/golang/GoLexer.g4",
+        "size": 6878,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/golang/GoParser.g4",
+        "size": 10328,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/haskell/canonically_commented/HaskellLexer.g4",
+        "size": 83629,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/haskell/canonically_commented/HaskellParser.g4",
+        "size": 55297,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/java/canonically_commented/JavaLexer.g4",
+        "size": 14345,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/java/canonically_commented/JavaParser.g4",
+        "size": 39344,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/javascript/JavaScriptLexer.g4",
+        "size": 9435,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/javascript/JavaScriptParser.g4",
+        "size": 16489,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/kotlin/KotlinLexer.g4",
+        "size": 14560,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/kotlin/KotlinParser.g4",
+        "size": 17138,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/kotlin/LICENSE",
+        "size": 11357,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/kotlin/UnicodeClasses.g4",
+        "size": 28666,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/python/Python3Lexer.g4",
+        "size": 10139,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/python/Python3Parser.g4",
+        "size": 12759,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/typescript/TypeScriptLexer.g4",
+        "size": 9688,
+        "mode": 420
+      },
+      {
+        "path": "presets/grammars/typescript/TypeScriptParser.g4",
+        "size": 26564,
+        "mode": 420
+      },
+      {
+        "path": "presets/languages.json",
+        "size": 10439,
+        "mode": 420
+      },
+      {
+        "path": "presets/provenance.json",
+        "size": 2547,
+        "mode": 420
+      },
+      {
+        "path": "scaffold.mjs",
+        "size": 11880,
+        "mode": 420
+      },
+      {
+        "path": "setup.mjs",
+        "size": 2784,
+        "mode": 420
+      }
+    ],
+    "entryCount": 389,
+    "bundled": []
+  }
+]

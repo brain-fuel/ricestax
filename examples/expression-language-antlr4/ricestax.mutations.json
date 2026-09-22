@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "inputs": [
+    "src",
+    "test",
+    "tools",
+    "docs",
+    "canon.yaml"
+  ],
+  "compile": [
+    "node",
+    "tools/build.mjs"
+  ],
+  "test": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "test/expression.test.mjs"
+  ],
+  "evidence": {
+    "passed": "# pass 2",
+    "failed": "not ok"
+  },
+  "mutations": [
+    {
+      "file": "src/Expression.g4",
+      "original": "input : expression EOF",
+      "replacement": "input : expression"
+    },
+    {
+      "file": "src/Expression.g4",
+      "original": "INT : [0-9]+",
+      "replacement": "INT : [0-9]"
+    }
+  ]
+}

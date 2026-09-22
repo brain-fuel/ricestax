@@ -1,6 +1,6 @@
 {
   "name": "ricestax",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Rice's Tax: assess what a codebase owes, pay it, and audit that it was paid. Haskell compiled to WebAssembly, run from Node.",
   "license": "MIT",
   "type": "module",

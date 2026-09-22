@@ -39,9 +39,8 @@ See [the language matrix](languages.md) for extraction boundaries, and
 [the mutation guide](../how-to/run-mutations.md) for input manifests, evidence
 patterns, outcomes, and retained reports.
 
-## Worked service example
+## Worked example
 
-The [antlr4 greeting service](../../examples/greeting-service-antlr4/README.md) includes
-documented generation, executable tests, an explicit mutation catalog and review
-commands. See the [example matrix](../../examples/README.md) for transport and
-architecture roles and required tools.
+The [integer expression language](../../examples/expression-language-antlr4/README.md) includes
+documented generation, independent assertions, an explicit mutation catalog and
+review commands. See the [example matrix](../../examples/README.md) for tools and roles.

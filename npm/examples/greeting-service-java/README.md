@@ -5,7 +5,7 @@ is implemented in java; a shared Node HTTP adapter invokes it as a process.
 This deliberately small teaching transport is synchronous and starts one process
 per request; it is not a production server architecture.
 
-Requirements: Node 22+, Rice’s Tax 0.3.0 candidate, and javac on PATH.
+Requirements: Node 22+, Rice’s Tax 0.3.1, and javac on PATH.
 
 From this directory:
 

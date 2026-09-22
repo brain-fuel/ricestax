@@ -6,7 +6,7 @@ async function files(dir){let out=[];for(const item of await readdir(dir,{withFi
 const provenance=JSON.parse(await readFile('npm/presets/provenance.json','utf8'));
 provenance.files=Object.fromEntries(await Promise.all((await files('npm/presets/grammars')).map(async p=>[path.relative('npm/presets',p),createHash('sha256').update(await readFile(p)).digest('hex')])));
 await writeFile('npm/presets/provenance.json',JSON.stringify(provenance,null,2)+'\n');
-for (const example of (await readdir('examples')).filter(name => name.startsWith('greeting-service'))) {
+for (const example of (await readdir('examples',{withFileTypes:true})).filter(entry => entry.isDirectory()).map(entry => entry.name)) {
  const dest=path.join('examples',example,'.ricestax');
  await cp('npm/presets/grammars',path.join(dest,'grammars'),{recursive:true});
  await cp('npm/presets/provenance.json',path.join(dest,'provenance.json'));

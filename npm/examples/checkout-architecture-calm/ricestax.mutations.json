@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "inputs": [
+    "architecture.calm.json",
+    "test",
+    "tools",
+    "docs",
+    "canon.yaml"
+  ],
+  "compile": [
+    "node",
+    "tools/build.mjs"
+  ],
+  "test": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "test/architecture.test.mjs"
+  ],
+  "evidence": {
+    "passed": "# pass 3",
+    "failed": "not ok"
+  },
+  "mutations": [
+    {
+      "file": "architecture.calm.json",
+      "original": "\"destination\": {\n            \"node\": \"gateway\"",
+      "replacement": "\"destination\": {\n            \"node\": \"order-db\""
+    },
+    {
+      "file": "architecture.calm.json",
+      "original": "\"unique-id\": \"orders-storage\",\n      \"description\": \"orders storage\",\n      \"relationship-type\": {\n        \"connects\": {\n          \"source\": {\n            \"node\": \"orders\"",
+      "replacement": "\"unique-id\": \"orders-storage\",\n      \"description\": \"orders storage\",\n      \"relationship-type\": {\n        \"connects\": {\n          \"source\": {\n            \"node\": \"payments\""
+    }
+  ]
+}

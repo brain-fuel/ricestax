@@ -16,7 +16,7 @@ for(const name of (await readdir(path.join(root,'examples'))).filter(x=>x.starts
  await cp(path.join(root,'examples',name),cwd,{recursive:true,filter:p=>!p.split(path.sep).some(x=>['.mut','.canon-cache','build','__pycache__'].includes(x))});
  console.log('\nTARGET '+name);
  const commands=[['node',cli,'canon','tangle'],['node',cli,'canon','tangle','--check']];
- if(name!=='greeting-service'&&!name.endsWith('-calm'))commands.push(['node','tools/build.mjs']);
+ if(name!=='greeting-service')commands.push(['node','tools/build.mjs']);
  commands.push(['node',cli,'mutate']);
  for(const args of commands){const r=spawnSync(args[0],args.slice(1),{cwd,encoding:'utf8',env:process.env,timeout:240000});process.stdout.write(r.stdout??'');process.stderr.write(r.stderr??'');if(r.error)throw r.error;if(r.status!==0)throw new Error(name+': '+args.join(' ')+' failed ('+r.status+')');}
  const api=await connect(cwd);
@@ -26,6 +26,7 @@ for(const name of (await readdir(path.join(root,'examples'))).filter(x=>x.starts
  const payload=await api.reload();
  assert(!payload.error,JSON.stringify(payload));
  assert.equal(payload.runIssue,'');
+ assert.deepEqual(payload.ingestionIssues,[],name+': ingestion errors');
  assert(payload.facts.factList.some(([key,value])=>key==='killed'&&value==='1'));
  console.log('PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran HTTP assertions and killed catalog fault');
 }

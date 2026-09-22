@@ -1,0 +1,9 @@
+{
+  "package": "ricestax",
+  "profiles": [
+    "antlr4",
+    "java",
+    "folio",
+    "javascript"
+  ]
+}

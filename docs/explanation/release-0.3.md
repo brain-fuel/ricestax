@@ -51,3 +51,11 @@ capabilities. A generated scaffold is not a completed domain implementation.
 The 0.2 audit exception applied to the exact 0.2.0 artifact. It is not a standing
 exception for 0.3. Documentation, test, package, and self-audit results must be
 reported separately, including any remaining failures.
+
+## 0.3.1 examples
+
+The seven general-purpose service examples remain. ANTLR4 now has a standalone
+integer-expression language with a generated Java recognizer and evaluator; CALM
+has a standalone checkout architecture with access and ownership assertions.
+See [why these examples differ](language-specific-examples.md). The packaged
+projects each have explicit mutation catalogs; none implies exhaustive coverage.

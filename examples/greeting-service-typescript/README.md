@@ -5,7 +5,7 @@ is implemented in typescript; a shared Node HTTP adapter invokes it as a process
 This deliberately small teaching transport is synchronous and starts one process
 per request; it is not a production server architecture.
 
-Requirements: Node 22+, Rice’s Tax 0.3.0 candidate, and tsc on PATH.
+Requirements: Node 22+, Rice’s Tax 0.3.1, and tsc on PATH.
 
 From this directory:
 
