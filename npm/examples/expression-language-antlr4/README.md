@@ -4,15 +4,15 @@ This example generates a Java lexer, parser and visitor from a documented ANTLR4
 grammar, then evaluates expressions with a handwritten Java visitor. No HTTP
 server is involved. Try `2+3*4` (14) and `(2+3)*4` (20).
 
-Requires Node 22+, Rice’s Tax 0.3.1, a JDK, and `ANTLR_JAR` pointing to an absolute
+Requires Node 22+, Rice’s Tax 0.3.2, a JDK, and `ANTLR_JAR` pointing to an absolute
 ANTLR4 complete JAR path (tested with 4.13.2). From this directory:
 
 ```sh
 ricestax canon tangle
 ricestax canon tangle --check
 node tools/build.mjs
-node tools/evaluate.mjs '2+3*4'
-node --test --test-reporter=tap test/expression.test.mjs
+java -cp "build:$ANTLR_JAR" Evaluate '2+3*4'
+java -cp build ExpressionTest
 ricestax mutate
 ricestax assess
 ricestax pay 8091
@@ -39,3 +39,8 @@ configuration deliberately; move rules into documented blocks incrementally.
 See [the walkthrough](../../docs/tutorials/expression-language.md),
 [language reference](../../docs/reference/language-antlr4.md), and
 [generation how-to](../../docs/how-to/generate-from-documentation.md).
+
+The evaluator and assertion runner are both Java. `test/ExpressionTest.java`
+launches the Java CLI, asserts its output and rejection exit codes, and runs
+unchanged against both grammar mutations. Node is used only by the build helper
+and Rice’s Tax.

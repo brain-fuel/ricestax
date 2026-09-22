@@ -15,7 +15,20 @@ const projects=(await readdir(path.join(root,'examples'),{withFileTypes:true})).
 assert.deepEqual(projects,['checkout-architecture-calm','expression-language-antlr4','greeting-service','greeting-service-go','greeting-service-haskell','greeting-service-java','greeting-service-kotlin','greeting-service-python','greeting-service-typescript']);
 for(const name of projects) {
  const cwd=path.join(temporary,name);
- await cp(path.join(root,'examples',name),cwd,{recursive:true,filter:p=>!p.split(path.sep).some(x=>['.mut','.canon-cache','build','__pycache__'].includes(x))});
+ const source=path.join(root,'examples',name);
+ await cp(source,cwd,{recursive:true,filter:p=>!path.relative(source,p).split(path.sep).some(x=>['.mut','.canon-cache','build','__pycache__','node_modules','.stack-work'].includes(x))});
+ const nativeTests={
+  'greeting-service':'test/service.test.mjs',
+  'greeting-service-java':'test/GreetingTest.java',
+  'greeting-service-python':'test/test_service.py',
+  'greeting-service-go':'src/main_test.go',
+  'greeting-service-kotlin':'test/GreetingTest.kt',
+  'greeting-service-typescript':'test/service.test.ts',
+  'greeting-service-haskell':'test/Main.hs',
+  'expression-language-antlr4':'test/ExpressionTest.java'
+ };
+ if(nativeTests[name]) assert((await readFile(path.join(cwd,nativeTests[name]),'utf8')).length>0);
+ assert(!(await readdir(path.join(cwd,'tools'))).includes('server.mjs'),'Legacy process adapter shipped: '+name);
  console.log('\nTARGET '+name);
  const commands=[['node',cli,'canon','tangle'],['node',cli,'canon','tangle','--check']];
  if(name!=='greeting-service')commands.push(['node','tools/build.mjs']);

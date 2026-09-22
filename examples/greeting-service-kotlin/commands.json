@@ -2,13 +2,21 @@
   "compile": [
     "kotlinc",
     "src/Greeting.kt",
+    "test/GreetingTest.kt",
     "-include-runtime",
     "-d",
     "build/greeting.jar"
   ],
+  "test": [
+    "java",
+    "-cp",
+    "build/greeting.jar",
+    "GreetingTestKt"
+  ],
   "run": [
     "java",
-    "-jar",
-    "build/greeting.jar"
+    "-cp",
+    "build/greeting.jar",
+    "GreetingKt"
   ]
 }

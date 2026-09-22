@@ -1,0 +1,13 @@
+  unchanged  src/RicesTax/Api.hs
+  unchanged  src/RicesTax/Gen.hs
+  unchanged  app/Main.hs
+  unchanged  src/RicesTax/Core.hs
+  unchanged  test/Corpus.hs
+  unchanged  src/RicesTax/Diff.hs
+  unchanged  src/RicesTax/Marks.hs
+  unchanged  src/RicesTax/Model.hs
+  unchanged  src/RicesTax/Site.hs
+  unchanged  src/RicesTax/Sydtest.hs
+  unchanged  src/RicesTax/Fnv.hs
+  unchanged  src/RicesTax/What.hs
+  unchanged  src/RicesTax/Wire.hs

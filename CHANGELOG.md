@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## 0.3.2 — 22 September 2026
+
+- Replace process adapters with HTTP servers native to Java, Python, Go, Haskell,
+  Kotlin and TypeScript; keep JavaScript's native HTTP implementation.
+- Test each HTTP application in its own language over real network connections.
+- Move ANTLR's evaluator assertions to Java and preserve CALM's separate model tests.
+- Update dependencies, generation pages, mutation catalogs and docs to match.
+
 ## 0.3.1 — 22 September 2026
 
 - Replace the ANTLR greeting example with a documented integer-expression grammar,

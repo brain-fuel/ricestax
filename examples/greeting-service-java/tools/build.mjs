@@ -1,8 +1,6 @@
-import {mkdirSync} from 'node:fs';
-import {readFile} from 'node:fs/promises';
+import {mkdirSync,readFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 mkdirSync('build',{recursive:true});
-const {compile}=JSON.parse(await readFile('commands.json'));
-const result=spawnSync(compile[0],compile.slice(1),{stdio:'inherit'});
-if(result.error) console.error(result.error);
-process.exit(result.status??2);
+const {compile}=JSON.parse(readFileSync('commands.json'));
+const r=spawnSync(compile[0],compile.slice(1),{stdio:'inherit'});
+if(r.error)throw r.error;process.exit(r.status??2);

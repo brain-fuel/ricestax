@@ -2,10 +2,10 @@
   "schema": 1,
   "inputs": [
     "src",
-    "tools",
     "test",
-    "commands.json",
+    "tools",
     "docs",
+    "commands.json",
     "canon.yaml",
     "architecture.calm.json"
   ],
@@ -14,20 +14,28 @@
     "tools/build.mjs"
   ],
   "test": [
-    "node",
-    "--test",
-    "--test-reporter=tap",
-    "test/service.test.mjs"
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test",
+    "-v"
   ],
   "evidence": {
-    "passed": "# pass 1",
-    "failed": "not ok"
+    "passed": "^OK$",
+    "failed": "FAIL:|AssertionError"
   },
   "mutations": [
     {
       "file": "src/greeting.py",
       "original": "if not name:",
       "replacement": "if False:"
+    },
+    {
+      "file": "src/greeting.py",
+      "original": "url.path != \"/greet\"",
+      "replacement": "False"
     }
   ]
 }

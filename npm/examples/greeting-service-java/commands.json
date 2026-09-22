@@ -3,7 +3,14 @@
     "javac",
     "-d",
     "build",
-    "src/Greeting.java"
+    "src/Greeting.java",
+    "test/GreetingTest.java"
+  ],
+  "test": [
+    "java",
+    "-cp",
+    "build",
+    "GreetingTest"
   ],
   "run": [
     "java",

@@ -11,8 +11,7 @@
   ],
   "compile": [
     "node",
-    "--check",
-    "src/server.mjs"
+    "tools/build.mjs"
   ],
   "test": [
     "node",
@@ -28,6 +27,11 @@
     {
       "file": "src/greeting.mjs",
       "original": "name.trim().length === 0",
+      "replacement": "false"
+    },
+    {
+      "file": "src/server.mjs",
+      "original": "url.pathname !== '/greet'",
       "replacement": "false"
     }
   ]

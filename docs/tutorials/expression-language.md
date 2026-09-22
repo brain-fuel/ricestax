@@ -21,12 +21,12 @@ canonical comment of the generated rule.
 
 Run `ricestax canon tangle`, then `node tools/build.mjs`. The first command writes
 `src/Expression.g4`; the second invokes ANTLR and compiles the generated Java
-classes plus the handwritten evaluator. Run `node tools/evaluate.mjs '2+3*4'`
+classes plus the handwritten evaluator. Run `java -cp "build:$ANTLR_JAR" Evaluate '2+3*4'`
 and expect 14. Run it with `'(2+3)*4'` and expect 20. `2+` must exit 2 without a result.
 
 ## 3. Challenge the assertions
 
-Run `node --test --test-reporter=tap test/expression.test.mjs`, then
+Run `java -cp build ExpressionTest`, then
 `ricestax mutate`. The catalog removes EOF and changes multi-digit literals to
 single digits. Both changed grammars still generate and compile, but the tests
 must kill them: trailing input must not be accepted and `12` must remain valid.
@@ -44,3 +44,8 @@ Read the [ANTLR reference](../reference/language-antlr4.md) for ingestion limits
 the [generation how-to](../how-to/generate-from-documentation.md) for migration,
 and [the explanation](../explanation/language-specific-examples.md) for why this
 example differs from the service examples.
+
+The evaluator and assertion runner are both Java. `test/ExpressionTest.java`
+launches the Java CLI, asserts its output and rejection exit codes, and runs
+unchanged against both grammar mutations. Node is used only by the build helper
+and Rice’s Tax.

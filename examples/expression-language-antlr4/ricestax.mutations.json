@@ -12,14 +12,14 @@
     "tools/build.mjs"
   ],
   "test": [
-    "node",
-    "--test",
-    "--test-reporter=tap",
-    "test/expression.test.mjs"
+    "java",
+    "-cp",
+    "build",
+    "ExpressionTest"
   ],
   "evidence": {
-    "passed": "# pass 2",
-    "failed": "not ok"
+    "passed": "TESTS_PASSED: expression contract",
+    "failed": "AssertionError"
   },
   "mutations": [
     {

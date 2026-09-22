@@ -3,7 +3,17 @@
     "python3",
     "-m",
     "py_compile",
-    "src/greeting.py"
+    "src/greeting.py",
+    "test/test_service.py"
+  ],
+  "test": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test",
+    "-v"
   ],
   "run": [
     "python3",

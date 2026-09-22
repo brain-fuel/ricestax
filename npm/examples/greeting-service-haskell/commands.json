@@ -1,13 +1,20 @@
 {
   "compile": [
-    "ghc",
-    "-outputdir",
+    "stack",
+    "--no-terminal",
     "build",
-    "-o",
-    "build/greeting",
-    "src/Main.hs"
+    "--test",
+    "--no-run-tests"
+  ],
+  "test": [
+    "stack",
+    "--no-terminal",
+    "test",
+    "--test-arguments=--no-color"
   ],
   "run": [
-    "build/greeting"
+    "stack",
+    "exec",
+    "greeting-server"
   ]
 }

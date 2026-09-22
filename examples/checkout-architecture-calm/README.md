@@ -7,7 +7,7 @@ The allowed connections are Customer → Gateway → Orders, Orders → Payments
 Orders → Order Database. Only Orders owns persistence. No customer may access
 storage directly, and Payments has no access to the order database.
 
-Requires Node 22+ and Rice’s Tax 0.3.1. From this directory:
+Requires Node 22+ and Rice’s Tax 0.3.2. From this directory:
 
 ```sh
 ricestax canon tangle
@@ -38,3 +38,7 @@ this checkout policy to another system.
 See [the walkthrough](../../docs/tutorials/checkout-architecture.md),
 [language reference](../../docs/reference/language-calm.md), and
 [migration how-to](../../docs/how-to/adopt-existing-project.md).
+
+CALM is declarative JSON, with no application runtime or executable test language.
+The architecture-policy assertions use Node’s JavaScript test runner. This is
+explicitly a model example, separate from the native HTTP application examples.

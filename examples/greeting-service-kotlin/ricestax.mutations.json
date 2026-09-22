@@ -2,10 +2,10 @@
   "schema": 1,
   "inputs": [
     "src",
-    "tools",
     "test",
-    "commands.json",
+    "tools",
     "docs",
+    "commands.json",
     "canon.yaml",
     "architecture.calm.json"
   ],
@@ -14,19 +14,24 @@
     "tools/build.mjs"
   ],
   "test": [
-    "node",
-    "--test",
-    "--test-reporter=tap",
-    "test/service.test.mjs"
+    "java",
+    "-cp",
+    "build/greeting.jar",
+    "GreetingTestKt"
   ],
   "evidence": {
-    "passed": "# pass 1",
-    "failed": "not ok"
+    "passed": "TESTS_PASSED: HTTP contract",
+    "failed": "AssertionError"
   },
   "mutations": [
     {
       "file": "src/Greeting.kt",
       "original": "name.isEmpty()",
+      "replacement": "false"
+    },
+    {
+      "file": "src/Greeting.kt",
+      "original": "exchange.requestURI.path != \"/greet\"",
       "replacement": "false"
     }
   ]

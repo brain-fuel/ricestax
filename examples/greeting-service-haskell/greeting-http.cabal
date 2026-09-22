@@ -1,0 +1,23 @@
+cabal-version: 3.0
+name: greeting-http
+version: 0.1.0
+build-type: Simple
+
+library
+  exposed-modules: Greeting
+  hs-source-dirs: src
+  build-depends: base, aeson, text, http-types, wai
+  default-language: Haskell2010
+
+executable greeting-server
+  main-is: Main.hs
+  hs-source-dirs: app
+  build-depends: base, greeting-http, warp
+  default-language: Haskell2010
+
+test-suite http-contract
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs: test
+  build-depends: base, greeting-http, aeson, bytestring, text, http-client, http-types, warp, hspec
+  default-language: Haskell2010

@@ -122,7 +122,7 @@
     "name": "ricestax-catalog",
     "artefacts": ".mut/current",
     "package": ".",
-    "tests": "test",
+    "tests": "src",
     "command": "ricestax mutate"
   },
   "kinds": {

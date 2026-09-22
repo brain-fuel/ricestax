@@ -2,28 +2,54 @@
 # Edit the specification, not this file.
 # Every comment below is generated from the prose there.
 
-# | Reject an empty or whitespace-only name, trim surrounding whitespace, and
-# greet the caller.
-# The Node HTTP adapter maps rejection to 400, routes other requests to 404,
-# and
-# JSON-encodes successful text. The python implementation below owns
-# validation
-# and greeting construction.
+# | The python runtime owns routing, input validation, JSON encoding and HTTP
+# transport.
 #
 # Specified by service.
-import sys
+import json
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import parse_qs, urlsplit
 
 
-def greeting_for(value):
-    """Return a greeting, rejecting names without visible content."""
-    name = value.strip()
-    if not name:
-        raise ValueError("A nonempty name is required")
-    return "Hello, " + name + "!"
+class GreetingHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        url = urlsplit(self.path)
+        if url.path != "/greet":
+            self.reply(404, {"error": "Not found"})
+            return
+        name = parse_qs(url.query, keep_blank_values=True).get("name", [""])[0].strip()
+        if not name:
+            self.reply(400, {"error": "A nonempty name is required"})
+            return
+        self.reply(200, {"greeting": "Hello, " + name + "!"})
+
+    def do_POST(self):
+        self.reply(404, {"error": "Not found"})
+
+    do_PUT = do_POST
+    do_DELETE = do_POST
+    do_PATCH = do_POST
+    do_HEAD = do_POST
+    do_OPTIONS = do_POST
+
+    def reply(self, status, payload):
+        body = json.dumps(payload).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        if self.command != "HEAD":
+            self.wfile.write(body)
+
+    def log_message(self, format, *args):
+        pass
+
+
+def create_server(port=0):
+    return ThreadingHTTPServer(("127.0.0.1", port), GreetingHandler)
 
 
 if __name__ == "__main__":
-    try:
-        print(greeting_for(sys.argv[1]))
-    except ValueError:
-        sys.exit(2)
+    with create_server(8097) as server:
+        print("http://127.0.0.1:8097/greet?name=Ada", flush=True)
+        server.serve_forever()

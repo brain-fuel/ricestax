@@ -14,8 +14,8 @@ CALM describes the boundary, and the documentation supplies executable code.
 
 The [example matrix](../../examples/README.md) links service counterparts in
 Java, JavaScript, TypeScript, Python, Go, Haskell and Kotlin. The detailed
-walkthrough below uses JavaScript. Other variants implement policy in their target
-language behind a Node HTTP adapter.
+walkthrough below uses JavaScript. Every variant implements its own HTTP server and tests in the declared language.
+Tests open real HTTP connections to an ephemeral port; no process adapter is used.
 
 ANTLR4 has a separate [expression-language tutorial](expression-language.md).
 CALM has a separate [checkout architecture tutorial](checkout-architecture.md).

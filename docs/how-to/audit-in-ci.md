@@ -26,7 +26,7 @@ jobs:
         with: { fetch-depth: 0 }
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: npm install -g ricestax@0.3.1
+      - run: npm install -g ricestax@0.3.2
       - run: ricestax canon check
       - run: ricestax audit --json > audit.json
       - uses: actions/upload-artifact@v4

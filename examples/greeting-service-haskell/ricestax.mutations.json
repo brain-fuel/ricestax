@@ -2,32 +2,42 @@
   "schema": 1,
   "inputs": [
     "src",
-    "tools",
     "test",
-    "commands.json",
+    "tools",
     "docs",
+    "commands.json",
     "canon.yaml",
-    "architecture.calm.json"
+    "architecture.calm.json",
+    "greeting-http.cabal",
+    "stack.yaml",
+    "app",
+    "stack.yaml.lock"
   ],
   "compile": [
     "node",
     "tools/build.mjs"
   ],
   "test": [
-    "node",
-    "--test",
-    "--test-reporter=tap",
-    "test/service.test.mjs"
+    "stack",
+    "--no-terminal",
+    "test",
+    "--test-arguments=--no-color"
   ],
   "evidence": {
-    "passed": "# pass 1",
-    "failed": "not ok"
+    "passed": "2 examples, 0 failures",
+    "failed": "2 examples, [1-9][0-9]* failures?"
   },
   "mutations": [
     {
-      "file": "src/Main.hs",
-      "original": "if null name",
-      "replacement": "if False"
+      "file": "src/Greeting.hs",
+      "original": "T.null name",
+      "replacement": "False"
+    },
+    {
+      "file": "src/Greeting.hs",
+      "original": "pathInfo request /= [\"greet\"]",
+      "replacement": "False"
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }

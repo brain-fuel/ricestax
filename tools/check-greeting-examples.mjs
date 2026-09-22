@@ -13,7 +13,8 @@ const temporary=await mkdtemp(path.join(os.tmpdir(),'ricestax-greeting-'));
 console.log('Evidence directory: '+temporary);
 for(const name of (await readdir(path.join(root,'examples'))).filter(x=>x.startsWith('greeting-service')).sort()) {
  const cwd=path.join(temporary,name);
- await cp(path.join(root,'examples',name),cwd,{recursive:true,filter:p=>!p.split(path.sep).some(x=>['.mut','.canon-cache','build','__pycache__'].includes(x))});
+ const source=path.join(root,'examples',name);
+ await cp(source,cwd,{recursive:true,filter:p=>!path.relative(source,p).split(path.sep).some(x=>['.mut','.canon-cache','build','__pycache__','node_modules','.stack-work'].includes(x))});
  console.log('\nTARGET '+name);
  const commands=[['node',cli,'canon','tangle'],['node',cli,'canon','tangle','--check']];
  if(name!=='greeting-service')commands.push(['node','tools/build.mjs']);
@@ -27,6 +28,6 @@ for(const name of (await readdir(path.join(root,'examples'))).filter(x=>x.starts
  assert(!payload.error,JSON.stringify(payload));
  assert.equal(payload.runIssue,'');
  assert.deepEqual(payload.ingestionIssues,[],name+': ingestion errors');
- assert(payload.facts.factList.some(([key,value])=>key==='killed'&&value==='1'));
+ assert(payload.facts.factList.some(([key,value])=>key==='killed'&&value===String(catalog.mutations.length)));
  console.log('PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran HTTP assertions and killed catalog fault');
 }

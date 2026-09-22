@@ -1,32 +1,37 @@
-# Greeting service: kotlin
+# Greeting HTTP server: kotlin
 
-This is the same greeting service as the JavaScript worked tutorial. The policy
-is implemented in kotlin; a shared Node HTTP adapter invokes it as a process.
-This deliberately small teaching transport is synchronous and starts one process
-per request; it is not a production server architecture.
+The HTTP application and its tests are written in kotlin. They use JDK HttpServer/HttpClient called from Kotlin.
+There is no process bridge to another language's web server. Tests start the
+actual server on an ephemeral port and send HTTP requests from the same language.
 
-Requirements: Node 22+, Rice’s Tax 0.3.1, and kotlinc on PATH.
-
-From this directory:
+Requires Rice’s Tax 0.3.2, Node 22+ for Rice’s Tax and the build helper, and
+kotlinc and a JDK. From this directory:
 
 ```sh
 ricestax canon tangle
 node tools/build.mjs
-node --test --test-reporter=tap test/service.test.mjs
+java -cp build/greeting.jar GreetingTestKt
 ricestax canon tangle --check
 ricestax mutate
 ricestax assess
 ricestax pay 8091
+java -cp build/greeting.jar GreetingKt
 ```
 
-Run `node tools/server.mjs`, then visit
-http://localhost:8097/greet?name=Ada . Stop with Ctrl-C.
+Visit http://127.0.0.1:8097/greet?name=Ada and stop the server with Ctrl-C.
+The final command launches the kotlin application directly. TypeScript is
+compiled to JavaScript in its own example, as normal for that language.
 
-Edit `docs/reference/service.md` and retangle to change policy. Tests exercise
-success, trimming, JSON escaping, Unicode, missing/empty/blank input, unknown
-routes and wrong methods over real HTTP. The catalog removes input rejection;
-the unchanged HTTP assertions must kill it. Mutation compilation never tangles.
+Edit `docs/reference/service.md`, retangle, build, and rerun tests. The reference
+page generates application code; the independently written test sources remain
+handwritten. The tests assert successful JSON greetings, trimming, Unicode, quote
+escaping, missing/blank input, unknown paths and wrong methods. The catalog
+removes input rejection and path rejection in separate mutants; the unchanged
+native HTTP assertions must kill both.
+Mutation compilation never retangles and never replaces the application with a
+mock. See `commands.json` and `ricestax.mutations.json` for exact commands.
 
-CALM describes the service boundary, not generated business behaviour. Review
-architecture, policy and transport separately. The included mutation is bounded
-evidence, not exhaustive coverage.
+This is a small teaching HTTP server, with no authentication, persistence or TLS.
+It is not a production deployment template. Unicode whitespace normalization can
+differ between runtimes. The [example index](../README.md) explains the separate
+ANTLR language and CALM architecture examples.

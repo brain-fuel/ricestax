@@ -1,36 +1,40 @@
 # Worked examples by language
 
 Each example is a standalone project included in the npm package under
-`examples/`. Change into its directory before following its README. Use Rice’s
-Tax 0.3.1 and Node 22+.
+`examples/`. Use Rice’s Tax 0.3.2; enter the project directory before its commands.
 
-| Target | Example | Role | Additional tools |
+| Language | Example | HTTP implementation | Test implementation |
 | --- | --- | --- | --- |
-| JavaScript | [Greeting service](greeting-service/README.md) | Policy and Node HTTP server | None |
-| Java | [Greeting service](greeting-service-java/README.md) | Policy process, Node HTTP adapter | JDK |
-| TypeScript | [Greeting service](greeting-service-typescript/README.md) | Typed policy, Node HTTP adapter | tsc |
-| Python | [Greeting service](greeting-service-python/README.md) | PEP-8 style policy process, Node HTTP adapter | Python 3 |
-| Go | [Greeting service](greeting-service-go/README.md) | Policy process, Node HTTP adapter | Go |
-| Haskell | [Greeting service](greeting-service-haskell/README.md) | Policy process, Node HTTP adapter | GHC |
-| Kotlin | [Greeting service](greeting-service-kotlin/README.md) | Policy process, Node HTTP adapter | kotlinc and JDK |
-| ANTLR4 | [Integer expression language](expression-language-antlr4/README.md) | Grammar, generated parser and Java evaluator | JDK, ANTLR_JAR |
-| CALM | [Checkout architecture](checkout-architecture-calm/README.md) | Actors, services, storage and access boundaries | None |
+| JavaScript | [Greeting](greeting-service/README.md) | Node HTTP, JavaScript | node:test, JavaScript |
+| Java | [Greeting](greeting-service-java/README.md) | JDK HttpServer, Java | JDK HttpClient and assertions, Java |
+| TypeScript | [Greeting](greeting-service-typescript/README.md) | Node HTTP, TypeScript | node:test, TypeScript |
+| Python | [Greeting](greeting-service-python/README.md) | http.server, Python | http.client and unittest, Python |
+| Go | [Greeting](greeting-service-go/README.md) | net/http, Go | httptest and testing, Go |
+| Haskell | [Greeting](greeting-service-haskell/README.md) | WAI/Warp, Haskell | http-client and Hspec, Haskell |
+| Kotlin | [Greeting](greeting-service-kotlin/README.md) | JDK HttpServer, Kotlin | JDK HttpClient and assertions, Kotlin |
 
-The seven general-purpose languages share the greeting contract: GET
-`/greet?name=Ada` returns a JSON greeting; missing/blank names return 400 and other
-routes or methods return 404. The process adapters are synchronous teaching
-implementations, not production transports. Runtime Unicode whitespace sets can
-differ. The target languages execute the policy; Node provides transport.
+All seven applications are actual HTTP servers in their declared language, with
+independent same-language tests against real HTTP requests on ephemeral ports.
+TypeScript sources and tests compile to JavaScript in the normal way. There are
+no Node process adapters around other languages. Node remains a dependency for
+Rice’s Tax and its build helpers; it is the application runtime for JS and TS.
 
-ANTLR4 demonstrates syntax and parsing rather than pretending to be an HTTP
-application language. CALM demonstrates architecture and policy assertions rather
-than pretending to execute services. Each has its own walkthrough, tests and
-mutation catalog. All examples generate their central artifact from documented
-blocks and make the distinction between generated material and handwritten test
-or integration code explicit.
+Their common contract is GET `/greet?name=Ada` returning a JSON greeting;
+missing/blank names return 400, and unknown routes or wrong methods return 404.
+Tests also exercise trimming, Unicode and quote escaping. These minimal servers
+have no production deployment claim; Unicode whitespace sets can differ.
 
-Mutation tests never retangle the changed source: that would erase the fault.
-The explicit catalogs are bounded evidence, not exhaustive mutation coverage.
+Two language-specific examples remain separate:
+
+- [ANTLR4 expression language](expression-language-antlr4/README.md): a documented
+  grammar, generated Java parser, Java evaluator and Java CLI tests.
+- [CALM checkout architecture](checkout-architecture-calm/README.md): a documented
+  architecture with JavaScript assertions over access and ownership boundaries.
+  CALM itself has no executable application or test runtime.
+
+Every example has document generation, an independent test suite, an explicit
+mutation catalog and review commands. Mutation builds never retangle faults away.
+The catalogs provide bounded evidence, not exhaustive mutation coverage.
 See the [service tutorial](../docs/tutorials/architecture-to-service.md),
 [ANTLR tutorial](../docs/tutorials/expression-language.md), and
 [CALM tutorial](../docs/tutorials/checkout-architecture.md).

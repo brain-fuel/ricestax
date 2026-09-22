@@ -1,0 +1,155 @@
+Installed prefix: /var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-032-release-VP10LS
+
+added 1 package in 417ms
+npm notice
+npm notice New major version of npm available! 11.19.0 -> 12.1.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+npm notice To update run: npm install -g npm@12.1.0
+npm notice
+(node:96734) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Evidence directory: /var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-greeting-YT7Xuo
+
+TARGET checkout-architecture-calm
+  unchanged  architecture.calm.json
+(node:96750) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  architecture.calm.json
+(node:96765) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+killed: architecture.calm.json (3d05e17cd1392953)
+killed: architecture.calm.json (88b02799767a490b)
+(node:96795) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET expression-language-antlr4
+  unchanged  src/Expression.g4
+(node:96961) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/Expression.g4
+(node:96976) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+killed: src/Expression.g4 (a0bfded235e26abe)
+killed: src/Expression.g4 (e3ccdeeafae3c780)
+(node:97014) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service
+  unchanged  src/greeting.mjs
+  unchanged  src/server.mjs
+(node:97210) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/greeting.mjs
+  unchanged  src/server.mjs
+(node:97225) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+killed: src/greeting.mjs (6bf761eb46e8af4f)
+killed: src/server.mjs (e0918cb6d2fd7ab3)
+(node:97240) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service-go
+  unchanged  src/main.go
+(node:97564) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/main.go
+(node:97579) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ok  	example.com/greeting/src	0.347s [no tests to run]
+killed: src/main.go (12acef68e7757569)
+killed: src/main.go (73b92e0dac5b3413)
+(node:97632) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service-haskell
+  unchanged  src/Greeting.hs
+(node:97877) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/Greeting.hs
+(node:97892) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+All test running disabled by --no-run-tests flag. To mute this message in future, set
+notify-if-no-run-tests: false in Stack's configuration.
+greeting-http> configure (lib + exe + test)
+Configuring greeting-http-0.1.0...
+greeting-http> build (lib + exe + test) with ghc-9.10.3
+Preprocessing library for greeting-http-0.1.0...
+Building library for greeting-http-0.1.0...
+[1 of 1] Compiling Greeting
+Preprocessing executable 'greeting-server' for greeting-http-0.1.0...
+Building executable 'greeting-server' for greeting-http-0.1.0...
+[1 of 1] Compiling Main
+[2 of 2] Linking /private/var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-greeting-YT7Xuo/greeting-service-haskell/.stack-work/dist/aarch64-osx/ghc-9.10.3/build/greeting-server/greeting-server
+ld: warning: -U option is redundant when using -undefined dynamic_lookup
+Preprocessing test suite 'http-contract' for greeting-http-0.1.0...
+Building test suite 'http-contract' for greeting-http-0.1.0...
+[1 of 1] Compiling Main
+[2 of 2] Linking /private/var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-greeting-YT7Xuo/greeting-service-haskell/.stack-work/dist/aarch64-osx/ghc-9.10.3/build/http-contract/http-contract
+ld: warning: -U option is redundant when using -undefined dynamic_lookup
+greeting-http> copy/register
+Installing library in /private/var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-greeting-YT7Xuo/greeting-service-haskell/.stack-work/install/aarch64-osx/8e570d7cf28b14646a896003858711e976d0fee404e64a3432e7046cf0213793/9.10.3/lib/aarch64-osx-ghc-9.10.3-fe9c/greeting-http-0.1.0-1Tkzkv81oJyDmOJ7nPnkfZ
+Installing executable greeting-server in /private/var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-greeting-YT7Xuo/greeting-service-haskell/.stack-work/install/aarch64-osx/8e570d7cf28b14646a896003858711e976d0fee404e64a3432e7046cf0213793/9.10.3/bin
+Registering library for greeting-http-0.1.0...
+killed: src/Greeting.hs (c79ea8e8b362417c)
+killed: src/Greeting.hs (25c91248fcd28032)
+(node:98122) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service-java
+  unchanged  src/Greeting.java
+(node:98880) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/Greeting.java
+(node:98895) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+killed: src/Greeting.java (d0d3e4e0fb6c73ad)
+killed: src/Greeting.java (b387911e3c195366)
+(node:98929) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service-kotlin
+  unchanged  src/Greeting.kt
+(node:99069) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/Greeting.kt
+(node:99084) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+killed: src/Greeting.kt (932c62cd101fae06)
+killed: src/Greeting.kt (6396de7c55806752)
+(node:99138) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service-python
+  unchanged  src/greeting.py
+(node:99343) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/greeting.py
+(node:99358) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+killed: src/greeting.py (7da37f0d8279d410)
+killed: src/greeting.py (d8900750bb750450)
+(node:99392) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault
+
+TARGET greeting-service-typescript
+  unchanged  src/server.ts
+(node:99532) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  unchanged  src/server.ts
+(node:99547) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+added 3 packages in 138ms
+killed: src/server.ts (3156ece84d129c00)
+killed: src/server.ts (befb779aabfd88fe)
+(node:99623) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS: ingested source, loaded review report, generated documentation, checked drift, compiled baseline, ran example assertions and killed catalog fault

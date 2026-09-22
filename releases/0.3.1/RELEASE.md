@@ -1,7 +1,7 @@
 # Rice’s Tax 0.3.1
 
 Published to the public npm registry as ricestax@0.3.1 on 22 September 2026.
-npm returned success; public registry metadata propagation is still pending verification.
+Public metadata and a clean registry installation were verified; see publication-verification.json.
 
 Artifact: ricestax-0.3.1.tgz (3763786 bytes; 389 files).
 SHA-256: 0de93afef14a4f3156fc8efe2e5867b5b698cdaba8fb8d44d142c02f07492a01

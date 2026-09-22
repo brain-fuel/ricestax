@@ -59,3 +59,9 @@ integer-expression language with a generated Java recognizer and evaluator; CALM
 has a standalone checkout architecture with access and ownership assertions.
 See [why these examples differ](language-specific-examples.md). The packaged
 projects each have explicit mutation catalogs; none implies exhaustive coverage.
+
+## 0.3.2 native applications and tests
+
+All seven general-purpose examples own HTTP transport and tests in their declared
+language. ANTLR uses native Java tests; CALM retains model-level JavaScript checks.
+See the [example matrix](../../examples/README.md) for exact runtimes and commands.

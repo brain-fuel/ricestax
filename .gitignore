@@ -17,3 +17,5 @@ canonical_history/.mutations.yaml.tmp*
 /examples/**/build/
 /examples/**/__pycache__/
 *.pyc
+
+/examples/**/node_modules/

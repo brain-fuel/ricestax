@@ -3,30 +3,36 @@
   "inputs": [
     "src",
     "tools",
-    "test",
-    "commands.json",
     "docs",
+    "commands.json",
     "canon.yaml",
-    "architecture.calm.json"
+    "architecture.calm.json",
+    "go.mod"
   ],
   "compile": [
     "node",
     "tools/build.mjs"
   ],
   "test": [
-    "node",
-    "--test",
-    "--test-reporter=tap",
-    "test/service.test.mjs"
+    "go",
+    "test",
+    "-count=1",
+    "-v",
+    "./src"
   ],
   "evidence": {
-    "passed": "# pass 1",
-    "failed": "not ok"
+    "passed": "--- PASS: TestHTTPContract",
+    "failed": "--- FAIL: TestHTTPContract"
   },
   "mutations": [
     {
       "file": "src/main.go",
       "original": "len(name) == 0",
+      "replacement": "false"
+    },
+    {
+      "file": "src/main.go",
+      "original": "r.URL.Path != \"/greet\"",
       "replacement": "false"
     }
   ]

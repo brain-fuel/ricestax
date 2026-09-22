@@ -1,16 +1,20 @@
 {
   "compile": [
+    "npm",
+    "exec",
+    "--",
     "tsc",
-    "--target",
-    "es2022",
-    "--module",
-    "commonjs",
-    "--outDir",
-    "build",
-    "src/greeting.ts"
+    "-p",
+    "tsconfig.json"
+  ],
+  "test": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "build/test/service.test.js"
   ],
   "run": [
     "node",
-    "tools/typed-main.cjs"
+    "build/app/main.js"
   ]
 }

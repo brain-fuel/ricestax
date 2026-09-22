@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-09-22T22:55:54.353Z",
+  "version": "0.3.2",
+  "integrity": "sha512-WzFdoGBObugBzitOyt9XgdqRRVOfKJOLZsG9K3akFpY64C090JS6anrxTPTjwoV1fmi1nR/qJNeagymBoyVlBw==",
+  "tags": {
+    "latest": "0.3.2"
+  },
+  "installedAt": "/var/folders/rn/mnys6xcs59ncglx33n22717h0000gn/T/ricestax-public-032-vo40dQ",
+  "examples": [
+    "checkout-architecture-calm",
+    "expression-language-antlr4",
+    "greeting-service",
+    "greeting-service-go",
+    "greeting-service-haskell",
+    "greeting-service-java",
+    "greeting-service-kotlin",
+    "greeting-service-python",
+    "greeting-service-typescript"
+  ]
+}
