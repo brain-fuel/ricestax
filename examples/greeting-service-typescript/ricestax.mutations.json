@@ -37,6 +37,32 @@
       "file": "src/server.ts",
       "original": "url.pathname !== '/greet'",
       "replacement": "false"
+    },
+    {
+      "file": "src/server.ts",
+      "original": "request.method !== 'GET'",
+      "replacement": "false"
+    },
+    {
+      "file": "src/server.ts",
+      "original": "?? '').trim()",
+      "replacement": "?? '')"
+    },
+    {
+      "file": "src/server.ts",
+      "original": "${name}!",
+      "replacement": "${name}"
+    },
+    {
+      "file": "src/server.ts",
+      "original": "writeHead(400)",
+      "replacement": "writeHead(200)"
+    },
+    {
+      "file": "src/server.ts",
+      "original": "${name}",
+      "replacement": "${name.replaceAll('+', ' ')}"
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }

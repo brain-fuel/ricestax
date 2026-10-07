@@ -19,3 +19,6 @@ canonical_history/.mutations.yaml.tmp*
 *.pyc
 
 /examples/**/node_modules/
+
+/examples/**/.hypothesis/
+/examples/**/.kotest/

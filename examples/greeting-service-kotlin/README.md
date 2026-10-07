@@ -1,16 +1,16 @@
 # Greeting HTTP server: kotlin
 
-The HTTP application and its tests are written in kotlin. They use JDK HttpServer/HttpClient called from Kotlin.
+The HTTP application and its tests are written in kotlin. They use JDK HttpServer/HttpClient called from Kotlin, with Kotest Property.
 There is no process bridge to another language's web server. Tests start the
 actual server on an ephemeral port and send HTTP requests from the same language.
 
 Requires Rice’s Tax 0.3.2, Node 22+ for Rice’s Tax and the build helper, and
-kotlinc and a JDK. From this directory:
+kotlinc, JDK 17+ and Maven. From this directory:
 
 ```sh
 ricestax canon tangle
 node tools/build.mjs
-java -cp build/greeting.jar GreetingTestKt
+java -cp 'build/greeting.jar:build/dependency/*' GreetingTestKt
 ricestax canon tangle --check
 ricestax mutate
 ricestax assess
@@ -27,7 +27,7 @@ page generates application code; the independently written test sources remain
 handwritten. The tests assert successful JSON greetings, trimming, Unicode, quote
 escaping, missing/blank input, unknown paths and wrong methods. The catalog
 removes input rejection and path rejection in separate mutants; the unchanged
-native HTTP assertions must kill both.
+native HTTP assertions must kill all seven catalog faults.
 Mutation compilation never retangles and never replaces the application with a
 mock. See `commands.json` and `ricestax.mutations.json` for exact commands.
 
@@ -35,3 +35,5 @@ This is a small teaching HTTP server, with no authentication, persistence or TLS
 It is not a production deployment template. Unicode whitespace normalization can
 differ between runtimes. The [example index](../README.md) explains the separate
 ANTLR language and CALM architecture examples.
+
+Follow the [Kotlin property-testing tutorial](../../docs/tutorials/http-kotlin.md) for Kotest Property, failure replay, and mutation review.

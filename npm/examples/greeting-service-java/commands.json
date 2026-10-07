@@ -1,15 +1,12 @@
 {
   "compile": [
-    "javac",
-    "-d",
-    "build",
-    "src/Greeting.java",
-    "test/GreetingTest.java"
+    "node",
+    "tools/build.mjs"
   ],
   "test": [
     "java",
     "-cp",
-    "build",
+    "build:build/dependency/*",
     "GreetingTest"
   ],
   "run": [

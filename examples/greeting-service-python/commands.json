@@ -1,13 +1,10 @@
 {
   "compile": [
-    "python3",
-    "-m",
-    "py_compile",
-    "src/greeting.py",
-    "test/test_service.py"
+    "node",
+    "tools/build.mjs"
   ],
   "test": [
-    "python3",
+    "build/venv/bin/python3",
     "-m",
     "unittest",
     "discover",

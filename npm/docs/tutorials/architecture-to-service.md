@@ -155,3 +155,5 @@ Commit generated sources and their source pages together. CI runs tangling in
 check mode, ordinary tests, mutation, and audit as separate steps. A functioning
 service with a killed catalog mutant still has no automatic claim to deployment
 security, complete mutation coverage, or a fully reviewed architecture.
+
+For independent native-language walkthroughs, see the [seven HTTP property-testing tutorials](../reference/example-properties.md). Each includes setup, generation, an induced failure, replay and mutation review.

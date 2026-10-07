@@ -2,6 +2,7 @@ import http.client
 import json
 import threading
 import unittest
+from hypothesis import given, settings, strategies as st
 from urllib.parse import quote
 from src.greeting import create_server
 
@@ -30,10 +31,10 @@ class HttpContract(unittest.TestCase):
             conn.close()
 
     def test_success(self):
-        for name in ["Ada", "  Ada Lovelace  ", 'A"B', "Zoë"]:
+        for name, expected in [("Ada", "Ada"), ("  Ada Lovelace  ", "Ada Lovelace"), ('A"B', 'A"B'), ("Zoë", "Zoë")]:
             with self.subTest(name=name):
                 self.assertEqual(self.request("/greet?name=" + quote(name)),
-                                 (200, {"greeting": "Hello, " + name.strip() + "!"}))
+                                 (200, {"greeting": "Hello, " + expected + "!"}))
 
     def test_rejection_and_routing(self):
         for query in ["", "?name=", "?name=%20%20"]:
@@ -41,3 +42,31 @@ class HttpContract(unittest.TestCase):
                              (400, {"error": "A nonempty name is required"}))
         for path, method in [("/other", "GET"), ("/greet?name=Ada", "POST")]:
             self.assertEqual(self.request(path, method), (404, {"error": "Not found"}))
+
+    @settings(max_examples=100, deadline=None)
+    @given(
+        middle=st.text(alphabet='aZ0 \t\r\n\0"\\&+%/éλ界😀', max_size=64),
+        left=st.text(alphabet=" \t\r\n", max_size=12),
+        right=st.text(alphabet=" \t\r\n", max_size=12),
+        suffix=st.text(alphabet="ab09", max_size=32),
+        method=st.sampled_from(["POST", "PUT", "DELETE", "PATCH", "OPTIONS"]),
+    )
+    def test_generated_http_contract(self, middle, left, right, suffix, method):
+        # The expected core is constructed before padding, independently of strip.
+        core = "A" + middle + "Z"
+        self.assertEqual(
+            self.request("/greet?name=" + quote(left + core + right, safe="")),
+            (200, {"greeting": "Hello, " + core + "!"}),
+        )
+        self.assertEqual(
+            self.request("/greet?name=" + quote(left, safe="")),
+            (400, {"error": "A nonempty name is required"}),
+        )
+        self.assertEqual(
+            self.request("/missing-" + suffix + "?name=Ada"),
+            (404, {"error": "Not found"}),
+        )
+        self.assertEqual(
+            self.request("/greet?name=Ada", method),
+            (404, {"error": "Not found"}),
+        )

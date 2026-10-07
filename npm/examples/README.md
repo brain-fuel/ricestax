@@ -5,13 +5,13 @@ Each example is a standalone project included in the npm package under
 
 | Language | Example | HTTP implementation | Test implementation |
 | --- | --- | --- | --- |
-| JavaScript | [Greeting](greeting-service/README.md) | Node HTTP, JavaScript | node:test, JavaScript |
-| Java | [Greeting](greeting-service-java/README.md) | JDK HttpServer, Java | JDK HttpClient and assertions, Java |
-| TypeScript | [Greeting](greeting-service-typescript/README.md) | Node HTTP, TypeScript | node:test, TypeScript |
-| Python | [Greeting](greeting-service-python/README.md) | http.server, Python | http.client and unittest, Python |
-| Go | [Greeting](greeting-service-go/README.md) | net/http, Go | httptest and testing, Go |
-| Haskell | [Greeting](greeting-service-haskell/README.md) | WAI/Warp, Haskell | http-client and Hspec, Haskell |
-| Kotlin | [Greeting](greeting-service-kotlin/README.md) | JDK HttpServer, Kotlin | JDK HttpClient and assertions, Kotlin |
+| JavaScript | [Greeting](greeting-service/README.md) | Node HTTP, JavaScript | node:test and fast-check, JavaScript |
+| Java | [Greeting](greeting-service-java/README.md) | JDK HttpServer, Java | JDK HttpClient, JetCheck and Jackson, Java |
+| TypeScript | [Greeting](greeting-service-typescript/README.md) | Node HTTP, TypeScript | node:test and fast-check, TypeScript |
+| Python | [Greeting](greeting-service-python/README.md) | http.server, Python | http.client, unittest and Hypothesis, Python |
+| Go | [Greeting](greeting-service-go/README.md) | net/http, Go | httptest, Rapid and native fuzzing, Go |
+| Haskell | [Greeting](greeting-service-haskell/README.md) | WAI/Warp, Haskell | http-client, Hspec and Hedgehog, Haskell |
+| Kotlin | [Greeting](greeting-service-kotlin/README.md) | JDK HttpServer, Kotlin | JDK HttpClient, Kotest Property and Jackson, Kotlin |
 
 All seven applications are actual HTTP servers in their declared language, with
 independent same-language tests against real HTTP requests on ephemeral ports.
@@ -38,3 +38,5 @@ The catalogs provide bounded evidence, not exhaustive mutation coverage.
 See the [service tutorial](../docs/tutorials/architecture-to-service.md),
 [ANTLR tutorial](../docs/tutorials/expression-language.md), and
 [CALM tutorial](../docs/tutorials/checkout-architecture.md).
+
+See the [per-language tutorials and property domains](../docs/reference/example-properties.md) for the selected framework, replay commands, and evidence limits.

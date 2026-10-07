@@ -7,14 +7,15 @@
     "docs",
     "commands.json",
     "canon.yaml",
-    "architecture.calm.json"
+    "architecture.calm.json",
+    "requirements-test.txt"
   ],
   "compile": [
     "node",
     "tools/build.mjs"
   ],
   "test": [
-    "python3",
+    "build/venv/bin/python3",
     "-m",
     "unittest",
     "discover",
@@ -36,6 +37,32 @@
       "file": "src/greeting.py",
       "original": "url.path != \"/greet\"",
       "replacement": "False"
+    },
+    {
+      "file": "src/greeting.py",
+      "original": "def do_POST(self):\n        self.reply(404, {\"error\": \"Not found\"})",
+      "replacement": "def do_POST(self):\n        self.do_GET()"
+    },
+    {
+      "file": "src/greeting.py",
+      "original": "[0].strip()",
+      "replacement": "[0]"
+    },
+    {
+      "file": "src/greeting.py",
+      "original": "\"Hello, \" + name + \"!\"",
+      "replacement": "\"Hello, \" + name"
+    },
+    {
+      "file": "src/greeting.py",
+      "original": "self.reply(400,",
+      "replacement": "self.reply(200,"
+    },
+    {
+      "file": "src/greeting.py",
+      "original": "\"Hello, \" + name + \"!\"",
+      "replacement": "\"Hello, \" + name.replace(\"+\", \" \") + \"!\""
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }

@@ -43,3 +43,16 @@ Use [the migration guide](../how-to/adopt-existing-project.md) for an existing
 model, [the CALM reference](../reference/language-calm.md) for extraction details,
 and [the explanation](../explanation/language-specific-examples.md) for the limits
 of model-level evidence. Passing tests do not establish deployed network policy.
+
+The build helper installs pinned fast-check dependencies with `npm ci`. The JavaScript
+policy tests assert the supplied architecture against independently declared node
+roles and connections. Two generated checks then permute node/relationship order
+without changing the verdict, and add forbidden edges or remove nodes and require
+rejection. These properties exercise the checkout policy checker; they do not turn
+CALM into an executable HTTP service or validate the complete CALM JSON Schema.
+
+Run `FC_SEED=123 node --test test/architecture.test.mjs` for a reproducible generation
+sequence. Use the actual seed and `FC_PATH` printed on a failure to replay its shrunk
+case. The five catalog faults challenge the gateway boundary, database ownership,
+node type, a dangling reference, and duplicate relationship identity. Inspect which
+assertion fails; a JSON parse error is not evidence that these policies caught a fault.

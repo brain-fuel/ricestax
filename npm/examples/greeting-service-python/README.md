@@ -10,7 +10,7 @@ Python 3. From this directory:
 ```sh
 ricestax canon tangle
 node tools/build.mjs
-python3 -m unittest discover -s test -v
+build/venv/bin/python3 -m unittest discover -s test -v
 ricestax canon tangle --check
 ricestax mutate
 ricestax assess
@@ -27,7 +27,7 @@ page generates application code; the independently written test sources remain
 handwritten. The tests assert successful JSON greetings, trimming, Unicode, quote
 escaping, missing/blank input, unknown paths and wrong methods. The catalog
 removes input rejection and path rejection in separate mutants; the unchanged
-native HTTP assertions must kill both.
+native HTTP assertions must kill all seven catalog faults.
 Mutation compilation never retangles and never replaces the application with a
 mock. See `commands.json` and `ricestax.mutations.json` for exact commands.
 
@@ -35,3 +35,5 @@ This is a small teaching HTTP server, with no authentication, persistence or TLS
 It is not a production deployment template. Unicode whitespace normalization can
 differ between runtimes. The [example index](../README.md) explains the separate
 ANTLR language and CALM architecture examples.
+
+Follow the [Python property-testing tutorial](../../docs/tutorials/http-python.md) for Hypothesis, failure replay, and mutation review.

@@ -39,6 +39,7 @@ create a tested service-membership boundary, not a complete domain application.
 
 - [Start a new project](docs/tutorials/new-project.md)
 - [Build a documented HTTP service from architecture](docs/tutorials/architecture-to-service.md)
+- [HTTP tutorials and property frameworks for all seven languages](docs/reference/example-properties.md)
 - [Migrate an existing project](docs/how-to/adopt-existing-project.md)
 - [Generate sources from documentation](docs/how-to/generate-from-documentation.md)
 - [Run mutations](docs/how-to/run-mutations.md)

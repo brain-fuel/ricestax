@@ -12,7 +12,7 @@ for (const example of (await readdir('examples',{withFileTypes:true})).filter(en
  await cp('npm/presets/provenance.json',path.join(dest,'provenance.json'));
  await cp('npm/presets/CANON-LICENSE',path.join(dest,'CANON-LICENSE'));
 }
-const excluded=new Set(['.git','.mut','.canon-cache','node_modules','build','__pycache__','.stack-work']);
+const excluded=new Set(['.git','.mut','.canon-cache','node_modules','build','__pycache__','.hypothesis','.kotest','.stack-work']);
 for(const dir of ['docs','examples']){
  await rm(path.join('npm',dir),{recursive:true,force:true});
  await cp(dir,path.join('npm',dir),{recursive:true,filter:p=>!p.split(path.sep).some(x=>excluded.has(x))&&!p.endsWith('.pyc')&&!p.endsWith('.mut-attempt.json')});

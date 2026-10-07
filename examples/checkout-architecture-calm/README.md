@@ -42,3 +42,16 @@ See [the walkthrough](../../docs/tutorials/checkout-architecture.md),
 CALM is declarative JSON, with no application runtime or executable test language.
 The architecture-policy assertions use Node’s JavaScript test runner. This is
 explicitly a model example, separate from the native HTTP application examples.
+
+The build helper installs pinned fast-check dependencies with `npm ci`. The JavaScript
+policy tests assert the supplied architecture against independently declared node
+roles and connections. Two generated checks then permute node/relationship order
+without changing the verdict, and add forbidden edges or remove nodes and require
+rejection. These properties exercise the checkout policy checker; they do not turn
+CALM into an executable HTTP service or validate the complete CALM JSON Schema.
+
+Run `FC_SEED=123 node --test test/architecture.test.mjs` for a reproducible generation
+sequence. Use the actual seed and `FC_PATH` printed on a failure to replay its shrunk
+case. The five catalog faults challenge the gateway boundary, database ownership,
+node type, a dangling reference, and duplicate relationship identity. Inspect which
+assertion fails; a JSON parse error is not evidence that these policies caught a fault.

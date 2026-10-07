@@ -5,7 +5,9 @@
     "test",
     "tools",
     "docs",
-    "canon.yaml"
+    "canon.yaml",
+    "package.json",
+    "package-lock.json"
   ],
   "compile": [
     "node",
@@ -31,6 +33,21 @@
       "file": "architecture.calm.json",
       "original": "\"unique-id\": \"orders-storage\",\n      \"description\": \"orders storage\",\n      \"relationship-type\": {\n        \"connects\": {\n          \"source\": {\n            \"node\": \"orders\"",
       "replacement": "\"unique-id\": \"orders-storage\",\n      \"description\": \"orders storage\",\n      \"relationship-type\": {\n        \"connects\": {\n          \"source\": {\n            \"node\": \"payments\""
+    },
+    {
+      "file": "architecture.calm.json",
+      "original": "\"node-type\": \"database\"",
+      "replacement": "\"node-type\": \"service\""
+    },
+    {
+      "file": "architecture.calm.json",
+      "original": "\"node\": \"payments\"",
+      "replacement": "\"node\": \"missing-service\""
+    },
+    {
+      "file": "architecture.calm.json",
+      "original": "\"unique-id\": \"orders-storage\"",
+      "replacement": "\"unique-id\": \"orders-payments\""
     }
   ]
 }

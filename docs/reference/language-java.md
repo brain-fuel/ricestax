@@ -45,3 +45,5 @@ The [java greeting service](../../examples/greeting-service-java/README.md) incl
 documented generation, executable tests, an explicit mutation catalog and review
 commands. See the [example matrix](../../examples/README.md) for transport and
 architecture roles and required tools.
+
+For a complete worked example, follow the [Java HTTP property-testing tutorial](../tutorials/http-java.md).

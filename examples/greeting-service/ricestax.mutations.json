@@ -7,7 +7,8 @@
     "tools/build.mjs",
     "package.json",
     "canon.yaml",
-    "architecture.calm.json"
+    "architecture.calm.json",
+    "package-lock.json"
   ],
   "compile": [
     "node",
@@ -33,6 +34,32 @@
       "file": "src/server.mjs",
       "original": "url.pathname !== '/greet'",
       "replacement": "false"
+    },
+    {
+      "file": "src/server.mjs",
+      "original": "request.method !== 'GET'",
+      "replacement": "false"
+    },
+    {
+      "file": "src/greeting.mjs",
+      "original": "${name.trim()}",
+      "replacement": "${name}"
+    },
+    {
+      "file": "src/greeting.mjs",
+      "original": "${name.trim()}!",
+      "replacement": "${name.trim()}"
+    },
+    {
+      "file": "src/server.mjs",
+      "original": "writeHead(400)",
+      "replacement": "writeHead(200)"
+    },
+    {
+      "file": "src/greeting.mjs",
+      "original": "${name.trim()}",
+      "replacement": "${name.trim().replaceAll('+', ' ')}"
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }

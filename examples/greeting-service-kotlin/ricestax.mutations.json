@@ -7,7 +7,8 @@
     "docs",
     "commands.json",
     "canon.yaml",
-    "architecture.calm.json"
+    "architecture.calm.json",
+    "pom.xml"
   ],
   "compile": [
     "node",
@@ -16,7 +17,7 @@
   "test": [
     "java",
     "-cp",
-    "build/greeting.jar",
+    "build/greeting.jar:build/dependency/*",
     "GreetingTestKt"
   ],
   "evidence": {
@@ -33,6 +34,32 @@
       "file": "src/Greeting.kt",
       "original": "exchange.requestURI.path != \"/greet\"",
       "replacement": "false"
+    },
+    {
+      "file": "src/Greeting.kt",
+      "original": "exchange.requestMethod != \"GET\"",
+      "replacement": "false"
+    },
+    {
+      "file": "src/Greeting.kt",
+      "original": "StandardCharsets.UTF_8).trim()",
+      "replacement": "StandardCharsets.UTF_8)"
+    },
+    {
+      "file": "src/Greeting.kt",
+      "original": "\"Hello, $name!\"",
+      "replacement": "\"Hello, $name\""
+    },
+    {
+      "file": "src/Greeting.kt",
+      "original": "status = 400",
+      "replacement": "status = 200"
+    },
+    {
+      "file": "src/Greeting.kt",
+      "original": "\"Hello, $name!\"",
+      "replacement": "\"Hello, ${name.replace(\"+\", \" \")}!\""
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }

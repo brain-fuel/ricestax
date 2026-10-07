@@ -45,3 +45,5 @@ The [haskell greeting service](../../examples/greeting-service-haskell/README.md
 documented generation, executable tests, an explicit mutation catalog and review
 commands. See the [example matrix](../../examples/README.md) for transport and
 architecture roles and required tools.
+
+For a complete worked example, follow the [Haskell HTTP property-testing tutorial](../tutorials/http-haskell.md).

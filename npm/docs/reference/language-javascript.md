@@ -45,3 +45,5 @@ The [javascript greeting service](../../examples/greeting-service/README.md) inc
 documented generation, executable tests, an explicit mutation catalog and review
 commands. See the [example matrix](../../examples/README.md) for transport and
 architecture roles and required tools.
+
+For a complete worked example, follow the [JavaScript HTTP property-testing tutorial](../tutorials/http-javascript.md).

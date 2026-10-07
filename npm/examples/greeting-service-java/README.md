@@ -1,16 +1,16 @@
 # Greeting HTTP server: java
 
-The HTTP application and its tests are written in java. They use JDK HttpServer and HttpClient.
+The HTTP application and its tests are written in java. They use JDK HttpServer/HttpClient and JetCheck.
 There is no process bridge to another language's web server. Tests start the
 actual server on an ephemeral port and send HTTP requests from the same language.
 
 Requires Rice’s Tax 0.3.2, Node 22+ for Rice’s Tax and the build helper, and
-JDK. From this directory:
+JDK 17+ and Maven. From this directory:
 
 ```sh
 ricestax canon tangle
 node tools/build.mjs
-java -cp build GreetingTest
+java -cp 'build:build/dependency/*' GreetingTest
 ricestax canon tangle --check
 ricestax mutate
 ricestax assess
@@ -27,7 +27,7 @@ page generates application code; the independently written test sources remain
 handwritten. The tests assert successful JSON greetings, trimming, Unicode, quote
 escaping, missing/blank input, unknown paths and wrong methods. The catalog
 removes input rejection and path rejection in separate mutants; the unchanged
-native HTTP assertions must kill both.
+native HTTP assertions must kill all seven catalog faults.
 Mutation compilation never retangles and never replaces the application with a
 mock. See `commands.json` and `ricestax.mutations.json` for exact commands.
 
@@ -35,3 +35,5 @@ This is a small teaching HTTP server, with no authentication, persistence or TLS
 It is not a production deployment template. Unicode whitespace normalization can
 differ between runtimes. The [example index](../README.md) explains the separate
 ANTLR language and CALM architecture examples.
+
+Follow the [Java property-testing tutorial](../../docs/tutorials/http-java.md) for JetCheck, failure replay, and mutation review.

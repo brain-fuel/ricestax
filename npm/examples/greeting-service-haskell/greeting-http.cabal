@@ -19,5 +19,5 @@ test-suite http-contract
   type: exitcode-stdio-1.0
   main-is: Main.hs
   hs-source-dirs: test
-  build-depends: base, greeting-http, aeson, bytestring, text, http-client, http-types, warp, hspec
+  build-depends: base, greeting-http, aeson, bytestring, text, http-client, http-types, warp, hspec, hedgehog, hspec-hedgehog
   default-language: Haskell2010

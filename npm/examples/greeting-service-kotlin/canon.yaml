@@ -7,7 +7,9 @@
     "build",
     "dist",
     ".venv",
-    "__pycache__"
+    "__pycache__",
+    ".hypothesis",
+    ".kotest"
   ],
   "languages": {
     "kotlin": {

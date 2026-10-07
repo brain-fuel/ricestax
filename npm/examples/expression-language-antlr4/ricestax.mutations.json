@@ -5,7 +5,8 @@
     "test",
     "tools",
     "docs",
-    "canon.yaml"
+    "canon.yaml",
+    "pom.xml"
   ],
   "compile": [
     "node",
@@ -14,7 +15,7 @@
   "test": [
     "java",
     "-cp",
-    "build",
+    "build:build/dependency/*",
     "ExpressionTest"
   ],
   "evidence": {
@@ -31,6 +32,22 @@
       "file": "src/Expression.g4",
       "original": "INT : [0-9]+",
       "replacement": "INT : [0-9]"
+    },
+    {
+      "file": "src/Evaluate.java",
+      "original": "value + right",
+      "replacement": "value - right"
+    },
+    {
+      "file": "src/Evaluate.java",
+      "original": "value * right",
+      "replacement": "value + right"
+    },
+    {
+      "file": "src/Evaluate.java",
+      "original": "value / right",
+      "replacement": "value * right"
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }

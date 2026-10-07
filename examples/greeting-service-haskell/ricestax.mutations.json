@@ -24,8 +24,8 @@
     "--test-arguments=--no-color"
   ],
   "evidence": {
-    "passed": "2 examples, 0 failures",
-    "failed": "2 examples, [1-9][0-9]* failures?"
+    "passed": "6 examples, 0 failures",
+    "failed": "6 examples, [1-9][0-9]* failures?"
   },
   "mutations": [
     {
@@ -37,6 +37,31 @@
       "file": "src/Greeting.hs",
       "original": "pathInfo request /= [\"greet\"]",
       "replacement": "False"
+    },
+    {
+      "file": "src/Greeting.hs",
+      "original": "requestMethod request /= methodGet",
+      "replacement": "False"
+    },
+    {
+      "file": "src/Greeting.hs",
+      "original": "T.strip (maybe",
+      "replacement": "id (maybe"
+    },
+    {
+      "file": "src/Greeting.hs",
+      "original": "\"Hello, \" <> name <> \"!\"",
+      "replacement": "\"Hello, \" <> name"
+    },
+    {
+      "file": "src/Greeting.hs",
+      "original": "reply status400",
+      "replacement": "reply status200"
+    },
+    {
+      "file": "src/Greeting.hs",
+      "original": "\"Hello, \" <> name <> \"!\"",
+      "replacement": "\"Hello, \" <> T.replace \"+\" \" \" name <> \"!\""
     }
   ],
   "timeoutMs": 600000

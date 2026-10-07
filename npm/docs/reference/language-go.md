@@ -45,3 +45,5 @@ The [go greeting service](../../examples/greeting-service-go/README.md) includes
 documented generation, executable tests, an explicit mutation catalog and review
 commands. See the [example matrix](../../examples/README.md) for transport and
 architecture roles and required tools.
+
+For a complete worked example, follow the [Go HTTP property-testing tutorial](../tutorials/http-go.md).

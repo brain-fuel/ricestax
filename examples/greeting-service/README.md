@@ -18,4 +18,6 @@ Visit http://127.0.0.1:8097/greet?name=Ada . Stop with Ctrl-C. The source page o
 `src/greeting.mjs` and `src/server.mjs`; edit it, retangle and rerun the native HTTP
 tests. The independent tests cover greetings, trimming, Unicode, JSON escaping,
 missing/blank names, unknown routes and wrong methods. The input-validation and path-rejection
-mutations must both be killed by those same tests. No pre-approved verdicts are supplied.
+mutations must be killed by those same tests. No pre-approved verdicts are supplied.
+
+Follow the [JavaScript property-testing tutorial](../../docs/tutorials/http-javascript.md) for fast-check, failure replay, and mutation review.

@@ -1,0 +1,5 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>example</groupId><artifactId>greeting-kotlin-tests</artifactId><version>0.1.0</version>
+  <dependencies><dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId><version>2.18.3</version></dependency><dependency><groupId>io.kotest</groupId><artifactId>kotest-property-jvm</artifactId><version>5.9.1</version></dependency><dependency><groupId>org.jetbrains.kotlinx</groupId><artifactId>kotlinx-coroutines-core-jvm</artifactId><version>1.8.1</version></dependency></dependencies>
+</project>

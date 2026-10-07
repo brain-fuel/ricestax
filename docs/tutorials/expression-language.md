@@ -7,7 +7,7 @@ title: Build and test an expression language with ANTLR4
 
 Use [the complete example](../../examples/expression-language-antlr4/README.md).
 Copy it from the source checkout or installed npm package into a working directory.
-Install the JDK and set `ANTLR_JAR` to the absolute ANTLR4 complete JAR path.
+Install JDK 17+ and Maven and set `ANTLR_JAR` to the absolute ANTLR4 complete JAR path.
 
 ## 1. Read the grammar as a specification
 
@@ -26,7 +26,7 @@ and expect 14. Run it with `'(2+3)*4'` and expect 20. `2+` must exit 2 without a
 
 ## 3. Challenge the assertions
 
-Run `java -cp build ExpressionTest`, then
+Run `java -cp 'build:build/dependency/*' ExpressionTest`, then
 `ricestax mutate`. The catalog removes EOF and changes multi-digit literals to
 single digits. Both changed grammars still generate and compile, but the tests
 must kill them: trailing input must not be accepted and `12` must remain valid.
@@ -49,3 +49,18 @@ The evaluator and assertion runner are both Java. `test/ExpressionTest.java`
 launches the Java CLI, asserts its output and rejection exit codes, and runs
 unchanged against both grammar mutations. Node is used only by the build helper
 and Rice’s Tax.
+
+The Java tests also use JetCheck to generate 100 expression trees of depth three.
+Leaves are integers from 0 through 100; division uses a positive literal denominator
+from 1 through 9. The generator calculates an expected value before rendering the
+fully parenthesized expression. The evaluator runs in a separate Java process and
+must produce that value; appending an extra literal or adding an unmatched opening parenthesis
+must fail with exit 2 and no result. Fixed cases separately check precedence,
+associativity, division by zero and literal overflow. This is bounded sampling, not
+proof for arbitrary expression depth or all overflow behavior.
+
+The build helper uses Maven to fetch JetCheck 0.3.0. Set `JETCHECK_SEED` to replay a
+seed or `JETCHECK_RECHECK` to the minimized serialized case printed by JetCheck.
+For example, run `JETCHECK_SEED=123 java -cp 'build:build/dependency/*' ExpressionTest`.
+The catalog now contains five faults: two grammar changes and three wrong arithmetic
+operations in the Java evaluator. Every fault must compile and then fail an assertion.

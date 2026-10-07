@@ -7,7 +7,8 @@
     "commands.json",
     "canon.yaml",
     "architecture.calm.json",
-    "go.mod"
+    "go.mod",
+    "go.sum"
   ],
   "compile": [
     "node",
@@ -21,8 +22,8 @@
     "./src"
   ],
   "evidence": {
-    "passed": "--- PASS: TestHTTPContract",
-    "failed": "--- FAIL: TestHTTPContract"
+    "passed": "^PASS$",
+    "failed": "--- FAIL: (Test(Generated)?HTTPContract|FuzzHTTPGreeting)"
   },
   "mutations": [
     {
@@ -34,6 +35,32 @@
       "file": "src/main.go",
       "original": "r.URL.Path != \"/greet\"",
       "replacement": "false"
+    },
+    {
+      "file": "src/main.go",
+      "original": "r.Method != http.MethodGet",
+      "replacement": "false"
+    },
+    {
+      "file": "src/main.go",
+      "original": "strings.TrimSpace(r.URL.Query().Get(\"name\"))",
+      "replacement": "strings.Trim(r.URL.Query().Get(\"name\"), \"\")"
+    },
+    {
+      "file": "src/main.go",
+      "original": "\"Hello, \" + name + \"!\"",
+      "replacement": "\"Hello, \" + name"
+    },
+    {
+      "file": "src/main.go",
+      "original": "w.WriteHeader(http.StatusBadRequest)",
+      "replacement": "w.WriteHeader(http.StatusOK)"
+    },
+    {
+      "file": "src/main.go",
+      "original": "\"Hello, \" + name + \"!\"",
+      "replacement": "\"Hello, \" + strings.ReplaceAll(name, \"+\", \" \") + \"!\""
     }
-  ]
+  ],
+  "timeoutMs": 600000
 }
