@@ -35,7 +35,10 @@ import GHC.Generics (Generic)
 
 -- | One load of the page: the project, every obligation the server could raise, and each rule's
 --
--- source once, so the page filters and groups on its own. ref:DEC-ui-shape
+-- source once, so the page filters and groups on its own. found pairs each row canon reports on
+-- with what canon check says of it, and canonRunning is the canon version that read the
+-- project,
+-- so the page shows canon's own words beside each card. ref:DEC-ui-shape ref:DEC-canon-lockstep
 --
 -- Specified by wire S2.
 data Payload s = Payload
@@ -48,6 +51,8 @@ data Payload s = Payload
   , historyRevision :: s
   , runIssue :: s
   , ingestionIssues :: [s]
+  , found :: [(s, s)]
+  , canonRunning :: s
   }
   deriving (Eq, Show, Generic)
 

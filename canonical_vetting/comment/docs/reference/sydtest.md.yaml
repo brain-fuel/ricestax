@@ -25,6 +25,9 @@ decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/bindin
 decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/blockOf:
   digest: sha256:1e68ee19d68d9402
   verdict: pending
+decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/checkSourceHashes:
+  digest: sha256:1c1210420458f5e4
+  verdict: pending
 decision/haskell/src/RicesTax/Sydtest.hs/module/RicesTax.Sydtest/function/chunksOf:
   digest: sha256:f236c577bbdef42e
   verdict: pending

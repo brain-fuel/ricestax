@@ -28,6 +28,9 @@ decision/haskell/web/app/Main.hs/module/Main/function/changedRuns:
 decision/haskell/web/app/Main.hs/module/Main/function/copyButton:
   digest: sha256:3060eb21ff666c79
   verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/coverageMessage:
+  digest: sha256:58df7f5054881419
+  verdict: pending
 decision/haskell/web/app/Main.hs/module/Main/function/diffView:
   digest: sha256:e3bf62288d2658c8
   verdict: pending
@@ -46,8 +49,17 @@ decision/haskell/web/app/Main.hs/module/Main/function/exemptGroups:
 decision/haskell/web/app/Main.hs/module/Main/function/exemptKindsFor:
   digest: sha256:99bb4bf16ec91393
   verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/findingLine:
+  digest: sha256:1e517507a111ee4c
+  verdict: pending
 decision/haskell/web/app/Main.hs/module/Main/function/gapRow:
   digest: sha256:fdb234c0be37b0eb
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/lifeNeedsAttention:
+  digest: sha256:9fbf841ef0cee23f
+  verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/liftKindsFor:
+  digest: sha256:060b0e70ef43e384
   verdict: pending
 decision/haskell/web/app/Main.hs/module/Main/function/main:
   digest: sha256:1f1eca6f1b03f649

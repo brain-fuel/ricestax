@@ -403,3 +403,30 @@ DEC-highlighting:
   opened: 0.1.0
   decided: 0.1.0
   refs: [canon]
+
+DEC-canon-lockstep:
+  status: decided
+  question: Rice's Tax reads a project through canon's library and the project checks itself with a canon binary built from a checkout, and between two canon commits the ingest API, the parser, and so the ids and digests of rows changed while canon called itself 0.1.0 throughout. A Rice's Tax built against one canon and a project assessed with another would show rows canon does not count, or count rows it does not show. How do Rice's Tax, canon, and a project stay in lockstep?
+  answer: |
+    canon's version names its ids, digests, and vetting files, and changes whenever any of them does (canon's DEC-canon-lockstep); a canon change that affects them ships together with a Rice's Tax release built against it. Rice's Tax states the canon it is released with as requiredCanon, depends on exactly that version in package.yaml, and refuses to run when built against another. A project names under canon in canon.yaml the canon its rows were written with; assess adds the key when it is missing, every verb refuses a project that names another canon, with a message naming both and the way out, and assess --upgrade-canon re-ingests under the running canon. What a row is, and whether it is pending, stale, or exempt, is canon's: Rice's Tax gathers through canon's survey, the same reading canon check, vet, and ingest are views of, takes each canon material's state and exemption from canon's findings, shows canon's finding on each card, and counts pending sign-off with canon's findingPending, so audit and canon check agree on the pending set, which a corpus rule checks on a scratch project. The grammars this project checks itself with are canon's, byte for byte, which a corpus rule checks too.
+  opened: 0.4.0
+  decided: 0.4.0
+  refs: [canon, REQ-canon-lockstep]
+
+DEC-exemption-lift:
+  status: decided
+  question: An adopted project exempts its backlog by directory, as LawSpec exempts /src/ with a thousand rows under it, and pays it a file at a time. Lifting the whole directory makes every file due at once, and rewriting canonical_exemptions.yaml from a map reorders it, so blame, which names who exempted each subject, would name whoever lifted one. How does the page lift one subject?
+  answer: |
+    Lifting a subject deletes an entry written for exactly that subject, and otherwise replaces each wider entry covering it with entries for everything else that entry covered, with the same kinds, reason, and revisit version: a directory pattern by the fewest anchored directories and files that cover the rest of its tree, any other pattern by every other subject it covered, named in full. The page offers it under the subject switcher, and still lifts a whole exemption from its group. Every write of canonical_exemptions.yaml rewrites only the entries that changed and leaves every other line where and as it was. The rows of an exempt group can also be decided before the exemption is lifted, from the group's Review button, since paying early is still paying.
+  opened: 0.4.0
+  decided: 0.4.0
+  refs: [REQ-exemption-lift]
+
+DEC-decide-on-disk:
+  status: decided
+  question: A decision gathered the whole project again before writing its row, so the digest was of the material as it stood; on LawSpec, three thousand rows over eight languages, that took seconds per click, and every click also fetched the whole payload again. How does a decision stay true to the material without reading the project each time?
+  answer: |
+    A decision reads again only what is quick to read, the vetting files, the ledger, the registry, and the exemptions, and checks the source of a comment, page, or name against the fingerprint of the file taken when the project was read: a source changed since is refused, with a message to re-read, since its digest would be of text the person did not see, and an unchanged one is signed with the digest canon computed. The server builds the decided row again rather than the whole payload, keeps the encoded payload ready off the request, and the page patches the row it gets back instead of fetching everything again.
+  opened: 0.4.0
+  decided: 0.4.0
+  refs: [REQ-canon-lockstep]

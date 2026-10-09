@@ -25,10 +25,22 @@ written into its ledger file in the working tree the moment it is clicked, and n
 so review what `git diff` shows and commit it: the committer of the verdict line is its signer.
 ref:DEC-ui-commit ref:DEC-signer
 
+Each card says what canon finds on the row, in canon check's words, under the bar: pending
+vetting, stale, or nothing for a row decided since the page was read. A decision is refused when
+the source of the comment or page changed since the page read the project; press "re-read" and
+decide on what is there now. ref:DEC-canon-lockstep ref:DEC-decide-on-disk
+
 A subject that cannot be paid yet is exempted rather than ignored, so the debt stays counted: use
 "Exempt this subject…" under the switcher, or write the entry yourself in
-`canonical_exemptions.yaml` with the kinds it covers, a reason, and the version to revisit by. Lift it
-from the Exempt section when the debt is paid. ref:DEC-exemptions
+`canonical_exemptions.yaml` with the kinds it covers, a reason, and the version to revisit by.
+Rows under an exemption are still owed: the counter shows how many, each subject in the switcher
+shows its exempt rows as `+n`, and the Exempt section groups them by the entry that covers them.
+"Review" on a group opens its rows as cards, to decide now; "Lift" on a group lifts that entry
+whole. With a subject chosen, "Lift the exemption for this subject" makes that file or page alone
+due: a directory entry such as `/src/` is replaced by entries for the rest of the directory, so
+the other files stay exempt, and canon check then reports the subject's rows, and its missing
+comments, as due. Every write rewrites only the entries that changed, so blame of the others still
+names who exempted them. ref:DEC-exemptions ref:DEC-exemption-lift
 
 When the How queue says files changed since the run, or when the code has moved on, press
 "run mutation": it runs the command `canon.yaml` names under `runtime`, shows the run's last line

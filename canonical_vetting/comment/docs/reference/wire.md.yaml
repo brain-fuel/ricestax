@@ -16,6 +16,9 @@ decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/ExemptRequest:
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Facts:
   digest: sha256:cc19c0ef9ce6cc75
   verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/HistoryEvent:
+  digest: sha256:ad40a37ccf2fe011
+  verdict: pending
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Item:
   digest: sha256:49355ad5d38a1be1
   verdict: pending

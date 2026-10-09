@@ -1,5 +1,5 @@
 name:                rices-tax
-version:             0.3.2
+version:             0.4.0
 license:             MIT
 license-file:        LICENSE
 author:              "brain-fuel"
@@ -48,7 +48,7 @@ flags:
 library:
   source-dirs: src
   dependencies:
-  - canon
+  - canon == 0.2.0
   - aeson
   - scientific
   - yaml
@@ -75,7 +75,7 @@ tests:
     ghc-options:
     - -threaded
     - -rtsopts
-    - -with-rtsopts=-N
+    - '"-with-rtsopts=-N -qg"'
     dependencies:
     - rices-tax
     - canon
@@ -97,7 +97,7 @@ executables:
     ghc-options:
     - -threaded
     - -rtsopts
-    - -with-rtsopts=-N
+    - '"-with-rtsopts=-N -qg"'
     dependencies:
     - rices-tax
     - canon

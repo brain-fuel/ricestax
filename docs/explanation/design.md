@@ -69,6 +69,18 @@ ref:DEC-what-raised ref:DEC-why-digest-scope ref:DEC-how-subkinds ref:DEC-work-i
 
 ref:DEC-ui-commit ref:DEC-verdict-carry-over ref:DEC-mutant-provenance
 
+## Lockstep with canon
+
+canon's version names its ids, digests, and vetting files, so a project and every tool reading it
+must use one canon. Rice's Tax is released with exactly one canon version, which `package.yaml`
+pins and the binary checks; a project names the canon version its rows were written with under
+`canon` in `canon.yaml`, and every verb refuses another. Within that canon nothing is computed
+twice: the page gathers through canon's survey, the one reading check, vet, and ingest are views
+of; a comment's, page's, decision's, or reference's state and exemption are canon's findings on
+it; the card shows canon's finding in canon's words; and audit counts pending sign-off with
+canon's own predicate, so `ricestax audit` and `canon check` agree on the pending set.
+ref:DEC-canon-lockstep
+
 ## Where each part comes from
 
 Units, languages, comments, and pages come from canon, as do test units and the requirement each

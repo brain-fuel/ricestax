@@ -4,6 +4,9 @@ registry/MIT:
 registry/REQ-canon-delegated:
   digest: sha256:2fc12961007368e9
   verdict: pending
+registry/REQ-canon-lockstep:
+  digest: sha256:b3b0ffb68a90133a
+  verdict: pending
 registry/REQ-context-digest:
   digest: sha256:6abfdad78dd79686
   verdict: pending
@@ -12,6 +15,9 @@ registry/REQ-coverage-words:
   verdict: pending
 registry/REQ-dispositions:
   digest: sha256:a9f219f4eb34e3e1
+  verdict: pending
+registry/REQ-exemption-lift:
+  digest: sha256:4284cca952c70af1
   verdict: pending
 registry/REQ-exit-codes:
   digest: sha256:027e9f2a6b48816a
@@ -58,6 +64,12 @@ registry/REQ-what-raised:
 registry/REQ-whole-block:
   digest: sha256:1af3c5b6412a3d72
   verdict: pending
+registry/antlr4-tool:
+  digest: sha256:e74ef7348d41c04f
+  verdict: pending
+registry/calm-1.2:
+  digest: sha256:82ef8f586a76aeec
+  verdict: pending
 registry/canon:
   digest: sha256:2bdc64e6d0534e86
   verdict: pending
@@ -72,6 +84,12 @@ registry/hedgehog:
   verdict: pending
 registry/miso:
   digest: sha256:ed497847685337a6
+  verdict: pending
+registry/pep-257:
+  digest: sha256:20f7657ec6c6876e
+  verdict: pending
+registry/pep-8:
+  digest: sha256:00d6bb397e71454a
   verdict: pending
 registry/rice-1953:
   digest: sha256:800b007ea0fe372c

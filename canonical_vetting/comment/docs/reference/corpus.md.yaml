@@ -7,6 +7,12 @@ decision/haskell/test/Corpus.hs/module/Main/function/main:
 decision/haskell/test/Corpus.hs/module/Main/function/prop_aWordDecides:
   digest: sha256:0a2c7925a1e4fcf5
   verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_anotherCanonIsRefusedUntilUpgraded:
+  digest: sha256:1f1774ea43be9e51
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_auditAndCanonCheckAgreeOnThePendingSet:
+  digest: sha256:1b5edd1a7d3b5e0f
+  verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_auditExitCodes:
   digest: sha256:ea2039e3d84a5f29
   verdict: pending
@@ -18,6 +24,9 @@ decision/haskell/test/Corpus.hs/module/Main/function/prop_bindingBlockCarriesIts
   verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_bindingBlockStopsAtABlankLine:
   digest: sha256:9cc9f5e10d972212
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_builtWithTheCanonItIsReleasedWith:
+  digest: sha256:a996456daff0b98e
   verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_canonArgumentsReachCanon:
   digest: sha256:eb0da2d9db0e0fdf
@@ -31,8 +40,14 @@ decision/haskell/test/Corpus.hs/module/Main/function/prop_contextIgnoresComments
 decision/haskell/test/Corpus.hs/module/Main/function/prop_coverageWordsFollowTheReading:
   digest: sha256:3cd5a8c4ed6b106e
   verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_decideRefusesAChangedSource:
+  digest: sha256:09bf94a3917d4f03
+  verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_everyKindHasAQuestion:
   digest: sha256:2220d8fed975babf
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_exemptionEditsLeaveOtherEntriesAsWritten:
+  digest: sha256:a8dc2f6e50f54e37
   verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_exportsAndVerbsAreOneTable:
   digest: sha256:d751d2448501dd43
@@ -43,8 +58,14 @@ decision/haskell/test/Corpus.hs/module/Main/function/prop_fnvMatchesWaveletVecto
 decision/haskell/test/Corpus.hs/module/Main/function/prop_fnvNewlineTerminatesEachLine:
   digest: sha256:967c4751dffca4ad
   verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_foreignContextChanges:
+  digest: sha256:e62ce658152d516e
+  verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_headWordNamesTheBinding:
   digest: sha256:dfc7a0bd061369eb
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_liftingOneSubjectNarrowsADirectory:
+  digest: sha256:29dcd4a2d1247cc4
   verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_lineDiffKeepsSharedLines:
   digest: sha256:6bc64e433188b930
@@ -79,6 +100,9 @@ decision/haskell/test/Corpus.hs/module/Main/function/prop_uncoveredIsAlwaysAGap:
 decision/haskell/test/Corpus.hs/module/Main/function/prop_unknownExportIsAnError:
   digest: sha256:b6ef4c1250824df6
   verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_vendoredGrammarsAreCanons:
+  digest: sha256:0fe2aa85ebe66ac6
+  verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_whatDigestFollowsNameSignatureAndBody:
   digest: sha256:da64100dec619507
   verdict: pending
@@ -99,6 +123,12 @@ decision/haskell/test/Corpus.hs/module/Main/function/spec:
   verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/unitOf:
   digest: sha256:501ba16a8802659f
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/withHistoryScratch:
+  digest: sha256:e4ecec7f87901fcd
+  verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/withLockstepScratch:
+  digest: sha256:120c0a6449ead589
   verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/withScratch:
   digest: sha256:d53d3fecc389e4c1

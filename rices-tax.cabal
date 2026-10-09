@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           rices-tax
-version:        0.3.2
+version:        0.4.0
 synopsis:       The ledger of what a machine raised about a codebase and a person must decide
 description:    Please see README.md
 author:         brain-fuel
@@ -55,7 +55,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
-    , canon
+    , canon ==0.2.0
     , containers
     , cryptohash-sha256
     , directory
@@ -87,7 +87,7 @@ executable ricestax
       LambdaCase
       TupleSections
       ScopedTypeVariables
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts "-with-rtsopts=-N -qg"
   build-depends:
       aeson
     , base >=4.7 && <5
@@ -124,7 +124,7 @@ test-suite corpus
       LambdaCase
       TupleSections
       ScopedTypeVariables
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts "-with-rtsopts=-N -qg"
   build-depends:
       QuickCheck
     , aeson

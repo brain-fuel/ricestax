@@ -32,6 +32,28 @@ review debt, not rewrite the application or approve it automatically.
    Use [the mutation guide](run-mutations.md), retaining the existing language
    toolchain. Existing Refine and sydtest reports need not be replaced.
 
+## A project canon already checks
+
+A project that already runs canon, with `canon.yaml`, its ledger, registry,
+exemptions, and `canonical_vetting/`, needs no `init`: Rice's Tax reads the same
+files. Build Rice's Tax against the canon the project checks itself with, the
+version `ricestax canon version` prints, then at the project root:
+
+1. `ricestax assess` names that canon under `canon` in `canon.yaml`, records
+   the rows canon ingest would, raises the What queue, quieted by an exemption
+   for the kind `name` if the project is not judging names yet, and prints what
+   canon counts as pending and what is owed under exemptions.
+2. `ricestax pay 8080` shows every row with canon's finding on it. A backlog
+   exempted by directory is reviewed group by group from the Exempt section, or
+   one subject at a time by lifting its exemption.
+3. `git diff` and commit the verdicts; `ricestax audit` and `canon check` then
+   agree on what is left.
+
+The project's languages need nothing of Rice's Tax: whatever `canon.yaml`
+names, a dialect under `.canon/grammars` or a profile with its own units,
+Haskell, Java, Python, Go, Kotlin, Rust, JavaScript and TypeScript sources and
+Folio pages with `include=` fences alike, is read by canon.
+
 To adopt documentation-to-code, move one owned source at a time into a Folio
 reference page. Compare `ricestax canon tangle` output with the original and run
 the normal tests. Tangling writes the paths named by the pages: never point an

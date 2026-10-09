@@ -1,0 +1,6 @@
+decision/javascript/npm/pay.mjs:
+  digest: sha256:03ce33c3c2dcc2a7
+  verdict: pending
+decision/javascript/npm/pay.mjs/binding/logFile:
+  digest: sha256:fdc821acab459b5b
+  verdict: pending

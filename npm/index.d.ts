@@ -38,8 +38,8 @@ export type Api = {
   history(input: { root: string } & HistoryRequest): Promise<Payload | Failure>;
   /** Declares a subject not owed until a version and returns the payload with the exemption applied. */
   exempt(input: { root: string } & ExemptRequest): Promise<Payload | Failure>;
-  /** Lifts an exemption and returns the payload. */
-  lift(input: { root: string; exemptSubject: string }): Promise<Payload | Failure>;
+  /** Lifts the exemption over a subject, for the kinds given or all, narrowing a wider one to the rest of what it covered, and returns the payload. */
+  lift(input: { root: string; exemptSubject: string; exemptKinds?: string[] }): Promise<Payload | Failure>;
   /** The whole definition around a mutant, for the zoom and the copy. */
   whole(input: { root: string; kind: string; id: string }): Promise<Whole | Failure>;
   /** Reads the decided headings of wavelet MUT- records into the ledger. */

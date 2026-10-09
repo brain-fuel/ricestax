@@ -54,6 +54,14 @@ Edit the last field in its literate source, not generated `src/RicesTax/Gen.hs`
 or `wasm/ricestax-wasm.cabal`. Hpack updates `rices-tax.cabal`. Example project
 versions, historical records and dependency versions are separate.
 
+A release of canon that changes ids, digests, or vetting files changes canon's
+version, and ships together with a Rice's Tax release built against it: set
+`requiredCanon` in `docs/reference/core.md` and the `canon ==` bound in
+`package.yaml` to it, re-vendor `grammars/` from that canon (the corpus rule
+`lockstep.vendored-grammars-are-canon's` fails until they match), and run the
+corpus, whose `lockstep` rules compare `ricestax audit` with `canon check`
+(`DEC-canon-lockstep`).
+
 ## Build and validate
 
 Run each command successfully before continuing:

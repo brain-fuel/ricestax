@@ -31,6 +31,12 @@ module RicesTax.Core
   , changeHistory
   , lifecycleOf
   , wholeOf
+  , requiredCanon
+  , lockstepIssue
+  , upgradeCanon
+  , canonCounts
+  , liftSubject
+  , redecide
   ) where
 
 import Canon.Config (Config (..), Runtime (..))
@@ -38,8 +44,8 @@ import Canon.Antlr4.Interpret (Interpreter)
 import Canon.Highlight (Classifier, Piece (..), classifierFor, highlightLines)
 import Canon.Profile (Profile (..), profileForPath)
 import RicesTax.Marks (classLetter, renderRuns)
-import Canon.Exemptions (Exemption (..), Exemptions (..), exemptionFor)
-import Canon.Model.Finding (Finding (..), Severity (..), findingSeverity, renderFinding)
+import Canon.Exemptions (Exemption (..), Exemptions (..), emptyExemptions, exemptionFor, readExemptionsFile, renderExemptionsError)
+import Canon.Model.Finding (Finding (..), Severity (..), findingKey, findingPending, findingSeverity, renderFinding)
 import RicesTax.Model (Outcome (..))
 import RicesTax.Sydtest
 import Data.Char (isHexDigit)
@@ -52,7 +58,8 @@ import Canon.Project
 import Canon.Tangle (Origin (..), Tangled (..), originOf)
 import Canon.Registry (Reference (..), Registry (..))
 import Canon.Span (Position (..), Span (..))
-import Canon.Version (parseVersion, renderVersion)
+import Canon.Version (canonVersion, parseVersion, renderVersion)
+import Canon.Walk (Walked (..))
 import Canon.Vetting hiding (assess, entryRevisit)
 import qualified Canon.Vetting as V
 import Control.Exception (SomeException, try, bracket)
@@ -64,7 +71,7 @@ import qualified Data.ByteString as BS
 import Numeric (showHex)
 import Data.List (nub)
 import qualified Data.ByteString.Lazy as LBS
-import Data.List (findIndex, isPrefixOf, sortOn)
+import Data.List (findIndex, isPrefixOf, sortOn, stripPrefix)
 import qualified Data.Set as Set
 import qualified Data.List.NonEmpty as NE
 import qualified Data.Map.Strict as Map
@@ -77,7 +84,7 @@ import qualified Data.Yaml as Yaml
 import RicesTax.What (whatMaterials)
 import RicesTax.Wire
 import System.Directory (createDirectory, removeDirectory, renameFile, createDirectoryIfMissing, doesFileExist, getCurrentDirectory)
-import System.FilePath (normalise, takeDirectory, takeFileName, (</>))
+import System.FilePath (makeRelative, normalise, takeDirectory, takeFileName, (</>))
 import System.IO (openTempFile, hClose)
 
 instance ToJSON s => ToJSON (Payload s)
@@ -165,7 +172,10 @@ applyDecision d p =
         }
 
 -- | Every verb loads the project at the current directory the same way, so the one error a caller
--- sees for a missing or unreadable canon.yaml is canon's own. ref:DEC-three-verbs
+-- sees for a missing or unreadable canon.yaml is canon's own, and every verb refuses a project
+-- whose rows were written by another canon, since its ids and digests would not be this
+-- canon's.
+-- ref:DEC-three-verbs ref:DEC-canon-lockstep
 --
 -- Specified by core S2.
 withLoaded :: (Project -> IO (Either Text a)) -> IO (Either Text a)
@@ -173,7 +183,63 @@ withLoaded continue = do
   loaded <- loadProject "."
   case loaded of
     Left err -> pure (Left (renderProjectError err))
-    Right project -> continue project
+    Right project -> maybe (continue project) (pure . Left) (lockstepIssue project)
+
+-- | The canon version this Rice's Tax is released with: ids, digests, the vetting files, and the
+-- findings are canon's, read through its library, so the two ship together, and a canon change
+-- to
+-- any of them is a Rice's Tax release too. ref:DEC-canon-lockstep
+--
+-- Specified by core S2.
+requiredCanon :: Text
+requiredCanon = "0.2.0"
+
+-- | Why this Rice's Tax cannot read a project, if it cannot: it was built against another canon
+-- than
+-- the one it is released with, or the project's canon.yaml names another canon than the running
+-- one under canon. The message says what to run instead. ref:DEC-canon-lockstep
+--
+-- Specified by core S2.
+lockstepIssue :: Project -> Maybe Text
+lockstepIssue project
+  | T.pack canonVersion /= requiredCanon = Just ("this Rice's Tax is released with canon " <> requiredCanon <> " but was built against canon " <> T.pack canonVersion <> "; build it against canon " <> requiredCanon <> ", the canon its stack.yaml names")
+  | otherwise = case lockstepFindings (projectConfig project) of
+      (CanonVersionMismatch declared running : _) -> Just ("canon.yaml says this project was assessed with canon " <> declared <> ", and this Rice's Tax runs canon " <> running <> "; use the Rice's Tax released with canon " <> declared <> ", or run ricestax assess --upgrade-canon to re-ingest the rows under canon " <> running)
+      _ -> Nothing
+
+-- | Names the running canon under canon in canon.yaml, replacing the version there or adding the
+-- key
+-- after version, so the project says which canon its rows were written with; the rest of the
+-- file
+-- is left as written. A canon.yaml written as one JSON object, as init writes it, stays one.
+-- ref:DEC-canon-lockstep
+--
+-- Specified by core S2.
+upgradeCanon :: FilePath -> IO Bool
+upgradeCanon path = do
+  present <- doesFileExist path
+  if not present
+    then pure False
+    else do
+      content <- TIO.readFile path
+      if "{" `T.isPrefixOf` T.stripStart content then upgradeFlow content else upgradeBlock content
+  where
+    upgradeFlow content = case Yaml.decodeEither' (TE.encodeUtf8 content) :: Either Yaml.ParseException (Map.Map Text Yaml.Value) of
+      Left _ -> pure False
+      Right top
+        | Map.lookup "canon" top == Just (Yaml.String (T.pack canonVersion)) -> pure False
+        | otherwise -> LBS.writeFile path (encode (Map.insert "canon" (Yaml.String (T.pack canonVersion)) top)) >> pure True
+    upgradeBlock content = do
+      let ls = T.lines content
+          line' = "canon: " <> T.pack canonVersion
+          isCanon l = "canon:" `T.isPrefixOf` l
+          replaced
+            | any isCanon ls = map (\l -> if isCanon l then line' else l) ls
+            | otherwise = case break ("version:" `T.isPrefixOf`) ls of
+                (before, v : after) -> before ++ [v, line'] ++ after
+                _ -> line' : ls
+          updated = T.unlines replaced
+      if updated == content then pure False else TIO.writeFile path updated >> pure True
 
 -- | Everything one request needs from the project, read once so the page and a decision agree
 --
@@ -194,6 +260,11 @@ data Gathered = Gathered
   , gIngestionIssues :: [Text]
   , gTangles :: [Tangled]
   , gHighlight :: Map.Map Text (Classifier, Interpreter)
+  , gFindings :: Map.Map VettingKey [Finding]
+  , gSurveyed :: Vetting
+  , gReport :: [Finding]
+  , gFiles :: [FilePath]
+  , gStamps :: Map.Map FilePath Text
   }
 
 -- | The tangled files, so a mutant reported at a line of one lands on the unit whose page holds
@@ -205,10 +276,11 @@ data Gathered = Gathered
 -- Specified by core S5.
 gather :: Project -> IO Gathered
 gather project = do
-  walked <- projectFiles project Nothing
-  extracted <- extractAll project walked
-  assessments <- projectAssessments project
-  let models = [extractionModel e | (_, Right e) <- extracted]
+  survey <- surveyProject project Nothing
+  stamps <- fmap Map.fromList $ mapM (\path -> (,) (normalise path) . fnv1aHex . T.lines <$> TIO.readFile path) [path | (path, Right _) <- surveyExtracted survey]
+  let extracted = surveyExtracted survey
+      assessments = surveyAssessments survey
+      models = [extractionModel e | (_, Right e) <- extracted]
       decisions = concatMap modelDecisions models
       units = concatMap (concatMap allUnits . modelUnits) models
   tangles <- if null (folioProfiles project) then pure [] else either (const []) (\(_, ts, _) -> ts) <$> tangleProject project []
@@ -225,7 +297,7 @@ gather project = do
   pure
     Gathered
       { gProject = project
-      , gMaterials = projectMaterials project decisions ++ whatMaterials units
+      , gMaterials = surveyMaterials survey ++ whatMaterials units
       , gVetting = fromMaybe emptyVetting (projectVetting project)
       , gAssessments = assessments
       , gDecisions = Map.fromList [(decisionKey d, d) | d <- decisions]
@@ -237,6 +309,11 @@ gather project = do
       , gIngestionIssues = [T.pack path <> ": " <> message | (path, Left message) <- extracted]
       , gTangles = tangles
       , gHighlight = highlighters
+      , gFindings = Map.fromListWith (flip (++)) [(k, [raw]) | (raw, _) <- surveyFindings survey, Just k <- [findingKey raw]]
+      , gSurveyed = fromMaybe emptyVetting (projectVetting project)
+      , gReport = surveyReport project survey
+      , gFiles = map (makeRelative (projectDirectory project) . normalise) (walkedFiles (surveyWalked survey))
+      , gStamps = stamps
       }
 
 -- | A What row whose unit is gone, or no longer requires a comment, is an orphan of its own
@@ -282,6 +359,8 @@ assemble g = do
       , runIssue = issue
       , ingestionIssues = gIngestionIssues g
       , rules = maybe [] (\run -> [RuleSource r src (marksOf g (maybe "rule.hs" (\rt -> runtimeTests rt </> "rule.hs") (gRuntime g)) src) | (r, src) <- Map.toList (runRuleSources run)]) (gRun g)
+      , found = foundText g
+      , canonRunning = T.pack canonVersion
       }
 
 isKindKey :: VettingKey -> Bool
@@ -323,8 +402,15 @@ docItem g m path = case Map.lookup (materialKey m) (gDecisions g) of
         cited = mapMaybe (refOf g) (whyReferences why ++ whyLicenses why)
         name = case decisionUnits d of
           (UnitId segments NE.:| _) -> NE.last segments
-    ls <- sourceLines path 1 60
+    ls <- sourceLines path 1 pageLines
     pure (base g m "doc" "Why" (T.pack path) name "doc" (T.pack path) 1 (whyText why) cited ls [] 1 0)
+
+-- | A page is judged as a whole, so its card shows all of it, up to a length no page of a project
+-- the owner has adopted reaches. ref:DEC-doc-kind
+--
+-- Specified by core S7.
+pageLines :: Int
+pageLines = 2000
 
 -- | A What row: the name and signature as the text, the signature and body as the code window
 --
@@ -425,6 +511,64 @@ orphanItem g k e =
     , exemptUntil = ""
     }
 
+-- | The exemption covering an item, as canon finds it: an item canon raises a pending finding on
+-- is
+-- exempt exactly when canon's exemptions turn that finding into an exempt one, under the
+-- pattern
+-- canon names; only an item canon has no finding on, a mutant or an unrecorded name, is matched
+-- here, by the same exemptionFor. ref:DEC-exemptions ref:DEC-canon-lockstep
+--
+-- Specified by core S9.
+exemptionIn :: Gathered -> Text -> Text -> Text -> (Text, Text, Text)
+exemptionIn g kindT pathT keyT = case parseVettingKey keyT of
+  Just k | raws@(_ : _) <- pendingFindings g k -> case [(pat, reason, until') | Exempt _ pat until' reason <- map (exemptFinding (gProject g)) raws] of
+    (hit : _) -> hit
+    [] -> ("", "", "")
+  _ -> exemptionOf g kindT pathT keyT
+
+-- | canon's pending findings on a row, none once the row was decided on the page since canon read
+-- it.
+-- ref:DEC-canon-lockstep
+--
+-- Specified by core S9.
+pendingFindings :: Gathered -> VettingKey -> [Finding]
+pendingFindings g k = if decidedSince g k then [] else filter findingPending (Map.findWithDefault [] k (gFindings g))
+
+-- | Whether a row was written after canon read the project, by a decision on the page, so canon's
+-- findings on it describe the row as it was. ref:DEC-ui-commit
+--
+-- Specified by core S9.
+decidedSince :: Gathered -> VettingKey -> Bool
+decidedSince g k = Map.lookup k (vettingEntries (gVetting g)) /= Map.lookup k (vettingEntries (gSurveyed g))
+
+-- | The state of a canon material is canon's: stale or pending where canon finds it so, and
+-- otherwise
+-- the verdict on its row. A row decided on the page since is in the state its new verdict says,
+-- and
+-- a What row, whose material canon does not raise, is judged here as before.
+-- ref:DEC-canon-lockstep
+--
+-- Specified by core S9.
+stateIn :: Gathered -> Material -> Maybe VettingEntry -> Text
+stateIn g m entry = case materialKey m of
+  KindKey _ _ -> stateOf m entry
+  k
+    | decidedSince g k -> maybe "pending" (verdictText . entryVerdict) entry
+    | stale (Map.findWithDefault [] k (gFindings g)) -> "stale"
+    | any findingPending (Map.findWithDefault [] k (gFindings g)) -> "pending"
+    | otherwise -> maybe "pending" (verdictText . entryVerdict) entry
+  where
+    stale fs = not (null ([() | CommentStale {} <- fs] ++ [() | MaterialStale _ <- fs]))
+
+-- | What canon finds on each row, rendered as canon check renders it before an exemption turns it
+-- into an exempt finding, for the card, which shows the exemption beside it; a row decided on
+-- the
+-- page since has no finding until the project is read again. ref:DEC-canon-lockstep
+--
+-- Specified by core S9.
+foundText :: Gathered -> [(Text, Text)]
+foundText g = [(renderVettingKey k, T.intercalate "; " (map renderFinding fs)) | (k, fs) <- Map.toList (gFindings g), not (decidedSince g k)]
+
 -- | The exemption covering an item, by its path for a comment or mutant and by its key for a
 --
 -- ledger or registry entry, rendered as the pattern that covers it. ref:DEC-exemptions
@@ -437,7 +581,7 @@ exemptionOf g kindT pathT keyT = case exemptionFor (projectExemptions (gProject 
 
 base :: Gathered -> Material -> Text -> Text -> Text -> Text -> Text -> Text -> Int -> Text -> [Ref Text] -> [Text] -> [Text] -> Int -> Int -> Item Text
 base g m kindT questionT subj name ukind pathT ln txt cited codeLs codeMarks from cl =
-  let (pat, why, until') = exemptionOf g kindT pathT (renderVettingKey k)
+  let (pat, why, until') = exemptionIn g kindT pathT (renderVettingKey k)
    in Item
     { key = renderVettingKey k
     , kind = kindT
@@ -451,11 +595,11 @@ base g m kindT questionT subj name ukind pathT ln txt cited codeLs codeMarks fro
     , text = txt
     , answer = ""
     , refs = cited
-    , state = stateOf m entry
+    , state = stateIn g m entry
     , verdict = maybe "pending" (verdictText . entryVerdict) entry
     , note = fromMaybe "" (entry >>= entryNote)
     , revisit = maybe "" renderVersion (entry >>= V.entryRevisit)
-    , signer = signerOf g k
+    , signer = if maybe True ((== Pending) . entryVerdict) entry || decidedSince g k then Nothing else signerOf g k
     , code = codeLs
     , codeFrom = from
     , marks = codeMarks
@@ -493,7 +637,7 @@ mutantItem g run m =
       pathT = T.pack (mutantFile m)
       (name, ukind) = unitFor g (mutantFile m) (mutantLine m) (mutantBinding m)
       own = Map.lookup (mutantId m) (runReadings run)
-      (pat, why, until') = exemptionOf g kindT pathT (renderVettingKey k)
+      (pat, why, until') = exemptionIn g kindT pathT (renderVettingKey k)
       observedV = case reading of
         Just r -> Just (Observed (readingStatus r) (readingTotal r) [Count v c | (v, c) <- readingDistinct r] [Bound n [Count v c | (v, c) <- vs] | (n, vs) <- readingBound r])
         Nothing -> fmap (\r -> Observed (readingStatus r) 0 [] []) own
@@ -618,24 +762,44 @@ goneItem g k e stillLive =
 -- Specified by core S13.
 assess :: Gathered -> IO Text
 assess g = do
-  (_, total, files, fresh, failures) <- ingestProject (gProject g)
+  stamped <- upgradeCanon (resolvePath (gProject g) "canon.yaml")
+  (_, total, files, fresh, dropped, failures) <- ingestProject (gProject g)
   (rows, howFiles) <- ingestHow g
   (names, nameFiles) <- ingestWhat g
-  p <- assemble g
+  reread <- withLoaded (\project' -> Right <$> gather project')
+  let g' = either (const g) id reread
+  p <- assemble g'
   let counts = queueCounts p
+      (pending, exempted) = canonCounts g'
   pure
     ( T.unlines
-        ( [ "assessed " <> project p
-          , "  comments, decisions, and references: " <> T.pack (show (length fresh)) <> " new rows, " <> T.pack (show total) <> " in " <> T.pack (show files) <> " files"
+        ( [ "assessed " <> project p <> " with canon " <> T.pack canonVersion <> (if stamped then ", now named under canon in canon.yaml" else "")
+          , "  comments, pages, decisions, and references: " <> T.pack (show (length fresh)) <> " new rows, " <> T.pack (show (length dropped)) <> " pending rows of vanished material dropped, " <> T.pack (show total) <> " in " <> T.pack (show files) <> " files"
           , "  names and signatures: " <> T.pack (show names) <> " new rows in " <> T.pack (show nameFiles) <> " files"
           , "  mutants and gaps: " <> T.pack (show rows) <> " new rows in " <> T.pack (show howFiles) <> " files"
           ]
             ++ map ("  not read: " <>) failures
             ++ ["  changed since the run, no rows written until it is repeated: " <> T.pack f | Just run <- [gRun g], f <- runStaleFiles run]
-            ++ [""]
+            ++ ["", "canon: " <> T.pack (show pending) <> " pending sign-off, " <> T.pack (show exempted) <> " more owed under exemptions", ""]
             ++ counts
         )
     )
+
+-- | What canon check counts as pending sign-off, and how many more pending rows canon's
+-- exemptions
+-- hold back, from the same findings, so the numbers Rice's Tax reports are canon's.
+-- ref:DEC-canon-lockstep
+--
+-- Specified by core S13.
+canonCounts :: Gathered -> (Int, Int)
+canonCounts g =
+  ( length (filter findingPending (gReport g))
+  , length [() | fs <- Map.elems (gFindings g), f <- fs, findingPending f, isExempt (exemptFinding (gProject g) f)]
+  )
+  where
+    isExempt f = case f of
+      Exempt {} -> True
+      _ -> False
 
 -- | The exit code of an audit: paid, not paid, or could not audit, so a pipeline tells a failed
 --
@@ -668,19 +832,26 @@ writeExemption :: Gathered -> Bool -> ExemptRequest Text -> IO (Either Text Exem
 writeExemption g adding x = do
   let subject = T.strip (exemptSubject x)
       path = resolvePath (gProject g) (configExemptions (projectConfig (gProject g)))
-      existing = exemptionEntries (projectExemptions (gProject g))
-  if T.null subject
+  onDisk <- doesFileExist path
+  current <- if onDisk then readExemptionsFile path else pure (Right emptyExemptions)
+  source <- if onDisk then TIO.readFile path else pure ""
+  case current of
+    Left err -> pure (Left (renderExemptionsError err))
+    Right (Exemptions existing) -> writeWith subject path source existing
+  where
+   writeWith subject path source existing =
+    if T.null subject
     then pure (Left "an exemption needs a subject")
     else case (adding, parseVersion (T.strip (exemptRevisit x))) of
       (True, Nothing) -> pure (Left ("not a version to revisit by: " <> exemptRevisit x))
       (True, Just _) | T.null (T.strip (exemptWhy x)) -> pure (Left "an exemption needs a reason")
       (True, Just revisit) -> do
         let updated = Map.insert subject (Exemption (filter (not . T.null) (map T.strip (exemptKinds x))) (T.strip (exemptWhy x)) revisit) existing
-        TIO.writeFile path (renderExemptions updated)
+        TIO.writeFile path (editExemptions source existing updated)
         pure (Right (Exemptions updated))
       (False, _) -> do
-        let updated = Map.delete subject existing
-        TIO.writeFile path (renderExemptions updated)
+        let updated = liftSubject g (filter (not . T.null) (map T.strip (exemptKinds x))) subject existing
+        TIO.writeFile path (editExemptions source existing updated)
         pure (Right (Exemptions updated))
 
 renderExemptions :: Map.Map Text Exemption -> Text
@@ -697,12 +868,119 @@ renderExemptions entries
     quotedKey k = if T.any (`elem` (" *?[]{}:#,'\"" :: String)) k then quotedText k else k
     quotedText t = TE.decodeUtf8 (LBS.toStrict (encode t))
 
+-- | The exemptions file as it is, with only the entries that changed rewritten: a removed entry's
+-- lines are dropped, a changed one's replaced, and new ones written where the first removed
+-- entry
+-- stood, or at the end. Every other line stays as it was, so blame still names whoever wrote
+-- each
+-- other entry, which is who exempted it. ref:DEC-exemptions ref:DEC-signer
+--
+-- Specified by core S16.
+editExemptions :: Text -> Map.Map Text Exemption -> Map.Map Text Exemption -> Text
+editExemptions source old new
+  | Map.null new = "{}\n"
+  | Map.null old = renderExemptions new
+  | otherwise = T.concat (concatMap emit (zip [0 :: Int ..] blocks) ++ [renderExemptions added | null removedAt])
+  where
+    blocks = splitBlocks (T.lines source)
+    added = Map.difference new old
+    removedAt = [n | (n, (Just k, _)) <- zip [0 :: Int ..] blocks, not (Map.member k new)]
+    emit (n, (k, ls)) = case k of
+      Nothing -> map (<> "\n") ls
+      Just key'
+        | not (Map.member key' new) -> [renderExemptions added | Just n == headMay removedAt, not (Map.null added)]
+        | Map.lookup key' new /= Map.lookup key' old -> [renderExemptions (Map.filterWithKey (\k' _ -> k' == key') new)]
+        | otherwise -> map (<> "\n") ls
+    headMay xs = case xs of
+      (x : _) -> Just x
+      [] -> Nothing
+    splitBlocks ls = case ls of
+      [] -> []
+      (l : rest)
+        | Just key' <- topKey l -> let (body, more) = span (not . isTop) rest in (Just key', l : body) : splitBlocks more
+        | otherwise -> let (body, more) = span (not . isTop) rest in (Nothing, l : body) : splitBlocks more
+    isTop l = topKey l /= Nothing
+    topKey l
+      | T.null l || T.head l == ' ' || T.head l == '#' = Nothing
+      | Just body <- T.stripSuffix ":" (T.stripEnd l) = Just (either (const body) id (Yaml.decodeEither' (TE.encodeUtf8 body)))
+      | otherwise = Nothing
+
+-- | Lifts the exemptions over one subject, as the page names subjects: a source file or page by
+-- its
+-- path, the ledger or the registry as a whole, for the kinds given, all when none are, so
+-- lifting a
+-- file from the Why queue leaves an exemption of its names alone. An entry written for exactly
+-- that
+-- subject is deleted. A wider entry is replaced by entries for everything else it covered, with
+-- its kinds,
+-- reason, and revisit version, so the rest of its debt stays exempt and only this subject comes
+-- due: a directory pattern by the fewest directories and files that cover the rest of its tree,
+-- any
+-- other pattern by every other subject it covered, named in full. ref:DEC-exemptions
+--
+-- Specified by core S16.
+liftSubject :: Gathered -> [Text] -> Text -> Map.Map Text Exemption -> Map.Map Text Exemption
+liftSubject g kinds subject existing
+  | Map.member subject existing = Map.delete subject existing
+  | otherwise = foldr narrow existing [pat | (pat, e) <- Map.toList existing, any (coversAs pat e) targets]
+  where
+    ledgerKeys = ["ledger/" <> referenceKeyText k | k <- Map.keys (ledgerEntries (projectLedger (gProject g)))]
+    registryKeys = ["registry/" <> referenceKeyText k | k <- Map.keys (registryEntries (projectRegistry (gProject g)))]
+    pathKinds = ["comment", "doc", "name", "mutant", "observability"]
+    wanted ks = if null kinds then ks else filter (`elem` kinds) ks
+    targets = filter (not . null . snd) $
+      if subject == "ledger" then [(k, wanted ["ledger"]) | k <- ledgerKeys]
+      else if subject == "registry" then [(k, wanted ["registry"]) | k <- registryKeys]
+      else [(subject, wanted pathKinds)]
+    known = [(T.pack f, pathKinds) | f <- gFiles g] ++ [(k, ["ledger"]) | k <- ledgerKeys] ++ [(k, ["registry"]) | k <- registryKeys]
+    coversAs pat e (t, ks) = any (\k -> exemptionFor (Exemptions (Map.singleton pat e)) t k /= Nothing) ks
+    narrow pat m = case Map.lookup pat m of
+      Nothing -> m
+      Just e ->
+        let lifted = [t | target@(t, _) <- targets, coversAs pat e target]
+            rest = [t | entry@(t, _) <- known, coversAs pat e entry, t `notElem` lifted]
+            replacement = case directoryOf pat of
+              Just top -> coverTree top (map T.unpack lifted) (map T.unpack rest)
+              Nothing -> rest
+         in Map.union (Map.fromList [(r, e) | r <- replacement]) (Map.delete pat m)
+
+-- | The directory a pattern names, when it names one and nothing else: no wildcard and a trailing
+-- slash, as /src/ does. ref:DEC-exemptions
+--
+-- Specified by core S16.
+directoryOf :: Text -> Maybe FilePath
+directoryOf pat
+  | T.any (`elem` ("*?[!" :: String)) pat = Nothing
+  | "/" `T.isSuffixOf` pat = let top = T.dropWhile (== '/') (T.dropWhileEnd (== '/') pat) in if T.null top then Nothing else Just (T.unpack top)
+  | otherwise = Nothing
+
+-- | The fewest anchored patterns that cover every file under top except the lifted ones: a child
+-- of
+-- a directory holding no lifted file is covered whole, a lifted file is left out, and a
+-- directory
+-- holding one is opened. ref:DEC-exemptions
+--
+-- Specified by core S16.
+coverTree :: FilePath -> [FilePath] -> [FilePath] -> [Text]
+coverTree top lifted files = go top
+  where
+    everything = files ++ lifted
+    under d f = (d ++ "/") `isPrefixOf` f
+    go d = concatMap (child d) (nub [takeWhile (/= '/') rel | f <- everything, Just rel <- [stripPrefix (d ++ "/") f]])
+    child d c =
+      let full = d ++ "/" ++ c
+          isDirectory = any (under full) everything
+          holds = any (\l -> l == full || under full l) lifted
+       in if not holds
+            then [T.pack ("/" ++ full ++ (if isDirectory then "/" else ""))]
+            else if isDirectory then go full else []
+
 -- | Recomputes an item's exemption after the file changed. ref:DEC-exemptions
 --
 -- Specified by core S17.
 reExempt :: Gathered -> Item Text -> Item Text
 reExempt g i =
-  let (pat, why, until') = exemptionOf g (kind i) (path i) (key i)
+  let (pat, why, until') = exemptionIn g (kind i) (path i) (key i)
    in i {exempt = pat, exemptReason = why, exemptUntil = until'}
 
 -- | audit: the proof that the tax is paid, deciding nothing. It fails on any open row outside an
@@ -720,7 +998,8 @@ reExempt g i =
 -- Specified by core S18.
 audit :: Gathered -> IO (Bool, Text, LBS.ByteString)
 audit g = do
-  findings <- checkProject (gProject g) Nothing
+  let findings = gReport g
+      (pending, exempted) = canonCounts g
   historySigning <- historyAudit
   p <- assemble g
   runsPresent <- doesFileExist (resolvePath (gProject g) (configRuns (projectConfig (gProject g))))
@@ -738,7 +1017,7 @@ audit g = do
         T.unlines
           ( [(if ok then "audit passed: " else "audit failed: ") <> project p]
               ++ queueCounts p
-              ++ ["  exempt findings: " <> T.pack (show (length exemptFindings)), "  runtime: " <> runtimeState]
+              ++ ["  canon " <> T.pack canonVersion <> ": " <> T.pack (show pending) <> " pending sign-off, " <> T.pack (show exempted) <> " more owed under exemptions", "  exempt findings: " <> T.pack (show (length exemptFindings)), "  runtime: " <> runtimeState]
               ++ (if ok then [] else "" : map ("  " <>) (take 200 problems) ++ (if length problems > 200 then ["  ... " <> T.pack (show (length problems - 200)) <> " more"] else []))
           )
       jsonReport =
@@ -753,6 +1032,9 @@ audit g = do
               , ("runtime", toJSON runtimeState)
               , ("exempt", toJSON exemptFindings)
               , ("queues", toJSON (queueCounts p))
+              , ("canon", toJSON (T.pack canonVersion))
+              , ("pending", toJSON pending)
+              , ("exemptPending", toJSON exempted)
               ]
           )
   pure (ok, textReport, jsonReport)
@@ -912,8 +1194,75 @@ lineOfKey path k = do
 --
 -- Specified by core S24.
 decideWith :: Gathered -> Decide Text -> IO (Either Text (FilePath, VettingKey, VettingEntry))
-decideWith _ d = historyLocked $ withLoaded $ \project' -> gather project' >>= \g -> decideUnlocked g d
+decideWith g d = historyLocked $ withLoaded $ \project' -> do
+  changed <- sourceChanged g (decideKey d)
+  case changed of
+    Just path -> pure (Left (T.pack path <> " changed since the page read the project; re-read it before deciding, so the verdict is on what you see"))
+    Nothing ->
+      decideUnlocked
+        g
+          { gProject = project'
+          , gVetting = fromMaybe emptyVetting (projectVetting project')
+          , gMaterials = [m | m <- gMaterials g, not (ledgerOrRegistry (materialKey m))] ++ [m | m <- projectMaterials project' [], ledgerOrRegistry (materialKey m)]
+          }
+        d
+  where
+    ledgerOrRegistry k = case k of
+      LedgerKey _ -> True
+      RegistryKey _ -> True
+      _ -> False
 
+-- | A decision is written against the project as it is on disk: the vetting files and the ledger
+-- and
+-- registry are read again, which is quick, and a comment, page, or name whose source changed
+-- since
+-- the page read it is refused rather than signed on a digest of text nobody saw. Reading the
+-- whole
+-- project again for every click took longer than a person reads a comment. ref:DEC-ui-commit
+--
+-- Specified by core S24.
+sourceChanged :: Gathered -> Text -> IO (Maybe FilePath)
+sourceChanged g k = case sourcePath of
+  Nothing -> pure Nothing
+  Just path -> do
+    present <- doesFileExist path
+    if not present
+      then pure (Just path)
+      else do
+        now <- TIO.readFile path
+        pure (if fnv1aHex (T.lines now) == Map.findWithDefault "" (normalise path) (gStamps g) then Nothing else Just path)
+  where
+    sourcePath = case parseVettingKey k of
+      Just key@(CommentKey _) -> wherePath . decisionWhere <$> Map.lookup key (gDecisions g)
+      Just key@(DocKey _) -> wherePath . decisionWhere <$> Map.lookup key (gDecisions g)
+      Just (KindKey "name" uidT) -> parseUnitId uidT >>= \uid -> wherePath . answerValue . unitWhere <$> Map.lookup uid (gUnits g)
+      _ -> Nothing
+
+-- | The payload after one row changed: that row is built again and its subject's counts follow,
+-- which costs one row where assembling the whole payload costs every source file again. A row
+-- of a
+-- kind only the run raises is assembled with the rest. ref:DEC-ui-commit
+--
+-- Specified by core S24.
+redecide :: Gathered -> Payload Text -> Text -> IO (Payload Text)
+redecide g p k = case [m | m <- gMaterials g, renderVettingKey (materialKey m) == k] of
+  (m : _) -> do
+    i <- itemOf g m
+    let patched = [if key x == k then i else x | x <- items p]
+        grouped = Map.fromListWith (++) [(subject x, [x]) | x <- patched]
+    pure
+      p
+        { items = patched
+        , subjects = [Subject (file first) sName (length (filter undecidedItem is)) (length is) | (sName, is@(first : _)) <- sortOn fst (Map.toList grouped)]
+        , found = [(fk, t) | (fk, t) <- found p, fk /= k]
+        }
+  [] -> assemble g
+
+-- | Writes the verdict into the one file that holds the key, with the digest of the material as
+-- it is
+-- now; a kind row without a material is a mutant of the run. ref:DEC-ui-commit
+--
+-- Specified by core S24.
 decideUnlocked :: Gathered -> Decide Text -> IO (Either Text (FilePath, VettingKey, VettingEntry))
 decideUnlocked g (Decide k v n r) = case (parseVettingKey k, parseVerdict v) of
   (Nothing, _) -> pure (Left ("unknown key: " <> k))

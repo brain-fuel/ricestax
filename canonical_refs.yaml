@@ -138,6 +138,14 @@ REQ-marks:
   kind: requirement
   title: Marks travel beside every code line, tile it, and cut without losing their classes
   locator: canonical_decisions.yaml#DEC-highlighting
+REQ-canon-lockstep:
+  kind: requirement
+  title: Rice's Tax is built with the canon it is released with, refuses a project canon.yaml says another canon assessed, and shows and counts exactly the pending rows canon check reports
+  locator: canonical_decisions.yaml#DEC-canon-lockstep
+REQ-exemption-lift:
+  kind: requirement
+  title: lifting the exemption for one subject leaves it due and everything else the exemption covered exempt, rewriting only that entry of canonical_exemptions.yaml
+  locator: canonical_decisions.yaml#DEC-exemption-lift
 
 pep-8:
   kind: article

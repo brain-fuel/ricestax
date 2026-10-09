@@ -7,6 +7,12 @@ decision/haskell/app/Main.hs/module/Main/function/application:
 decision/haskell/app/Main.hs/module/Main/function/main:
   digest: sha256:a65bbfb5a467e35a
   verdict: pending
+decision/haskell/app/Main.hs/module/Main/function/remember:
+  digest: sha256:8bf227eae4d1fc63
+  verdict: pending
+decision/haskell/app/Main.hs/module/Main/function/textResponse:
+  digest: sha256:c248cd255909acaa
+  verdict: pending
 decision/haskell/app/Main.hs/module/Main/type/Cache:
   digest: sha256:32c5530bcacd1853
   verdict: pending

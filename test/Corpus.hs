@@ -30,8 +30,13 @@ import RicesTax.Wire (Mutation (..))
 import qualified RicesTax.Wire as W
 import qualified Canon
 import Canon.Folio (Block (..))
-import Canon.Profile (CommentSyntax (..), DocStyle (..), Embedding (..))
-import Canon.Project (loadProject)
+import Canon.Profile (CommentSyntax (..), DocStyle (..), Embedding (..), defaultCommentSyntax)
+import Canon.Project (Survey (..), checkProject, exemptFinding, loadProject, surveyProject)
+import Canon.Exemptions (Exemption (..), Exemptions (..), exemptionFor)
+import Canon.Model.Finding (Finding (..), findingKey, findingPending)
+import Canon.Version (canonVersion, parseVersion)
+import Control.Monad (forM_)
+import System.Directory (doesDirectoryExist)
 import Canon.Tangle (Origin (..), Tangled (..), assemble, originOf)
 import Canon.Weave (embedOf, pagePath)
 import Control.Exception (bracket)
@@ -100,6 +105,13 @@ spec = describe "rices-tax" $ do
     it "site.two-renders-are-one-byte-string" prop_siteIsDeterministic
     it "audit.fails-on-a-stale-tangled-fixture" prop_auditFailsOnStaleTangle
     it "mutant.lands-through-the-line-map" prop_mutantLandsThroughTheLineMap
+    it "lockstep.built-with-the-canon-it-is-released-with" prop_builtWithTheCanonItIsReleasedWith
+    it "lockstep.another-canon-in-canon-yaml-is-refused-until-upgraded" prop_anotherCanonIsRefusedUntilUpgraded
+    it "lockstep.audit-and-canon-check-agree-on-the-pending-set" prop_auditAndCanonCheckAgreeOnThePendingSet
+    it "lockstep.vendored-grammars-are-canon's" prop_vendoredGrammarsAreCanons
+    it "exemption.lifting-one-subject-narrows-a-directory" prop_liftingOneSubjectNarrowsADirectory
+    it "exemption.edits-leave-other-entries-as-written" prop_exemptionEditsLeaveOtherEntriesAsWritten
+    it "decide.refuses-a-source-changed-since-it-was-read" prop_decideRefusesAChangedSource
   describe "block" $ do
     it "binding.carries-its-comments" prop_bindingBlockCarriesItsComments
     it "binding.stops-at-a-blank-line" prop_bindingBlockStopsAtABlankLine
@@ -503,7 +515,7 @@ prop_auditFailsOnStaleTangle = do
 -- Specified by corpus S30.
 prop_mutantLandsThroughTheLineMap :: IO ()
 prop_mutantLandsThroughTheLineMap = do
-  let embedding = Embedding "haskell" (CommentSyntax (Just "--") Nothing Nothing []) 98 (DocStyle "-- | " "-- " "--" "-- " "haddock")
+  let embedding = Embedding "haskell" defaultCommentSyntax {commentLine = Just "--", commentStringDelimiters = []} 98 (DocStyle "-- | " "-- " "--" "-- " "haddock")
       block = Block "docs/reference/m.md" 10 "haskell" "src/M.hs" "one" False True [(1, "1. M")] [(8, "One is one.")] ["one :: Int", "one = 1"]
   case assemble embedding [block] of
     [t] -> do
@@ -705,3 +717,190 @@ prop_historyEvidence = withHistoryScratch $ \reset payload -> do
   writeFile "canonical_history/mutations.yaml" "not: [valid"
   broken <- payload
   (not (T.null (W.runIssue broken))) `shouldBe` True
+
+-- | A scratch project in Haskell with two modules, one of them in a directory of its own, a
+-- decision,
+-- and a reference, read through the grammars of this checkout, for the rules that compare what
+-- Rice's
+-- Tax raises with what canon check reports. ref:REQ-canon-lockstep
+--
+-- Specified by corpus S36.
+withLockstepScratch :: String -> [String] -> (FilePath -> IO a) -> IO a
+withLockstepScratch name extra action = do
+  cwd <- getCurrentDirectory
+  here <- fromMaybe cwd <$> lookupEnv "RICES_TAX_ROOT"
+  base <- getTemporaryDirectory
+  pid <- getCurrentPid
+  let root = base </> ("ricestax-lockstep-" ++ name ++ "-" ++ show pid)
+      grammar file = here </> "grammars" </> file
+  bracket (createDirectoryIfMissing True (root </> "src/sub") >> pure root) removeDirectoryRecursive $ \dir -> do
+    writeFile (dir </> "canon.yaml") (unlines (["version: 0.1.0", "languages:", "  haskell:", "    extensions: [.hs]", "    lexer: " ++ grammar "haskell/canonically_commented/HaskellLexer.g4", "    parser: " ++ grammar "haskell/canonically_commented/HaskellParser.g4", "    start: module"] ++ extra))
+    writeFile (dir </> "canonical_decisions.yaml") (unlines ["DEC-x:", "  status: decided", "  question: Why one?", "  answer: Because one is enough.", "  opened: 0.1.0", "  decided: 0.1.0", "  refs: [paper-1]"])
+    writeFile (dir </> "canonical_refs.yaml") (unlines ["paper-1:", "  kind: paper", "  title: A paper", "  locator: here"])
+    writeFile (dir </> "src/A.hs") (unlines ["-- | A holds one. ref:DEC-x", "module A (one) where", "", "-- | One, for callers.", "one :: Int", "one = 1"])
+    writeFile (dir </> "src/B.hs") (unlines ["-- | B holds two. ref:paper-1", "module B (two) where", "", "-- | Two, for callers.", "two :: Int", "two = 2"])
+    writeFile (dir </> "src/sub/C.hs") (unlines ["-- | C holds three.", "module C (three) where", "", "-- | Three, for callers.", "three :: Int", "three = 3"])
+    action dir
+
+-- | This Rice's Tax is linked against the canon it names, so its ids and digests are that
+-- canon's.
+-- ref:REQ-canon-lockstep
+--
+-- Specified by corpus S37.
+prop_builtWithTheCanonItIsReleasedWith :: IO ()
+prop_builtWithTheCanonItIsReleasedWith = T.pack canonVersion `shouldBe` Core.requiredCanon
+
+-- | A project whose canon.yaml names another canon is refused with a message that names both
+-- versions
+-- and the way out, and is read once assess has named the running canon, in a canon.yaml written
+-- as
+-- block YAML or as one JSON object alike. ref:REQ-canon-lockstep
+--
+-- Specified by corpus S38.
+prop_anotherCanonIsRefusedUntilUpgraded :: IO ()
+prop_anotherCanonIsRefusedUntilUpgraded = withLockstepScratch "refused" ["canon: 0.0.1"] $ \dir -> withCurrentDirectory dir $ do
+  refused <- Core.withLoaded (\_ -> pure (Right ()))
+  either (\e -> T.isInfixOf "canon 0.0.1" e && T.isInfixOf "--upgrade-canon" e) (const False) refused `shouldBe` True
+  upgraded <- Core.upgradeCanon "canon.yaml"
+  upgraded `shouldBe` True
+  written <- TIO.readFile "canon.yaml"
+  T.isInfixOf ("canon: " <> Core.requiredCanon) written `shouldBe` True
+  T.isInfixOf "canon: 0.0.1" written `shouldBe` False
+  accepted <- Core.withLoaded (\_ -> pure (Right ()))
+  accepted `shouldBe` Right ()
+  writeFile "canon.yaml" "{\"version\": \"0.1.0\", \"languages\": {}}\n"
+  flowUpgraded <- Core.upgradeCanon "canon.yaml"
+  flowUpgraded `shouldBe` True
+  Right flowProject <- loadProject "."
+  lockstepOf flowProject `shouldBe` Nothing
+  T.isInfixOf Core.requiredCanon <$> TIO.readFile "canon.yaml" >>= (`shouldBe` True)
+  where
+    lockstepOf = Core.lockstepIssue
+
+-- | What canon check counts as pending sign-off is exactly what the page shows as pending outside
+-- an
+-- exemption and what audit counts, comments, pages, decisions, references, and the What queue's
+-- names alike, with and without exemptions, and one verdict written through the page's decision
+-- makes both count one fewer. assess names the running canon in canon.yaml.
+-- ref:REQ-canon-lockstep
+--
+-- Specified by corpus S39.
+prop_auditAndCanonCheckAgreeOnThePendingSet :: IO ()
+prop_auditAndCanonCheckAgreeOnThePendingSet = withLockstepScratch "agree" [] $ \dir -> withCurrentDirectory dir $ do
+  Right fresh <- loadProject "."
+  _ <- gather fresh >>= Core.assess
+  stamped <- TIO.readFile "canon.yaml"
+  T.isInfixOf ("canon: " <> Core.requiredCanon) stamped `shouldBe` True
+  forM_ [Nothing, Just "/src/sub/:\n  kinds: [comment]\n  reason: later\n  revisit: 9.0.0\n\"*\":\n  kinds: [name]\n  reason: names later\n  revisit: 9.0.0\n"] $ \exemption -> do
+    forM_ exemption (writeFile "canonical_exemptions.yaml")
+    Right project <- loadProject "."
+    (canonPending, canonExempt) <- canonSets project
+    g <- gather project
+    p <- Core.assemble g
+    let taxPending = sort [W.key i | i <- W.items p, W.state i `elem` ["pending", "stale"], T.null (W.exempt i)]
+        taxExempt = sort [W.key i | i <- W.items p, W.state i `elem` ["pending", "stale"], not (T.null (W.exempt i))]
+    (null canonPending) `shouldBe` False
+    taxPending `shouldBe` canonPending
+    taxExempt `shouldBe` canonExempt
+    Core.canonCounts g `shouldBe` (length canonPending, length canonExempt)
+    (_, report, _) <- audit g
+    T.isInfixOf (T.pack (show (length canonPending)) <> " pending sign-off") report `shouldBe` True
+  Right project <- loadProject "."
+  g <- gather project
+  (before, _) <- canonSets project
+  case before of
+    [] -> expectationFailure "nothing pending to decide"
+    (k : _) -> do
+      decided <- Core.decideWith g (W.Decide k "good" "" "")
+      either (const False) (const True) decided `shouldBe` True
+      Right project' <- loadProject "."
+      (after, _) <- canonSets project'
+      after `shouldBe` filter (/= k) before
+  where
+    canonSets project = do
+      findings <- checkProject project Nothing
+      survey <- surveyProject project Nothing
+      pure
+        ( sort [renderKey k | f <- findings, findingPending f, Just k <- [findingKey f]]
+        , sort [renderKey k | (raw, reported) <- surveyFindings survey, findingPending raw, isExempt reported, Just k <- [findingKey raw]]
+        )
+    renderKey = C.renderVettingKey
+    isExempt f = case f of
+      Exempt {} -> True
+      _ -> False
+
+-- | The grammars this project checks itself with are the ones in the canon it is built against,
+-- byte
+-- for byte, since a grammar is part of what makes an id; the checkout stack.yaml names must be
+-- there.
+-- ref:REQ-canon-lockstep
+--
+-- Specified by corpus S40.
+prop_vendoredGrammarsAreCanons :: IO ()
+prop_vendoredGrammarsAreCanons = do
+  cwd <- getCurrentDirectory
+  here <- fromMaybe cwd <$> lookupEnv "RICES_TAX_ROOT"
+  let canonGrammars = here </> ".." </> "canon" </> "grammars"
+  present <- doesDirectoryExist canonGrammars
+  present `shouldBe` True
+  forM_ ["folio/FolioLexer.g4", "folio/FolioParser.g4", "haskell/HaskellLexer.g4", "haskell/HaskellParser.g4", "haskell/canonically_commented/HaskellLexer.g4", "haskell/canonically_commented/HaskellParser.g4", "make/canonically_commented/MakefileLexer.g4", "make/canonically_commented/MakefileParser.g4"] $ \g -> do
+    ours <- TIO.readFile (here </> "grammars" </> g)
+    theirs <- TIO.readFile (canonGrammars </> g)
+    (g, ours == theirs) `shouldBe` (g, True)
+
+-- | Lifting one file out of a directory's exemption leaves that file due and every other file of
+-- the
+-- directory exempt, through the fewest entries: the other file, and the subdirectory whole; an
+-- exemption of another kind over the file stays as it was.
+-- ref:REQ-exemption-lift
+--
+-- Specified by corpus S42.
+prop_liftingOneSubjectNarrowsADirectory :: IO ()
+prop_liftingOneSubjectNarrowsADirectory = withLockstepScratch "lift" [] $ \dir -> withCurrentDirectory dir $ do
+  Right project <- loadProject "."
+  g <- gather project
+  let later = Exemption ["comment"] "later" (fromMaybe (error "version") (parseVersion "9.0.0"))
+      names = Exemption ["name"] "names later" (fromMaybe (error "version") (parseVersion "9.0.0"))
+      lifted = Core.liftSubject g ["comment", "doc", "ledger", "registry"] "src/A.hs" (Map.fromList [("/src/", later), ("*", names)])
+      covered path = exemptionFor (Exemptions lifted) path "comment" /= Nothing
+  Map.keys lifted `shouldBe` ["*", "/src/B.hs", "/src/sub/"]
+  map covered ["src/A.hs", "src/B.hs", "src/sub/C.hs"] `shouldBe` [False, True, True]
+  exemptionFor (Exemptions lifted) "src/A.hs" "name" /= Nothing `shouldBe` True
+  Map.keys (Core.liftSubject g [] "/src/" (Map.fromList [("/src/", later)])) `shouldBe` []
+
+-- | Lifting one entry rewrites that entry alone: every line of the others stays as written and
+-- where
+-- it was, so blame still names whoever exempted each of them. ref:REQ-exemption-lift
+--
+-- Specified by corpus S43.
+prop_exemptionEditsLeaveOtherEntriesAsWritten :: IO ()
+prop_exemptionEditsLeaveOtherEntriesAsWritten = withLockstepScratch "edit" [] $ \dir -> withCurrentDirectory dir $ do
+  let keep = ["/zz-keep/:", "  reason: \"kept, as written\"", "  revisit:   9.0.0"]
+  writeFile "canonical_exemptions.yaml" (unlines (["/src/:", "  kinds: [comment]", "  reason: later", "  revisit: 9.0.0"] ++ keep))
+  Right project <- loadProject "."
+  g <- gather project
+  written <- Core.writeExemption g False (W.ExemptRequest "src/A.hs" [] "" "")
+  either (const False) (const True) written `shouldBe` True
+  after <- T.lines <$> TIO.readFile "canonical_exemptions.yaml"
+  drop (length after - length keep) after `shouldBe` map T.pack keep
+  take 1 after `shouldBe` ["/src/B.hs:"]
+
+-- | A verdict is refused on a comment whose file changed since the page read it, since its digest
+-- would be of text the person did not see, and written once the project is read again.
+-- ref:REQ-canon-lockstep
+--
+-- Specified by corpus S44.
+prop_decideRefusesAChangedSource :: IO ()
+prop_decideRefusesAChangedSource = withLockstepScratch "changed" [] $ \dir -> withCurrentDirectory dir $ do
+  Right fresh <- loadProject "."
+  _ <- gather fresh >>= Core.assess
+  Right project <- loadProject "."
+  g <- gather project
+  let k = "decision/haskell/src/A.hs/module/A"
+  appendFile "src/A.hs" "\n-- | Later.\nlater :: Int\nlater = 4\n"
+  refused <- Core.decideWith g (W.Decide k "good" "" "")
+  either (T.isInfixOf "changed since") (const False) refused `shouldBe` True
+  Right project' <- loadProject "."
+  g' <- gather project'
+  accepted <- Core.decideWith g' (W.Decide k "good" "" "")
+  either (const False) (const True) accepted `shouldBe` True

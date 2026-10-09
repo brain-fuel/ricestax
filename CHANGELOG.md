@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.0 — Unreleased
+
+- Lockstep with canon 0.2.0 (`DEC-canon-lockstep`): built only against that
+  canon, which `package.yaml` pins; a project names the canon its rows were
+  written with under `canon` in `canon.yaml`, which `assess` adds, every verb
+  refuses another, and `assess --upgrade-canon` re-ingests under the running
+  one. Rows are gathered through canon's survey, their state and exemption are
+  canon's findings, each card shows canon's finding, and `audit` and `assess`
+  report canon's pending count and what is owed under exemptions. A corpus
+  rule checks that `audit` and `canon check` agree on the pending set.
+- The grammars under `grammars/` are canon 0.2.0's; the older ones no longer
+  parsed this project's own Haskell under canon's rewritten parser.
+- Exempt rows can be reviewed and decided from their group; one subject can be
+  lifted out of a directory's exemption, the rest staying exempt; and writes to
+  `canonical_exemptions.yaml` change only the entries that changed
+  (`DEC-exemption-lift`).
+- A decision reads only the vetting files, ledger, registry, and exemptions
+  again, refusing a source changed since the page read it, and the page no
+  longer fetches every row after each click; the payload is encoded once, off
+  the request (`DEC-decide-on-disk`). Refusals reach the page as text.
+- Doc cards show the whole page; a pending row no longer shows its ingester as
+  its signer.
+- The binary runs with parallel garbage collection off, as canon's does.
+
 ## 0.3.2 — 22 September 2026
 
 - Replace process adapters with HTTP servers native to Java, Python, Go, Haskell,

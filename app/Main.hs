@@ -33,6 +33,8 @@ import System.Environment (getArgs, lookupEnv)
 import System.Exit (ExitCode (..), exitFailure, exitWith)
 import System.FilePath (takeExtension, (</>))
 import Control.Concurrent (forkIO)
+import Control.Exception (evaluate)
+import Control.Monad (void)
 import System.IO (IOMode (..), hClose, hPutStrLn, openFile, stderr)
 import System.Process (CreateProcess (..), StdStream (..), createProcess, shell, waitForProcess)
 import Text.Read (readMaybe)
@@ -53,7 +55,9 @@ main :: IO ()
 main = do
   args <- getArgs
   case args of
-    ["assess"] -> do
+    ("assess" : flags) | all (== "--upgrade-canon") flags -> do
+      upgraded <- if "--upgrade-canon" `elem` flags then upgradeCanon "canon.yaml" else pure False
+      if upgraded then hPutStrLn stderr ("canon.yaml now names canon " ++ T.unpack requiredCanon ++ "; re-ingesting under it") else pure ()
       result <- withLoaded (\project -> gather project >>= \g -> Right <$> assess g)
       case result of
         Left err -> hPutStrLn stderr (T.unpack err) >> exitFailure
@@ -104,7 +108,22 @@ main = do
 -- GET /reload recomputes it after an edit made outside the page. ref:DEC-ui-shape
 --
 -- Specified by cli S3.
-type Cache = IORef (Maybe (Either Text (Gathered, Payload Text)))
+type Cache = IORef (Maybe (Either Text (Gathered, Payload Text, LBS.ByteString)))
+
+-- | The encoded payload is held beside it and encoded once per change, at once and off the
+-- request,
+-- since encoding thousands of rows with their highlighted code took longer than the page took
+-- to
+-- draw them.
+-- ref:DEC-ui-shape
+--
+-- Specified by cli S3.
+remember :: Cache -> Gathered -> Payload Text -> IO ()
+remember cache g p = do
+  let encoded = encode p
+  writeIORef cache (Just (Right (g, p, encoded)))
+  _ <- forkIO (void (evaluate (LBS.length encoded)))
+  pure ()
 
 refresh :: Cache -> IO ()
 refresh cache = do
@@ -112,7 +131,7 @@ refresh cache = do
   built <- withLoaded (\project -> gather project >>= \g -> Right . (,) g <$> assemble g)
   finished <- getCurrentTime
   hPutStrLn stderr ("gathered in " ++ show (diffUTCTime finished started) ++ either (("; failed: " ++) . T.unpack) (\(_, p) -> ": " ++ show (length (items p)) ++ " obligations") built)
-  writeIORef cache (Just built)
+  either (writeIORef cache . Just . Left) (uncurry (remember cache)) built
 
 -- | The cached ledger learns the row it just wrote, so the next decision in the
 -- same file merges with this one instead of overwriting it.
@@ -148,7 +167,7 @@ application site cache mutating request respond = case (requestMethod request, p
   ("GET", ["whole", kindT, i]) -> do
     held <- readIORef cache
     respond $ case held of
-      Just (Right (g, _)) | Just w <- wholeOf g kindT i -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] (encode w)
+      Just (Right (g, _, _)) | Just w <- wholeOf g kindT i -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] (encode w)
       _ -> textResponse status404 ("no definition for " <> kindT <> "/" <> i)
   ("POST", ["decide"]) -> do
     body <- strictRequestBody request
@@ -156,16 +175,16 @@ application site cache mutating request respond = case (requestMethod request, p
       Left err -> respond (textResponse status400 (T.pack ("unreadable decision: " ++ err)))
       Right d -> do
         hPutStrLn stderr ("decide " ++ T.unpack (decideKey d) ++ " -> " ++ T.unpack (decideVerdict d) ++ (if T.null (T.strip (decideNote d)) then "" else " with a note") ++ (if T.null (T.strip (decideRevisit d)) then "" else " revisit " ++ T.unpack (decideRevisit d)))
-        held <- readIORef cache
-        case held of
-          Just (Right (g, _)) -> do
+        current <- readIORef cache
+        case current of
+          Just (Right (g, p, _)) -> do
             result <- decideWith g d
             case result of
-              Left err -> respond (textResponse status400 err)
+              Left err -> respond (textResponse status409 err)
               Right (shard, k, e) -> do
                 let g' = g {gVetting = Vetting (Map.insertWith Map.union shard (Map.singleton k e) (vettingFiles (gVetting g)))}
-                p' <- assemble g'
-                writeIORef cache (Just (Right (g', p')))
+                p' <- redecide g' p (decideKey d)
+                remember cache g' p'
                 respond $ case [i | i <- items p', key i == decideKey d] of
                   (i : _) -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] (encode i)
                   [] -> textResponse status404 "decided, but the row is not in the payload"
@@ -178,9 +197,9 @@ application site cache mutating request respond = case (requestMethod request, p
       case eitherDecode body of
         Left err -> respond (textResponse status400 (T.pack ("unreadable exemption: " ++ err)))
         Right (x :: ExemptRequest Text) -> do
-          held <- readIORef cache
-          case held of
-            Just (Right (g, p)) -> do
+          current <- readIORef cache
+          case current of
+            Just (Right (g, p, _)) -> do
               result <- writeExemption g adding x
               case result of
                 Left err -> respond (textResponse status400 err)
@@ -188,7 +207,7 @@ application site cache mutating request respond = case (requestMethod request, p
                   let g' = g {gProject = (gProject g) {projectExemptions = exemptions}}
                       p' = p {items = map (reExempt g') (items p)}
                   hPutStrLn stderr ((if adding then "exempt " else "lift ") ++ T.unpack (exemptSubject x))
-                  writeIORef cache (Just (Right (g', p')))
+                  remember cache g' p'
                   cachedResponse cache >>= respond
             _ -> respond (textResponse status500 "not gathered yet")
     static rel = do
@@ -234,7 +253,7 @@ startMutation cache mutating = do
   held <- readIORef cache
   mu <- readIORef mutating
   case held of
-    Just (Right (g, _)) | Just command <- gRuntime g >>= runtimeCommand ->
+    Just (Right (g, _, _)) | Just command <- gRuntime g >>= runtimeCommand ->
       if mutationState mu == "running"
         then pure (textResponse status409 "the mutation is already running")
         else do
@@ -264,8 +283,12 @@ exitNumber code = case code of
 jsonResponse :: ToJSON a => a -> Response
 jsonResponse = responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] . encode
 
+-- | A refusal is a JSON string, which the page decodes as it decodes every answer, so the person
+-- reads why a decision was refused rather than only its status code. ref:DEC-ui-commit
+--
+-- Specified by cli S4.
 textResponse :: Status -> Text -> Response
-textResponse status message = responseLBS status [("Content-Type", "text/plain; charset=utf-8")] (LBS.fromStrict (TE.encodeUtf8 message))
+textResponse status message = responseLBS status [("Content-Type", "application/json; charset=utf-8"), ("Cache-Control", "no-store")] (encode message)
 
 cachedResponse :: Cache -> IO Response
 cachedResponse cache = do
@@ -273,4 +296,4 @@ cachedResponse cache = do
   pure $ case held of
     Nothing -> textResponse status500 "not gathered yet"
     Just (Left err) -> textResponse status500 err
-    Just (Right (_, p)) -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] (encode p)
+    Just (Right (_, _, encoded)) -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] encoded

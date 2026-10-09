@@ -119,6 +119,7 @@ data Model = Model
   , pendingHistory :: Maybe (Str, [Str])
   , retiring :: Maybe Str
   , retirementReason :: Str
+  , findings :: Map Str Str
   }
   deriving (Eq, Show)
 
@@ -170,6 +171,7 @@ data Action
   | CancelExempt
   | SubmitExempt
   | Lift Str
+  | LiftKinds Str [Str]
   | Exempted Payload
   | RunMutation
   | MutationLoaded (W.Mutation Str)
@@ -194,7 +196,7 @@ tabFromHash h = case h of
   _ -> WhyTab
 
 initial :: Tab -> Model
-initial t = Model Nothing Nothing t Nothing Map.empty Set.empty False False Nothing Nothing Set.empty pageSize Map.empty Nothing Nothing Nothing "attention" "" "" Nothing Nothing Nothing ""
+initial t = Model Nothing Nothing t Nothing Map.empty Set.empty False False Nothing Nothing Set.empty pageSize Map.empty Nothing Nothing Nothing "attention" "" "" Nothing Nothing Nothing "" Map.empty
 
 emptyDraft :: Draft
 emptyDraft = Draft "" ""
@@ -237,6 +239,7 @@ updateModel = \case
     this %= \m ->
       m
         { loaded = Just p
+        , findings = Map.fromList (W.found p)
         , failure = Nothing
         , busy = False
         , prior = if started m then prior m else decidedKeys p
@@ -273,7 +276,10 @@ updateModel = \case
   Lift subj -> do
     this %= \m -> m {busy = True, failure = Nothing}
     postJSON' "lift" (W.ExemptRequest subj [] "" "") [] (Exempted . body) (Failed . describe)
-  Exempted p -> this %= \m -> m {loaded = Just p, busy = False, failure = Nothing, exemptForm = Nothing}
+  LiftKinds subj kinds -> do
+    this %= \m -> m {busy = True, failure = Nothing}
+    postJSON' "lift" (W.ExemptRequest subj kinds "" "") [] (Exempted . body) (Failed . describe)
+  Exempted p -> this %= \m -> m {loaded = Just p, findings = Map.fromList (W.found p), busy = False, failure = Nothing, exemptForm = Nothing}
   EditNote k v -> this %= \m -> m {drafts = Map.alter (Just . (\d -> d {draftNote = v}) . fromMaybe emptyDraft) k (drafts m)}
   EditRevisit k v -> this %= \m -> m {drafts = Map.alter (Just . (\d -> d {draftRevisit = v}) . fromMaybe emptyDraft) k (drafts m)}
   Decide k v n r -> do
@@ -286,9 +292,9 @@ updateModel = \case
         , loaded = fmap (patchItem k (\i -> i {W.state = v, W.verdict = v, W.note = n, W.revisit = r, W.signer = Nothing})) (loaded m)
         }
     postJSON' "decide" (W.Decide k v n r) [] (Decided k . body) (Failed . describe)
-  Decided k i -> do
-    this %= \m -> m {loaded = fmap (patchItem k (const i)) (loaded m), busy = False, failure = Nothing, drafts = Map.delete k (drafts m), inflight = Map.delete k (inflight m)}
-    getJSON "obligations" [] (Loaded . body) (Failed . describe)
+  -- The server answers with the row as written; the rest of the page already holds everything
+  -- else, so the payload of thousands of rows is not fetched again for one click.
+  Decided k i -> this %= \m -> m {loaded = fmap (patchItem k (const i)) (loaded m), findings = Map.delete k (findings m), busy = False, failure = Nothing, drafts = Map.delete k (drafts m), inflight = Map.delete k (inflight m)}
   Reload -> do
     this %= \m -> m {busy = True, failure = Nothing}
     getJSON "reload" [] (Loaded . body) (Failed . describe)
@@ -318,6 +324,15 @@ exemptKindsFor t = case t of
   WhyTab -> "comment"
   WhatTab -> "name"
   AllTab -> ""
+
+-- | The kinds a lift of one subject from a queue's tab lifts, so lifting a file from the Why
+-- queue leaves an exemption of its names, or of its mutants, as it was. ref:DEC-exemption-lift
+liftKindsFor :: Tab -> [Str]
+liftKindsFor t = case t of
+  WhyTab -> ["comment", "doc", "ledger", "registry"]
+  WhatTab -> ["name"]
+  HowTab -> ["mutant", "observability"]
+  AllTab -> []
 
 -- | Open means a person still owes a decision: pending or stale for Why, unreviewed, stale, or
 -- parked as needs-research for How. ref:DEC-obligation
@@ -353,7 +368,8 @@ viewModel m = case loaded m of
         allJudgements = [i | i <- everything, not (isGapItem i), not (isGone i), tab m /= AllTab || W.question i /= "How", S.null (W.exempt i) || not (open i)]
         outstanding = if tab m == HowTab then length [l | l <- W.lifecycle p, lifeNeedsAttention l, not (W.lifeArchived l)] else length (filter open allJudgements)
         allGaps = length [i | i <- everything, isGapItem i, S.null (W.exempt i)]
-        subjectsHere = Map.toList (Map.fromListWith (\(a, b) (c, d) -> (a + c, b + d)) [(W.subject i, (if open i && S.null (W.exempt i) then 1 else 0 :: Int, 1 :: Int)) | i <- everything])
+        subjectsHere = Map.toList (Map.fromListWith (\(a, b) (c, d) -> (a + c, b + d)) [(W.subject i, (if open i && S.null (W.exempt i) then 1 else 0 :: Int, if open i && not (S.null (W.exempt i)) then 1 else 0 :: Int)) | i <- everything])
+        owedExempt = length [i | i <- everything, open i, not (S.null (W.exempt i))]
         rulesMap = Map.fromList [(W.ruleName r, (W.ruleSource r, W.ruleMarks r)) | r <- W.rules p]
      in H.div_
           []
@@ -365,6 +381,7 @@ viewModel m = case loaded m of
                   [P.classList_ [("counter", True), ("clear", outstanding == 0 && null (W.ingestionIssues p))]]
                   ( [H.b_ [] [text (if tab m == HowTab then ms (show outstanding) else ms (show outstanding) <> " / " <> ms (show (length allJudgements)))], H.span_ [] [text (if tab m == HowTab then "need attention" else "to decide")]]
                       ++ (if allGaps == 0 then [] else [H.b_ [P.class_ "gapcount"] [text (ms (show allGaps))], H.span_ [] [text "coverage gaps"]])
+                      ++ (if owedExempt == 0 then [] else [H.b_ [P.class_ "exemptcount"] [text (ms (show owedExempt))], H.span_ [P.title_ "Owed, but under an exemption that is not yet due: review a group under Exempt, or lift it."] [text "owed under exemptions"]])
                   )
               ]
           , maybe (text "") (\e -> H.div_ [P.class_ "failure"] [text e]) (failure m)
@@ -376,14 +393,14 @@ viewModel m = case loaded m of
           , probeBanner m p
           , H.main_
               []
-              [ H.nav_ [P.class_ "subjects"] (subjectButton m Nothing "All" (sum [o | (_, (o, _)) <- subjectsHere]) : [subjectButton m (Just s) s o | (s, (o, _)) <- subjectsHere] ++ exemptControl m)
+              [ H.nav_ [P.class_ "subjects"] (subjectButton m Nothing "All" (sum [o | (_, (o, _)) <- subjectsHere]) (sum [e | (_, (_, e)) <- subjectsHere]) : [subjectButton m (Just s) s o e | (s, (o, e)) <- subjectsHere] ++ exemptControl m exemptItems)
               , H.div_
                   []
                   ( case tab m of
                       HowTab -> historyView m p rulesMap
                       _ ->
                         [ H.h2_ [P.class_ "section"] [text ("This session -- " <> ms (show left) <> " of " <> ms (show (length here)) <> " still undecided")]
-                        , if null here then H.div_ [P.class_ "empty"] [text (if null (W.ingestionIssues p) then "Nothing undecided in " <> subjectLabel m <> "." else "Fix the ingestion errors above before treating this queue as complete.")] else paged m here (\n i -> if open i then card m rulesMap n (length here) i else done m rulesMap n (length here) i)
+                        , if null here then H.div_ [P.class_ "empty"] [text (if not (null (W.ingestionIssues p)) then "Fix the ingestion errors above before treating this queue as complete." else if null exemptItems then "Nothing undecided in " <> subjectLabel m <> "." else "Nothing due in " <> subjectLabel m <> ". " <> ms (show (length exemptItems)) <> " more are owed under exemptions: open a group under Exempt below to decide them now, or lift its exemption.")] else paged m here (\n i -> if open i then card m rulesMap n (length here) i else done m rulesMap n (length here) i)
                         , if null gaps then text "" else H.h2_ [P.class_ "section"] [text ("Coverage gaps (" <> ms (show (length gaps)) <> ") -- work, not judgement")]
                         , if null gaps then text "" else gapNote
                         , paged m gaps (\n i -> gapRow m rulesMap n (length gaps) i)
@@ -392,7 +409,7 @@ viewModel m = case loaded m of
                         , if null gone then text "" else H.h2_ [P.class_ "section"] [text ("Not in the current run (" <> ms (show (length gone)) <> ")")]
                         , paged m gone (\n i -> done m rulesMap n (length gone) i)
                         , if null exemptItems then text "" else H.h2_ [P.class_ "section"] [text ("Exempt (" <> ms (show (length exemptItems)) <> ") -- owed, not yet due")]
-                        , if null exemptItems then text "" else exemptGroups m exemptItems
+                        , if null exemptItems then text "" else exemptGroups m rulesMap exemptItems
                         ] ++ (if tab m == AllTab then historyView m p rulesMap else [])
                   )
               ]
@@ -464,8 +481,8 @@ gapNote =
 
 -- | The control under the switcher: exempt the chosen subject, or the form once opened.
 -- ref:DEC-exemptions
-exemptControl :: Model -> [View context props Model Action]
-exemptControl m = case (chosen m, exemptForm m) of
+exemptControl :: Model -> [Item] -> [View context props Model Action]
+exemptControl m exemptHere = case (chosen m, exemptForm m) of
   (_, Just f) ->
     [ H.div_
         [P.class_ "exemptform"]
@@ -476,27 +493,36 @@ exemptControl m = case (chosen m, exemptForm m) of
         , H.div_ [P.class_ "row"] [H.button_ [E.onClick SubmitExempt, disabledIf (busy m)] [text "Exempt"], H.button_ [E.onClick CancelExempt] [text "Cancel"]]
         ]
     ]
-  (Just subj, Nothing) -> [H.div_ [P.class_ "exemptrow"] [H.button_ [E.onClick (OpenExempt subj), P.title_ "Declare this subject not owed until a version, with a reason. The debt stays counted; audit passes until the version comes."] [text "Exempt this subject…"]]]
+  (Just subj, Nothing)
+    | not (null exemptHere) ->
+        [H.div_ [P.class_ "exemptrow"] [H.button_ [E.onClick (LiftKinds subj (liftKindsFor (tab m))), P.title_ ("Lift the exemption for " <> subj <> " alone: a wider exemption is narrowed to everything else it covered, so only this subject comes due, its missing comments included."), disabledIf (busy m)] [text ("Lift the exemption for this subject (" <> ms (show (length exemptHere)) <> " rows)")]]]
+    | otherwise -> [H.div_ [P.class_ "exemptrow"] [H.button_ [E.onClick (OpenExempt subj), P.title_ "Declare this subject not owed until a version, with a reason. The debt stays counted; audit passes until the version comes."] [text "Exempt this subject…"]]]
   (Nothing, Nothing) -> []
 
 -- | Exempt items grouped by the pattern that covers them, each group with its reason, its
 -- revisit version, and a button to lift it. ref:DEC-exemptions
-exemptGroups :: Model -> [Item] -> View context props Model Action
-exemptGroups m xs =
+exemptGroups :: Model -> Rules -> [Item] -> View context props Model Action
+exemptGroups m rs xs =
   let groups = Map.toList (Map.fromListWith (flip (++)) [(W.exempt i, [i]) | i <- xs])
+      reviewing pat = Set.member ("exempt:" <> pat) (expanded m)
    in H.div_
         []
         [ H.div_
-            [P.class_ "done exemptgroup"]
-            [ H.div_
-                [P.class_ "summary"]
-                [ H.span_ [P.class_ "verdict gapword"] [text "exempt"]
-                , H.span_ [P.class_ "binding"] [text pat]
-                , H.span_ [P.class_ "mid"] [text (ms (show (length is)) <> " rows, until " <> W.exemptUntil first)]
-                , H.span_ [P.class_ "where"] [text (W.exemptReason first)]
-                , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Lift pat), P.title_ "Lift the exemption: the rows become due again at once.", disabledIf (busy m)] [text "Lift"]
+            []
+            ( H.div_
+                [P.class_ "done exemptgroup"]
+                [ H.div_
+                    [P.class_ "summary"]
+                    [ H.span_ [P.class_ "verdict gapword"] [text "exempt"]
+                    , H.span_ [P.class_ "binding"] [text pat]
+                    , H.span_ [P.class_ "mid"] [text (ms (show (length is)) <> " rows, until " <> W.exemptUntil first)]
+                    , H.span_ [P.class_ "where"] [text (W.exemptReason first)]
+                    , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Toggle ("exempt:" <> pat)), P.title_ "Decide these rows now, before the exemption comes due; each verdict is written like any other, and the exemption stays until you lift it."] [text (if reviewing pat then "Hide" else "Review")]
+                    , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Lift pat), P.title_ "Lift the whole exemption: every row it covers becomes due again at once.", disabledIf (busy m)] [text "Lift"]
+                    ]
                 ]
-            ]
+                : [paged m is (\n i -> card m rs n (length is) i) | reviewing pat]
+            )
         | (pat, is@(first : _)) <- groups
         ]
 
@@ -513,11 +539,11 @@ tabName t = case t of
   HowTab -> "How"
   AllTab -> "All"
 
-subjectButton :: Model -> Maybe Str -> Str -> Int -> View context props Model Action
-subjectButton m f name n =
+subjectButton :: Model -> Maybe Str -> Str -> Int -> Int -> View context props Model Action
+subjectButton m f name n e =
   H.button_
     [E.onClick (Choose f), textProp "aria-current" (if chosen m == f then "true" else "false")]
-    [H.span_ [] [text name], H.span_ [P.classList_ [("n", True), ("zero", n == 0)]] [text (ms (show n))]]
+    ([H.span_ [] [text name], H.span_ [P.classList_ [("n", True), ("zero", n == 0 && e == 0)]] [text (ms (show n))]] ++ [H.span_ [P.class_ "n exemptn", P.title_ "owed under an exemption"] [text ("+" <> ms (show e))] | e > 0])
 
 disabledIf :: Bool -> Attribute Model Action
 disabledIf b = boolProp "disabled" b
@@ -557,6 +583,7 @@ whatCard m n total i =
             , H.span_ [P.class_ "mid"] [text (W.unitKind i)]
             , H.span_ [P.class_ "where"] [text (whereText i)]
             ]
+        , findingLine m i
         , whatEvidence i
         , H.div_
             [P.class_ "decide"]
@@ -616,6 +643,7 @@ whyCard m n total i =
             , H.span_ [P.class_ "mid"] [text (W.unitKind i)]
             , H.span_ [P.class_ "where"] [text (whereText i)]
             ]
+        , findingLine m i
         , whyEvidence i
         , H.div_
             [P.class_ "decide"]
@@ -672,6 +700,17 @@ whyEvidence i =
       H.span_
         [P.classList_ [("why", k < W.commentLines i)]]
         (H.span_ [P.class_ "gutter"] [text (pad (ms (show n)))] : pieceViews mk l)
+
+-- | What canon check says of the row, in its own words, and the exemption over it when one is;
+-- a row decided on this page since the project was read has no finding until it is read again.
+-- ref:DEC-canon-lockstep
+findingLine :: Model -> Item -> View context props Model Action
+findingLine m i =
+  H.div_
+    [P.class_ "finding"]
+    ( [H.span_ [P.class_ "lede"] [text "canon "], text (Map.findWithDefault "reports nothing on this row" (W.key i) (findings m))]
+        ++ [H.span_ [P.class_ "exemptnote"] [text (" -- owed under " <> W.exempt i <> " until " <> W.exemptUntil i)] | not (S.null (W.exempt i))]
+    )
 
 pad :: Str -> Str
 pad s = S.pack (replicate (max 0 (4 - length (S.unpack s))) ' ') <> s <> "  "

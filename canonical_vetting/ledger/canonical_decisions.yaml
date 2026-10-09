@@ -7,8 +7,17 @@ ledger/DEC-audit:
 ledger/DEC-canon-is-the-format:
   digest: sha256:bcc6d6b4fd4745de
   verdict: pending
+ledger/DEC-canon-lockstep:
+  digest: sha256:8ce87cb16ba6a0d7
+  verdict: pending
+ledger/DEC-decide-on-disk:
+  digest: sha256:035a975d930d7344
+  verdict: pending
 ledger/DEC-doc-kind:
   digest: sha256:f514e36616f539d1
+  verdict: pending
+ledger/DEC-exemption-lift:
+  digest: sha256:01ecb123dffc00b1
   verdict: pending
 ledger/DEC-exemptions:
   digest: sha256:343cbd38e799d9da

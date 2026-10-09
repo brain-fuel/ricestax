@@ -152,7 +152,22 @@ stack exec -- ricestax canon check
 ```
 
 `canon` is built from its checkout beside this project, `../canon`, as
-`stack.yaml` explains. The WebAssembly halves and the npm package are built
+`stack.yaml` explains; in a worktree, `../canon` is a link to a canon worktree at
+the commit this release names.
+
+### Lockstep with canon
+
+Rice's Tax 0.4.0 is released with canon 0.2.0 and only that canon
+(`DEC-canon-lockstep`). Ids, digests, vetting files, exemptions, and findings
+are canon's, read through its library: a row's state on the page is the state
+canon check gives it, and `ricestax audit` counts pending sign-off as canon
+check does. `package.yaml` depends on `canon == 0.2.0`, and the binary refuses
+to run when built against another canon. A project names the canon its rows
+were written with under `canon` in `canon.yaml`; `ricestax assess` adds it,
+every verb refuses a project that names another canon, and
+`ricestax assess --upgrade-canon` re-ingests under the running one. A canon
+change that affects ids, digests, or vetting files changes canon's version and
+ships together with a matching Rice's Tax release. The WebAssembly halves and the npm package are built
 with `stack build --exec tools/wasm.sh`; the how-to page on building for
 WebAssembly says what that needs.
 
