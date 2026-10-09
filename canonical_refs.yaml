@@ -142,6 +142,10 @@ REQ-canon-lockstep:
   kind: requirement
   title: Rice's Tax is built with the canon it is released with, refuses a project canon.yaml says another canon assessed, and shows and counts exactly the pending rows canon check reports
   locator: canonical_decisions.yaml#DEC-canon-lockstep
+REQ-light-index:
+  kind: requirement
+  title: the page opens on an index of the rows without their material, with exempt rows as groups, and the cards and groups it asks for make up exactly the payload
+  locator: canonical_decisions.yaml#DEC-light-index
 REQ-exemption-lift:
   kind: requirement
   title: lifting the exemption for one subject leaves it due and everything else the exemption covered exempt, rewriting only that entry of canonical_exemptions.yaml

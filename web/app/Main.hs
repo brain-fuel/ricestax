@@ -17,6 +17,8 @@ import Miso.Html.Element as H
 import Miso.Navigator (copyClipboard)
 import Miso.Html.Event as E
 import Miso.Html.Property as P
+import qualified Miso.Property as MP
+import qualified Miso.Event as ME
 import Miso.JSON (FromJSON, ToJSON)
 import Miso.Lens
 import qualified Miso.String as S
@@ -28,6 +30,11 @@ import RicesTax.Marks (Run, classWord, cutRuns, padRuns, parseRuns)
 instance FromJSON s => FromJSON (W.HistoryEvent s)
 instance FromJSON s => FromJSON (W.Lifecycle s)
 instance ToJSON s => ToJSON (W.HistoryRequest s)
+instance FromJSON s => FromJSON (W.Index s)
+instance FromJSON s => FromJSON (W.Group s)
+instance FromJSON s => FromJSON (W.Card s)
+instance ToJSON s => ToJSON (W.CardsRequest s)
+instance ToJSON s => ToJSON (W.GroupRequest s)
 
 instance FromJSON s => FromJSON (W.Payload s)
 
@@ -120,6 +127,10 @@ data Model = Model
   , retiring :: Maybe Str
   , retirementReason :: Str
   , findings :: Map Str Str
+  , details :: Map Str Item
+  , requested :: Set Str
+  , groups :: [W.Group Str]
+  , groupRows :: Map Str [Item]
   }
   deriving (Eq, Show)
 
@@ -176,6 +187,10 @@ data Action
   | RunMutation
   | MutationLoaded (W.Mutation Str)
   | PollMutation
+  | Indexed (W.Index Str)
+  | Need Str
+  | CardsLoaded [W.Card Str]
+  | GroupLoaded Str [Item]
   deriving (Eq, Show)
 
 -- | Starts the page on the queue the URL names and asks the server for the obligations at once.
@@ -196,7 +211,7 @@ tabFromHash h = case h of
   _ -> WhyTab
 
 initial :: Tab -> Model
-initial t = Model Nothing Nothing t Nothing Map.empty Set.empty False False Nothing Nothing Set.empty pageSize Map.empty Nothing Nothing Nothing "attention" "" "" Nothing Nothing Nothing "" Map.empty
+initial t = Model Nothing Nothing t Nothing Map.empty Set.empty False False Nothing Nothing Set.empty pageSize Map.empty Nothing Nothing Nothing "attention" "" "" Nothing Nothing Nothing "" Map.empty Map.empty Set.empty [] Map.empty
 
 emptyDraft :: Draft
 emptyDraft = Draft "" ""
@@ -221,7 +236,7 @@ updateModel = \case
     , undoHistory = fmap (\(a, ks) -> (if a == "restore" then "archive" else "restore", ks)) (pendingHistory m)
     , pendingHistory = Nothing }
   Load -> do
-    getJSON "obligations" [] (Loaded . body) (Failed . describe)
+    getJSON "index" [] (Indexed . body) (Failed . describe)
     getJSON "mutation" [] (MutationLoaded . body) (\r -> const (MutationLoaded (W.Mutation "idle" "" "" 0 [])) (r :: Response Str))
   -- The mutation runs while deciding goes on; the page polls until it ends, then re-reads.
   RunMutation -> do
@@ -245,10 +260,19 @@ updateModel = \case
         , prior = if started m then prior m else decidedKeys p
         , started = True
         }
-  Failed e -> this %= \m -> m {failure = Just e, busy = False, loaded = fmap (restore (inflight m)) (loaded m), inflight = Map.empty}
+  Failed e -> this %= \m -> m {failure = Just e, busy = False, loaded = fmap (restore (inflight m)) (loaded m), groupRows = Map.map (map (\i -> Map.findWithDefault i (W.key i) (inflight m))) (groupRows m), details = Map.union (inflight m) (details m), inflight = Map.empty}
   Pick t -> this %= \m -> m {tab = t, chosen = Nothing, limit = pageSize}
   Choose s -> this %= \m -> m {chosen = s, limit = pageSize}
-  Toggle k -> this %= \m -> m {expanded = if Set.member k (expanded m) then Set.delete k (expanded m) else Set.insert k (expanded m)}
+  Toggle k -> do
+    m <- get
+    let opening = not (Set.member k (expanded m))
+    this %= \m' -> m' {expanded = if opening then Set.insert k (expanded m') else Set.delete k (expanded m')}
+    case S.stripPrefix "exempt:" k of
+      Just gk | opening, not (Map.member gk (groupRows m)) -> case S.splitOn "\t" gk of
+        [q, pat] -> postJSON' "group" (W.GroupRequest q pat) [] (GroupLoaded gk . body) (Failed . describe)
+        _ -> pure ()
+      Nothing | opening -> io (pure (Need k))
+      _ -> pure ()
   ShowMore -> this %= \m -> m {limit = limit m + pageSize}
   WholeLoaded w -> this %= \m -> m {zoomWhole = Just w}
   -- The copy carries the whole definition too, so it is fetched first; a failure to fetch copies
@@ -272,13 +296,13 @@ updateModel = \case
       Nothing -> pure ()
       Just f -> do
         this %= \m' -> m' {busy = True, failure = Nothing}
-        postJSON' "exempt" (W.ExemptRequest (formSubject f) (filter (not . S.null) (map S.strip (S.splitOn "," (formKinds f)))) (formWhy f) (formRevisit f)) [] (Exempted . body) (Failed . describe)
+        postJSON' "index/exempt" (W.ExemptRequest (formSubject f) (filter (not . S.null) (map S.strip (S.splitOn "," (formKinds f)))) (formWhy f) (formRevisit f)) [] (Indexed . body) (Failed . describe)
   Lift subj -> do
     this %= \m -> m {busy = True, failure = Nothing}
-    postJSON' "lift" (W.ExemptRequest subj [] "" "") [] (Exempted . body) (Failed . describe)
+    postJSON' "index/lift" (W.ExemptRequest subj [] "" "") [] (Indexed . body) (Failed . describe)
   LiftKinds subj kinds -> do
     this %= \m -> m {busy = True, failure = Nothing}
-    postJSON' "lift" (W.ExemptRequest subj kinds "" "") [] (Exempted . body) (Failed . describe)
+    postJSON' "index/lift" (W.ExemptRequest subj kinds "" "") [] (Indexed . body) (Failed . describe)
   Exempted p -> this %= \m -> m {loaded = Just p, findings = Map.fromList (W.found p), busy = False, failure = Nothing, exemptForm = Nothing}
   EditNote k v -> this %= \m -> m {drafts = Map.alter (Just . (\d -> d {draftNote = v}) . fromMaybe emptyDraft) k (drafts m)}
   EditRevisit k v -> this %= \m -> m {drafts = Map.alter (Just . (\d -> d {draftRevisit = v}) . fromMaybe emptyDraft) k (drafts m)}
@@ -288,16 +312,64 @@ updateModel = \case
       m
         { busy = True
         , failure = Nothing
-        , inflight = Map.union (inflight m) (Map.fromList [(W.key i, i) | Just p <- [loaded m], i <- W.items p, W.key i == k])
+        , inflight = Map.union (inflight m) (Map.fromList ([(W.key i, i) | Just p <- [loaded m], i <- W.items p, W.key i == k] ++ [(W.key i, i) | is <- Map.elems (groupRows m), i <- is, W.key i == k]))
         , loaded = fmap (patchItem k (\i -> i {W.state = v, W.verdict = v, W.note = n, W.revisit = r, W.signer = Nothing})) (loaded m)
+        , groupRows = Map.map (map (\i -> if W.key i == k then i {W.state = v, W.verdict = v, W.note = n, W.revisit = r, W.signer = Nothing} else i)) (groupRows m)
+        , details = Map.adjust (\i -> i {W.state = v, W.verdict = v, W.note = n, W.revisit = r, W.signer = Nothing}) k (details m)
         }
     postJSON' "decide" (W.Decide k v n r) [] (Decided k . body) (Failed . describe)
   -- The server answers with the row as written; the rest of the page already holds everything
   -- else, so the payload of thousands of rows is not fetched again for one click.
-  Decided k i -> this %= \m -> m {loaded = fmap (patchItem k (const i)) (loaded m), findings = Map.delete k (findings m), busy = False, failure = Nothing, drafts = Map.delete k (drafts m), inflight = Map.delete k (inflight m)}
+  Decided k i -> this %= \m ->
+    let inGroup = [gk | (gk, is) <- Map.toList (groupRows m), any ((== k) . W.key) is]
+        settled = not (open i)
+        place p = if any ((== k) . W.key) (W.items p) then patchItem k (const i) p else p {W.items = W.items p ++ [i]}
+        shrink g = if settled && (W.groupQuestion g <> "\t" <> W.groupPattern g) `elem` inGroup then g {W.groupCount = W.groupCount g - 1, W.groupSubjects = [(s', if s' == W.subject i then c - 1 else c) | (s', c) <- W.groupSubjects g]} else g
+     in m
+          { loaded = fmap (if settled || null inGroup then place else patchItem k (const i)) (loaded m)
+          , groupRows = if settled then Map.map (filter ((/= k) . W.key)) (groupRows m) else Map.map (map (\x -> if W.key x == k then i else x)) (groupRows m)
+          , groups = map shrink (groups m)
+          , details = Map.insert k i (details m)
+          , findings = Map.delete k (findings m)
+          , busy = False
+          , failure = Nothing
+          , drafts = Map.delete k (drafts m)
+          , inflight = Map.delete k (inflight m)
+          }
   Reload -> do
     this %= \m -> m {busy = True, failure = Nothing}
-    getJSON "reload" [] (Loaded . body) (Failed . describe)
+    getJSON "index/reload" [] (Indexed . body) (Failed . describe)
+  -- The page opens on the index: the rows not owed under an exemption, without their material,
+  -- and the exempt ones as groups; a card's material, and a group's rows, are asked for when
+  -- they are shown, so thousands of rows cost what is on screen. ref:DEC-light-index
+  Indexed ix -> this %= \m ->
+    let p = W.Payload (W.indexProject ix) [] (W.indexItems ix) (W.indexFacts ix) (W.indexRules ix) (W.indexLifecycle ix) (W.indexHistoryRevision ix) (W.indexRunIssue ix) (W.indexIngestionIssues ix) [] (W.indexCanon ix)
+     in m
+          { loaded = Just p
+          , groups = W.indexGroups ix
+          , groupRows = Map.empty
+          , details = Map.empty
+          , requested = Set.empty
+          , failure = Nothing
+          , busy = False
+          , exemptForm = Nothing
+          , prior = if started m then prior m else decidedKeys p
+          , started = True
+          }
+  Need k -> do
+    m <- get
+    if Set.member k (requested m) || Map.member k (details m)
+      then pure ()
+      else do
+        this %= \m' -> m' {requested = Set.insert k (requested m')}
+        postJSON' "cards" (W.CardsRequest [k]) [] (CardsLoaded . body) (Failed . describe)
+  CardsLoaded cs -> this %= \m ->
+    m
+      { details = Map.union (Map.fromList [(W.key (W.cardItem c), W.cardItem c) | c <- cs]) (details m)
+      , findings = Map.union (Map.fromList [(W.key (W.cardItem c), W.cardFinding c) | c <- cs, not (S.null (W.cardFinding c))]) (findings m)
+      , requested = foldr (Set.delete . W.key . W.cardItem) (requested m) cs
+      }
+  GroupLoaded gk is -> this %= \m -> m {groupRows = Map.insert gk is (groupRows m)}
   OpenZoom k z -> do
     this %= \m -> m {zoom = Just (k, z), zoomWhole = Nothing}
     case z of
@@ -346,6 +418,13 @@ inTab t i = case t of
   HowTab -> W.question i == "How"
   AllTab -> True
 
+inTabQuestion :: Tab -> Str -> Bool
+inTabQuestion t q = case t of
+  WhyTab -> q == "Why"
+  WhatTab -> q == "What"
+  HowTab -> q == "How"
+  AllTab -> True
+
 isGapItem :: Item -> Bool
 isGapItem i = W.kind i == "observability"
 
@@ -358,7 +437,8 @@ viewModel m = case loaded m of
   Just p ->
     let everything = if tab m == HowTab then map W.lifeItem (W.lifecycle p) else [i | i <- W.items p, inTab (tab m) i]
         visible = [i | i <- everything, maybe True (== W.subject i) (chosen m)]
-        exemptItems = [i | i <- visible, not (S.null (W.exempt i)), open i || isGapItem i]
+        tabGroups = [(g, n) | g <- groups m, inTabQuestion (tab m) (W.groupQuestion g), let n = maybe (W.groupCount g) (\s' -> sum [c | (x, c) <- W.groupSubjects g, x == s']) (chosen m), n > 0]
+        exemptCount = sum (map snd tabGroups)
         judgements = [i | i <- visible, not (isGapItem i), not (isGone i), tab m /= AllTab || W.question i /= "How", S.null (W.exempt i) || not (open i)]
         gaps = [i | i <- visible, tab m /= AllTab || W.question i /= "How", isGapItem i, S.null (W.exempt i)]
         gone = [i | i <- visible, tab m /= AllTab || W.question i /= "How", isGone i]
@@ -368,8 +448,8 @@ viewModel m = case loaded m of
         allJudgements = [i | i <- everything, not (isGapItem i), not (isGone i), tab m /= AllTab || W.question i /= "How", S.null (W.exempt i) || not (open i)]
         outstanding = if tab m == HowTab then length [l | l <- W.lifecycle p, lifeNeedsAttention l, not (W.lifeArchived l)] else length (filter open allJudgements)
         allGaps = length [i | i <- everything, isGapItem i, S.null (W.exempt i)]
-        subjectsHere = Map.toList (Map.fromListWith (\(a, b) (c, d) -> (a + c, b + d)) [(W.subject i, (if open i && S.null (W.exempt i) then 1 else 0 :: Int, if open i && not (S.null (W.exempt i)) then 1 else 0 :: Int)) | i <- everything])
-        owedExempt = length [i | i <- everything, open i, not (S.null (W.exempt i))]
+        subjectsHere = Map.toList (Map.fromListWith (\(a, b) (c, d) -> (a + c, b + d)) ([(W.subject i, (if open i && S.null (W.exempt i) then 1 else 0 :: Int, 0 :: Int)) | i <- everything] ++ [(s', (0, c)) | g <- groups m, inTabQuestion (tab m) (W.groupQuestion g), (s', c) <- W.groupSubjects g, c > 0]))
+        owedExempt = sum [W.groupCount g | g <- groups m, inTabQuestion (tab m) (W.groupQuestion g)]
         rulesMap = Map.fromList [(W.ruleName r, (W.ruleSource r, W.ruleMarks r)) | r <- W.rules p]
      in H.div_
           []
@@ -393,14 +473,14 @@ viewModel m = case loaded m of
           , probeBanner m p
           , H.main_
               []
-              [ H.nav_ [P.class_ "subjects"] (subjectButton m Nothing "All" (sum [o | (_, (o, _)) <- subjectsHere]) (sum [e | (_, (_, e)) <- subjectsHere]) : [subjectButton m (Just s) s o e | (s, (o, e)) <- subjectsHere] ++ exemptControl m exemptItems)
+              [ H.nav_ [P.class_ "subjects"] (subjectButton m Nothing "All" (sum [o | (_, (o, _)) <- subjectsHere]) (sum [e | (_, (_, e)) <- subjectsHere]) : [subjectButton m (Just s) s o e | (s, (o, e)) <- subjectsHere] ++ exemptControl m exemptCount)
               , H.div_
                   []
                   ( case tab m of
                       HowTab -> historyView m p rulesMap
                       _ ->
                         [ H.h2_ [P.class_ "section"] [text ("This session -- " <> ms (show left) <> " of " <> ms (show (length here)) <> " still undecided")]
-                        , if null here then H.div_ [P.class_ "empty"] [text (if not (null (W.ingestionIssues p)) then "Fix the ingestion errors above before treating this queue as complete." else if null exemptItems then "Nothing undecided in " <> subjectLabel m <> "." else "Nothing due in " <> subjectLabel m <> ". " <> ms (show (length exemptItems)) <> " more are owed under exemptions: open a group under Exempt below to decide them now, or lift its exemption.")] else paged m here (\n i -> if open i then card m rulesMap n (length here) i else done m rulesMap n (length here) i)
+                        , if null here then H.div_ [P.class_ "empty"] [text (if not (null (W.ingestionIssues p)) then "Fix the ingestion errors above before treating this queue as complete." else if exemptCount == 0 then "Nothing undecided in " <> subjectLabel m <> "." else "Nothing due in " <> subjectLabel m <> ". " <> ms (show exemptCount) <> " more are owed under exemptions: open a group under Exempt below to decide them now, or lift its exemption.")] else paged m here (\n i -> if open i then card m rulesMap n (length here) i else done m rulesMap n (length here) i)
                         , if null gaps then text "" else H.h2_ [P.class_ "section"] [text ("Coverage gaps (" <> ms (show (length gaps)) <> ") -- work, not judgement")]
                         , if null gaps then text "" else gapNote
                         , paged m gaps (\n i -> gapRow m rulesMap n (length gaps) i)
@@ -408,8 +488,8 @@ viewModel m = case loaded m of
                         , paged m shut (\n i -> done m rulesMap n (length shut) i)
                         , if null gone then text "" else H.h2_ [P.class_ "section"] [text ("Not in the current run (" <> ms (show (length gone)) <> ")")]
                         , paged m gone (\n i -> done m rulesMap n (length gone) i)
-                        , if null exemptItems then text "" else H.h2_ [P.class_ "section"] [text ("Exempt (" <> ms (show (length exemptItems)) <> ") -- owed, not yet due")]
-                        , if null exemptItems then text "" else exemptGroups m rulesMap exemptItems
+                        , if exemptCount == 0 then text "" else H.h2_ [P.class_ "section"] [text ("Exempt (" <> ms (show exemptCount) <> ") -- owed, not yet due")]
+                        , if exemptCount == 0 then text "" else exemptGroups m rulesMap tabGroups
                         ] ++ (if tab m == AllTab then historyView m p rulesMap else [])
                   )
               ]
@@ -417,14 +497,15 @@ viewModel m = case loaded m of
           ]
 
 -- | The first page of a list and a button for the next, so a long queue costs what is on screen.
--- ref:DEC-how-card
+-- Each row is keyed, so a row drawn where another was is drawn afresh and asks for its card.
+-- ref:DEC-how-card ref:DEC-light-index
 paged :: Model -> [Item] -> (Int -> Item -> View context props Model Action) -> View context props Model Action
 paged m xs render =
   let shown = take (limit m) (zip [1 :: Int ..] xs)
       rest = length xs - length shown
    in H.div_
         []
-        ([render n i | (n, i) <- shown] ++ [H.div_ [P.class_ "more-row"] [H.button_ [E.onClick ShowMore] [text ("show " <> ms (show (min pageSize rest)) <> " more of " <> ms (show rest))]] | rest > 0])
+        ([H.div_ [MP.key_ (W.key i)] [render n i] | (n, i) <- shown] ++ [H.div_ [MP.key_ ("more-row" :: Str), P.class_ "more-row"] [H.button_ [E.onClick ShowMore] [text ("show " <> ms (show (min pageSize rest)) <> " more of " <> ms (show rest))]] | rest > 0])
 
 type Rules = Map Str ([Str], [Str])
 
@@ -481,7 +562,7 @@ gapNote =
 
 -- | The control under the switcher: exempt the chosen subject, or the form once opened.
 -- ref:DEC-exemptions
-exemptControl :: Model -> [Item] -> [View context props Model Action]
+exemptControl :: Model -> Int -> [View context props Model Action]
 exemptControl m exemptHere = case (chosen m, exemptForm m) of
   (_, Just f) ->
     [ H.div_
@@ -494,18 +575,16 @@ exemptControl m exemptHere = case (chosen m, exemptForm m) of
         ]
     ]
   (Just subj, Nothing)
-    | not (null exemptHere) ->
-        [H.div_ [P.class_ "exemptrow"] [H.button_ [E.onClick (LiftKinds subj (liftKindsFor (tab m))), P.title_ ("Lift the exemption for " <> subj <> " alone: a wider exemption is narrowed to everything else it covered, so only this subject comes due, its missing comments included."), disabledIf (busy m)] [text ("Lift the exemption for this subject (" <> ms (show (length exemptHere)) <> " rows)")]]]
+    | exemptHere > 0 ->
+        [H.div_ [P.class_ "exemptrow"] [H.button_ [E.onClick (LiftKinds subj (liftKindsFor (tab m))), P.title_ ("Lift the exemption for " <> subj <> " alone: a wider exemption is narrowed to everything else it covered, so only this subject comes due, its missing comments included."), disabledIf (busy m)] [text ("Lift the exemption for this subject (" <> ms (show exemptHere) <> " rows)")]]]
     | otherwise -> [H.div_ [P.class_ "exemptrow"] [H.button_ [E.onClick (OpenExempt subj), P.title_ "Declare this subject not owed until a version, with a reason. The debt stays counted; audit passes until the version comes."] [text "Exempt this subject…"]]]
   (Nothing, Nothing) -> []
 
 -- | Exempt items grouped by the pattern that covers them, each group with its reason, its
 -- revisit version, and a button to lift it. ref:DEC-exemptions
-exemptGroups :: Model -> Rules -> [Item] -> View context props Model Action
-exemptGroups m rs xs =
-  let groups = Map.toList (Map.fromListWith (flip (++)) [(W.exempt i, [i]) | i <- xs])
-      reviewing pat = Set.member ("exempt:" <> pat) (expanded m)
-   in H.div_
+exemptGroups :: Model -> Rules -> [(W.Group Str, Int)] -> View context props Model Action
+exemptGroups m rs gs =
+  H.div_
         []
         [ H.div_
             []
@@ -514,16 +593,22 @@ exemptGroups m rs xs =
                 [ H.div_
                     [P.class_ "summary"]
                     [ H.span_ [P.class_ "verdict gapword"] [text "exempt"]
-                    , H.span_ [P.class_ "binding"] [text pat]
-                    , H.span_ [P.class_ "mid"] [text (ms (show (length is)) <> " rows, until " <> W.exemptUntil first)]
-                    , H.span_ [P.class_ "where"] [text (W.exemptReason first)]
-                    , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Toggle ("exempt:" <> pat)), P.title_ "Decide these rows now, before the exemption comes due; each verdict is written like any other, and the exemption stays until you lift it."] [text (if reviewing pat then "Hide" else "Review")]
-                    , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Lift pat), P.title_ "Lift the whole exemption: every row it covers becomes due again at once.", disabledIf (busy m)] [text "Lift"]
+                    , H.span_ [P.class_ "binding"] [text (W.groupPattern g)]
+                    , H.span_ [P.class_ "mid"] [text (ms (show n) <> " rows" <> (if tab m == AllTab then " of " <> W.groupQuestion g else "") <> ", until " <> W.groupUntil g)]
+                    , H.span_ [P.class_ "where"] [text (W.groupReason g)]
+                    , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Toggle ("exempt:" <> gk)), P.title_ "Decide these rows now, before the exemption comes due; each verdict is written like any other, and the exemption stays until you lift it."] [text (if reviewing then "Hide" else "Review")]
+                    , H.button_ [P.class_ "copy", E.onClickWithOptions stopPropagation (Lift (W.groupPattern g)), P.title_ "Lift the whole exemption: every row it covers becomes due again at once.", disabledIf (busy m)] [text "Lift"]
                     ]
                 ]
-                : [paged m is (\n i -> card m rs n (length is) i) | reviewing pat]
+                : [ case Map.lookup gk (groupRows m) of
+                      Nothing -> H.div_ [P.class_ "empty"] [text "Loading the rows of this exemption…"]
+                      Just rows -> let is = [i | i <- rows, maybe True (== W.subject i) (chosen m)] in paged m is (\k i -> card m rs k (length is) i)
+                  | reviewing
+                  ]
             )
-        | (pat, is@(first : _)) <- groups
+        | (g, n) <- gs
+        , let gk = W.groupQuestion g <> "\t" <> W.groupPattern g
+        , let reviewing = Set.member ("exempt:" <> gk) (expanded m)
         ]
 
 subjectLabel :: Model -> Str
@@ -557,11 +642,32 @@ shortId i = S.pack (reverse (takeWhile (/= '/') (reverse (S.unpack (W.key i)))))
 -- | A card is the Why card, the What card, or wavelet's mutant card, by what the item carries.
 -- ref:DEC-how-card ref:DEC-what-queue
 card :: Model -> Rules -> Int -> Int -> Item -> View context props Model Action
-card m rs n total i = case W.mutant i of
+card m rs n total light = case W.mutant i of
   Just mv -> mutantCard m rs n total i mv
   Nothing
+    | not (Map.member (W.key light) (details m)) -> pendingCard n total light
     | W.question i == "What" -> whatCard m n total i
     | otherwise -> whyCard m n total i
+  where
+    i = Map.findWithDefault light (W.key light) (details m)
+
+-- | A card whose material has not come yet: its bar, and a request for the rest the moment it is
+-- drawn; paged keys each row, so a card drawn in another's place asks for its own.
+-- ref:DEC-light-index
+pendingCard :: Int -> Int -> Item -> View context props Model Action
+pendingCard n total i =
+  H.div_
+    [P.class_ "card", ME.onCreated (Need (W.key i)), textProp "data-state" (W.state i)]
+    [ H.div_
+        [P.class_ "top"]
+        [ H.span_ [P.class_ "ordinal"] [text (ms (show n) <> " of " <> ms (show total))]
+        , H.span_ [P.classList_ [("badge", True), (W.state i, True)]] [text (W.state i)]
+        , H.span_ [P.class_ "badge kind"] [text (W.kind i)]
+        , H.span_ [P.class_ "unit"] [text (W.unit i)]
+        , H.span_ [P.class_ "where"] [text (whereText i)]
+        ]
+    , H.div_ [P.class_ "empty"] [H.button_ [E.onClick (Need (W.key i))] [text "Loading the card…"]]
+    ]
 
 -- | The What card: the name and the signature to judge, the body beside them as the second side,
 -- and canon's three verdicts. Rule 8 plus signature, judged apart from the comment.
@@ -1021,7 +1127,11 @@ verdictLabel v = case v of
 -- | A decided row, collapsed, for either queue; a mutant reopens to unreviewed and a comment to
 -- pending. ref:DEC-how-card
 done :: Model -> Rules -> Int -> Int -> Item -> View context props Model Action
-done m rs n total i =
+done m rs n total light =
+  let i = Map.findWithDefault light (W.key light) (details m) in doneRow m rs n total i
+
+doneRow :: Model -> Rules -> Int -> Int -> Item -> View context props Model Action
+doneRow m rs n total i =
   let reopenWord = if isJust (W.mutant i) then "unreviewed" else "pending"
       isOpen = Set.member (W.key i) (expanded m)
    in H.div_

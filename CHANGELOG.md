@@ -26,6 +26,15 @@ and this project adheres to
   again, refusing a source changed since the page read it, and the page no
   longer fetches every row after each click; the payload is encoded once, off
   the request (`DEC-decide-on-disk`). Refusals reach the page as text.
+- The page opens on a light index (`DEC-light-index`): rows not owed under an
+  exemption without their material, and exempt rows as groups counted per
+  subject; a card's material comes from `/cards` when it is drawn and a group's
+  rows from `/group` when it is opened. On LawSpec's 8,756 rows the page draws
+  in about 0.1 s from a 60 KB index, where it decoded 15 MB in about nine.
+  `/obligations` and every other route answer as before; `/index`,
+  `/index/reload`, `/index/exempt`, `/index/lift`, `/cards`, and `/group` are
+  new, natively and in the npm server, and `index`, `cards`, and `group` are
+  exports. Building the payload is no longer quadratic in the vetting rows.
 - Doc cards show the whole page; a pending row no longer shows its ingester as
   its signer.
 - The binary runs with parallel garbage collection off, as canon's does.

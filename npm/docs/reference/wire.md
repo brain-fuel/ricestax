@@ -34,6 +34,11 @@ module RicesTax.Wire
   , HistoryRequest (..)
   , Lifecycle (..)
   , Mutation (..)
+  , Index (..)
+  , Group (..)
+  , Card (..)
+  , CardsRequest (..)
+  , GroupRequest (..)
   ) where
 
 import GHC.Generics (Generic)
@@ -369,4 +374,80 @@ data HistoryRequest s = HistoryRequest
   , historyReason :: s
   , expectedRevision :: s
   } deriving (Eq, Show, Generic)
+```
+
+## 16. Index
+
+What the page needs to draw: every row that is not owed under an exemption, without the text,
+code, marks, or citations of any, and the exempt rows only as groups, one per exemption and
+question, with how many rows each holds per subject. The page asks for a card's material, and a
+group's rows, when they are opened, so a project of thousands of rows opens at once.
+/obligations still answers with the whole payload. ref:DEC-light-index
+
+```haskell file=src/RicesTax/Wire.hs def=Index
+data Index s = Index
+  { indexProject :: s
+  , indexItems :: [Item s]
+  , indexGroups :: [Group s]
+  , indexFacts :: Maybe (Facts s)
+  , indexRules :: [RuleSource s]
+  , indexLifecycle :: [Lifecycle s]
+  , indexHistoryRevision :: s
+  , indexRunIssue :: s
+  , indexIngestionIssues :: [s]
+  , indexCanon :: s
+  }
+  deriving (Eq, Show, Generic)
+```
+
+## 17. Group
+
+The rows one exemption holds back in one queue: its pattern, reason, and revisit version, how
+many rows, and how many under each subject. ref:DEC-light-index
+
+```haskell file=src/RicesTax/Wire.hs def=Group
+data Group s = Group
+  { groupPattern :: s
+  , groupQuestion :: s
+  , groupReason :: s
+  , groupUntil :: s
+  , groupCount :: Int
+  , groupSubjects :: [(s, Int)]
+  }
+  deriving (Eq, Show, Generic)
+```
+
+## 18. Card
+
+One row whole, with what canon finds on it, as a card shows it. ref:DEC-light-index
+
+```haskell file=src/RicesTax/Wire.hs def=Card
+data Card s = Card
+  { cardItem :: Item s
+  , cardFinding :: s
+  }
+  deriving (Eq, Show, Generic)
+```
+
+## 19. CardsRequest
+
+The rows whose cards the page is about to show. ref:DEC-light-index
+
+```haskell file=src/RicesTax/Wire.hs def=CardsRequest
+newtype CardsRequest s = CardsRequest
+  { cardKeys :: [s]
+  }
+  deriving (Eq, Show, Generic)
+```
+
+## 20. GroupRequest
+
+The exempt group whose rows the page is about to list. ref:DEC-light-index
+
+```haskell file=src/RicesTax/Wire.hs def=GroupRequest
+data GroupRequest s = GroupRequest
+  { requestQuestion :: s
+  , requestPattern :: s
+  }
+  deriving (Eq, Show, Generic)
 ```

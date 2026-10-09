@@ -13,8 +13,11 @@ export type RuleSource = { ruleName: string; ruleSource: string[]; ruleMarks: st
 export type HistoryRequest = { historyAction: 'archive' | 'restore' | 'retire'; historyKeys: string[]; historyReason: string; expectedRevision: string };
 export type HistoryEvent = { eventId: string; eventAction: string; eventTime: string; eventReason: string; eventSnapshot: Item; eventFacts: Facts | null; eventDecisionDigest: string; eventEvidenceDigest: string; eventPrevious: string };
 export type Lifecycle = { lifeKey: string; lifeStatus: string; lifeMessage: string; lifeArchived: boolean; lifeItem: Item; lifeEvents: HistoryEvent[] };
-export type Payload = { project: string; subjects: Subject[]; items: Item[]; facts: Facts | null; rules: RuleSource[]; lifecycle: Lifecycle[]; historyRevision: string; runIssue: string; ingestionIssues: string[] };
+export type Payload = { project: string; subjects: Subject[]; items: Item[]; facts: Facts | null; rules: RuleSource[]; lifecycle: Lifecycle[]; historyRevision: string; runIssue: string; ingestionIssues: string[]; found: [string, string][]; canonRunning: string };
 export type Whole = { wholeLines: string[]; wholeStart: number; wholeMarks: string[] };
+export type Group = { groupPattern: string; groupQuestion: string; groupReason: string; groupUntil: string; groupCount: number; groupSubjects: [string, number][] };
+export type Index = { indexProject: string; indexItems: Item[]; indexGroups: Group[]; indexFacts: Facts | null; indexRules: RuleSource[]; indexLifecycle: Lifecycle[]; indexHistoryRevision: string; indexRunIssue: string; indexIngestionIssues: string[]; indexCanon: string };
+export type Card = { cardItem: Item; cardFinding: string };
 export type Decide = { decideKey: string; decideVerdict: string; decideNote: string; decideRevisit: string };
 export type ExemptRequest = { exemptSubject: string; exemptKinds: string[]; exemptWhy: string; exemptRevisit: string };
 export type Failure = { error: string };
@@ -40,6 +43,12 @@ export type Api = {
   exempt(input: { root: string } & ExemptRequest): Promise<Payload | Failure>;
   /** Lifts the exemption over a subject, for the kinds given or all, narrowing a wider one to the rest of what it covered, and returns the payload. */
   lift(input: { root: string; exemptSubject: string; exemptKinds?: string[] }): Promise<Payload | Failure>;
+  /** The page's index: the rows not owed under an exemption without their material, and the exempt ones as groups. */
+  index(input: { root: string }): Promise<Index | Failure>;
+  /** The cards of the rows named, each whole with canon's finding. */
+  cards(input: { root: string; cardKeys: string[] }): Promise<Card[] | Failure>;
+  /** The rows of one exempt group, without their material. */
+  group(input: { root: string; requestQuestion: string; requestPattern: string }): Promise<Item[] | Failure>;
   /** The whole definition around a mutant, for the zoom and the copy. */
   whole(input: { root: string; kind: string; id: string }): Promise<Whole | Failure>;
   /** Reads the decided headings of wavelet MUT- records into the ledger. */

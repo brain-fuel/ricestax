@@ -430,3 +430,12 @@ DEC-decide-on-disk:
   opened: 0.4.0
   decided: 0.4.0
   refs: [REQ-canon-lockstep]
+
+DEC-light-index:
+  status: decided
+  question: On LawSpec the page received every one of 8,756 rows with its text, code, highlighting, and citations, 15 MB, and took nine seconds to draw, most of it decoding rows the person would not open that day, nearly all of them under exemptions. How does the page open at once?
+  answer: |
+    It opens on an index: the rows not owed under an exemption without their text, answer, citations, code, or marks, and the exempt rows only as one group per exemption and queue, with its reason, revisit version, and count per subject. A card asks /cards for its row when it is drawn, a group asks /group for its rows when it is opened, and an exemption change or a re-read answers with the index. The server encodes the index when the project changes and the whole payload only when /obligations asks, which, like every other route, is unchanged. Rows are keyed on the page, so a card drawn in another's place asks for its own. The merged vetting rows are held in the gathered project, since merging them again for each row made building the payload quadratic.
+  opened: 0.4.0
+  decided: 0.4.0
+  refs: [REQ-light-index]

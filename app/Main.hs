@@ -34,7 +34,6 @@ import System.Exit (ExitCode (..), exitFailure, exitWith)
 import System.FilePath (takeExtension, (</>))
 import Control.Concurrent (forkIO)
 import Control.Exception (evaluate)
-import Control.Monad (void)
 import System.IO (IOMode (..), hClose, hPutStrLn, openFile, stderr)
 import System.Process (CreateProcess (..), StdStream (..), createProcess, shell, waitForProcess)
 import Text.Read (readMaybe)
@@ -108,22 +107,23 @@ main = do
 -- GET /reload recomputes it after an edit made outside the page. ref:DEC-ui-shape
 --
 -- Specified by cli S3.
-type Cache = IORef (Maybe (Either Text (Gathered, Payload Text, LBS.ByteString)))
+type Cache = IORef (Maybe (Either Text (Gathered, Payload Text, LBS.ByteString, LBS.ByteString)))
 
--- | The encoded payload is held beside it and encoded once per change, at once and off the
--- request,
--- since encoding thousands of rows with their highlighted code took longer than the page took
--- to
--- draw them.
+-- | The encoded payload is held beside it, encoded once per change when /obligations first asks,
+-- and the index the page opens on is encoded at once, before the change is visible; the page
+-- reads
+-- only the index, the cards, and the groups, so encoding thousands of rows with their
+-- highlighted
+-- code is never in its way. ref:DEC-light-index
 -- ref:DEC-ui-shape
 --
 -- Specified by cli S3.
 remember :: Cache -> Gathered -> Payload Text -> IO ()
 remember cache g p = do
   let encoded = encode p
-  writeIORef cache (Just (Right (g, p, encoded)))
-  _ <- forkIO (void (evaluate (LBS.length encoded)))
-  pure ()
+  indexed <- evaluate (encode (indexOf p))
+  _ <- evaluate (LBS.length indexed)
+  writeIORef cache (Just (Right (g, p, encoded, indexed)))
 
 refresh :: Cache -> IO ()
 refresh cache = do
@@ -142,11 +142,19 @@ application :: FilePath -> Cache -> Mutating -> Application
 application site cache mutating request respond = case (requestMethod request, pathInfo request) of
   ("GET", []) -> static "index.html"
   ("GET", ["obligations"]) -> cachedResponse cache >>= respond
-  ("GET", ["reload"]) -> do
-    mu <- readIORef mutating
-    if mutationState mu == "running"
-      then respond (textResponse status409 "the mutation is running; the project is re-read when it ends")
-      else refresh cache >> cachedResponse cache >>= respond
+  ("GET", ["index"]) -> heldIndex >>= respond
+  ("GET", ["reload"]) -> reloadWith (cachedResponse cache)
+  ("GET", ["index", "reload"]) -> reloadWith heldIndex
+  ("POST", ["cards"]) -> do
+    body <- strictRequestBody request
+    case eitherDecode body of
+      Left err -> respond (textResponse status400 (T.pack ("unreadable request: " ++ err)))
+      Right (CardsRequest ks) -> fromHeld (\p -> jsonResponse (cardsOf p ks)) >>= respond
+  ("POST", ["group"]) -> do
+    body <- strictRequestBody request
+    case eitherDecode body of
+      Left err -> respond (textResponse status400 (T.pack ("unreadable request: " ++ err)))
+      Right (GroupRequest q pat) -> fromHeld (\p -> jsonResponse (groupOf p q pat)) >>= respond
   ("GET", ["mutation"]) -> mutationStatus mutating >>= respond . jsonResponse
   ("POST", ["mutate"]) -> startMutation cache mutating >>= respond
   ("POST", ["history"]) -> do
@@ -162,12 +170,14 @@ application site cache mutating request respond = case (requestMethod request, p
             case result of
               Left err -> respond (textResponse status409 err)
               Right p -> refresh cache >> respond (jsonResponse p)
-  ("POST", ["exempt"]) -> exemptionRoute True
-  ("POST", ["lift"]) -> exemptionRoute False
+  ("POST", ["exempt"]) -> exemptionRoute True (cachedResponse cache)
+  ("POST", ["lift"]) -> exemptionRoute False (cachedResponse cache)
+  ("POST", ["index", "exempt"]) -> exemptionRoute True heldIndex
+  ("POST", ["index", "lift"]) -> exemptionRoute False heldIndex
   ("GET", ["whole", kindT, i]) -> do
     held <- readIORef cache
     respond $ case held of
-      Just (Right (g, _, _)) | Just w <- wholeOf g kindT i -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] (encode w)
+      Just (Right (g, _, _, _)) | Just w <- wholeOf g kindT i -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] (encode w)
       _ -> textResponse status404 ("no definition for " <> kindT <> "/" <> i)
   ("POST", ["decide"]) -> do
     body <- strictRequestBody request
@@ -177,12 +187,12 @@ application site cache mutating request respond = case (requestMethod request, p
         hPutStrLn stderr ("decide " ++ T.unpack (decideKey d) ++ " -> " ++ T.unpack (decideVerdict d) ++ (if T.null (T.strip (decideNote d)) then "" else " with a note") ++ (if T.null (T.strip (decideRevisit d)) then "" else " revisit " ++ T.unpack (decideRevisit d)))
         current <- readIORef cache
         case current of
-          Just (Right (g, p, _)) -> do
+          Just (Right (g, p, _, _)) -> do
             result <- decideWith g d
             case result of
               Left err -> respond (textResponse status409 err)
               Right (shard, k, e) -> do
-                let g' = g {gVetting = Vetting (Map.insertWith Map.union shard (Map.singleton k e) (vettingFiles (gVetting g)))}
+                let g' = withVetting (Vetting (Map.insertWith Map.union shard (Map.singleton k e) (vettingFiles (gVetting g)))) g
                 p' <- redecide g' p (decideKey d)
                 remember cache g' p'
                 respond $ case [i | i <- items p', key i == decideKey d] of
@@ -192,14 +202,31 @@ application site cache mutating request respond = case (requestMethod request, p
   ("GET", segments) -> static (T.unpack (T.intercalate "/" segments))
   _ -> respond (textResponse status405 "method not allowed")
   where
-    exemptionRoute adding = do
+    heldIndex = do
+      current <- readIORef cache
+      pure $ case current of
+        Just (Right (_, _, _, indexed)) -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] indexed
+        Just (Left err) -> textResponse status500 err
+        Nothing -> textResponse status500 "not gathered yet"
+    fromHeld answer = do
+      current <- readIORef cache
+      pure $ case current of
+        Just (Right (_, p, _, _)) -> answer p
+        Just (Left err) -> textResponse status500 err
+        Nothing -> textResponse status500 "not gathered yet"
+    reloadWith answer = do
+      mu <- readIORef mutating
+      if mutationState mu == "running"
+        then respond (textResponse status409 "the mutation is running; the project is re-read when it ends")
+        else refresh cache >> answer >>= respond
+    exemptionRoute adding answer = do
       body <- strictRequestBody request
       case eitherDecode body of
         Left err -> respond (textResponse status400 (T.pack ("unreadable exemption: " ++ err)))
         Right (x :: ExemptRequest Text) -> do
           current <- readIORef cache
           case current of
-            Just (Right (g, p, _)) -> do
+            Just (Right (g, p, _, _)) -> do
               result <- writeExemption g adding x
               case result of
                 Left err -> respond (textResponse status400 err)
@@ -208,7 +235,7 @@ application site cache mutating request respond = case (requestMethod request, p
                       p' = p {items = map (reExempt g') (items p)}
                   hPutStrLn stderr ((if adding then "exempt " else "lift ") ++ T.unpack (exemptSubject x))
                   remember cache g' p'
-                  cachedResponse cache >>= respond
+                  answer >>= respond
             _ -> respond (textResponse status500 "not gathered yet")
     static rel = do
       let path = site </> rel
@@ -253,7 +280,7 @@ startMutation cache mutating = do
   held <- readIORef cache
   mu <- readIORef mutating
   case held of
-    Just (Right (g, _, _)) | Just command <- gRuntime g >>= runtimeCommand ->
+    Just (Right (g, _, _, _)) | Just command <- gRuntime g >>= runtimeCommand ->
       if mutationState mu == "running"
         then pure (textResponse status409 "the mutation is already running")
         else do
@@ -296,4 +323,4 @@ cachedResponse cache = do
   pure $ case held of
     Nothing -> textResponse status500 "not gathered yet"
     Just (Left err) -> textResponse status500 err
-    Just (Right (_, _, encoded)) -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] encoded
+    Just (Right (_, _, encoded, _)) -> responseLBS status200 [("Content-Type", "application/json"), ("Cache-Control", "no-store")] encoded

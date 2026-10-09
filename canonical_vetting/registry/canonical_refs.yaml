@@ -25,6 +25,9 @@ registry/REQ-exit-codes:
 registry/REQ-identity-joins:
   digest: sha256:b376009dbe216581
   verdict: pending
+registry/REQ-light-index:
+  digest: sha256:815c18c39ee9b05d
+  verdict: pending
 registry/REQ-line-diff:
   digest: sha256:c7ec1e7eb3c91b59
   verdict: pending

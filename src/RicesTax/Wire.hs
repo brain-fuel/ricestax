@@ -29,6 +29,11 @@ module RicesTax.Wire
   , HistoryRequest (..)
   , Lifecycle (..)
   , Mutation (..)
+  , Index (..)
+  , Group (..)
+  , Card (..)
+  , CardsRequest (..)
+  , GroupRequest (..)
   ) where
 
 import GHC.Generics (Generic)
@@ -314,3 +319,65 @@ data HistoryRequest s = HistoryRequest
   , historyReason :: s
   , expectedRevision :: s
   } deriving (Eq, Show, Generic)
+
+-- | What the page needs to draw: every row that is not owed under an exemption, without the text,
+-- code, marks, or citations of any, and the exempt rows only as groups, one per exemption and
+-- question, with how many rows each holds per subject. The page asks for a card's material, and
+-- a
+-- group's rows, when they are opened, so a project of thousands of rows opens at once.
+-- /obligations still answers with the whole payload. ref:DEC-light-index
+--
+-- Specified by wire S16.
+data Index s = Index
+  { indexProject :: s
+  , indexItems :: [Item s]
+  , indexGroups :: [Group s]
+  , indexFacts :: Maybe (Facts s)
+  , indexRules :: [RuleSource s]
+  , indexLifecycle :: [Lifecycle s]
+  , indexHistoryRevision :: s
+  , indexRunIssue :: s
+  , indexIngestionIssues :: [s]
+  , indexCanon :: s
+  }
+  deriving (Eq, Show, Generic)
+
+-- | The rows one exemption holds back in one queue: its pattern, reason, and revisit version, how
+-- many rows, and how many under each subject. ref:DEC-light-index
+--
+-- Specified by wire S17.
+data Group s = Group
+  { groupPattern :: s
+  , groupQuestion :: s
+  , groupReason :: s
+  , groupUntil :: s
+  , groupCount :: Int
+  , groupSubjects :: [(s, Int)]
+  }
+  deriving (Eq, Show, Generic)
+
+-- | One row whole, with what canon finds on it, as a card shows it. ref:DEC-light-index
+--
+-- Specified by wire S18.
+data Card s = Card
+  { cardItem :: Item s
+  , cardFinding :: s
+  }
+  deriving (Eq, Show, Generic)
+
+-- | The rows whose cards the page is about to show. ref:DEC-light-index
+--
+-- Specified by wire S19.
+newtype CardsRequest s = CardsRequest
+  { cardKeys :: [s]
+  }
+  deriving (Eq, Show, Generic)
+
+-- | The exempt group whose rows the page is about to list. ref:DEC-light-index
+--
+-- Specified by wire S20.
+data GroupRequest s = GroupRequest
+  { requestQuestion :: s
+  , requestPattern :: s
+  }
+  deriving (Eq, Show, Generic)

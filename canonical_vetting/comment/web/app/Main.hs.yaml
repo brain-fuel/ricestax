@@ -91,6 +91,9 @@ decision/haskell/web/app/Main.hs/module/Main/function/pageSize:
 decision/haskell/web/app/Main.hs/module/Main/function/paged:
   digest: sha256:0ee1c039a8775a86
   verdict: pending
+decision/haskell/web/app/Main.hs/module/Main/function/pendingCard:
+  digest: sha256:eea924fc1a60a6c9
+  verdict: pending
 decision/haskell/web/app/Main.hs/module/Main/function/pieceViews:
   digest: sha256:ff6ee2194bee871b
   verdict: pending

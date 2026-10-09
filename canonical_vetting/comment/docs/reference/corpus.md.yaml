@@ -64,6 +64,9 @@ decision/haskell/test/Corpus.hs/module/Main/function/prop_foreignContextChanges:
 decision/haskell/test/Corpus.hs/module/Main/function/prop_headWordNamesTheBinding:
   digest: sha256:dfc7a0bd061369eb
   verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_indexGroupsAndCardsMakeUpThePayload:
+  digest: sha256:bf8a0da7a906c9c1
+  verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_liftingOneSubjectNarrowsADirectory:
   digest: sha256:29dcd4a2d1247cc4
   verdict: pending

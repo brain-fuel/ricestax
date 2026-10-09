@@ -4,6 +4,9 @@ decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire:
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Bound:
   digest: sha256:33b36b20b3a8b1d4
   verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Card:
+  digest: sha256:6d736fa20d34e598
+  verdict: pending
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Count:
   digest: sha256:adac92ff1ed3c826
   verdict: pending
@@ -16,8 +19,17 @@ decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/ExemptRequest:
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Facts:
   digest: sha256:cc19c0ef9ce6cc75
   verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Group:
+  digest: sha256:735badb3b5db0d93
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/GroupRequest:
+  digest: sha256:1f982a11eadf7456
+  verdict: pending
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/HistoryEvent:
   digest: sha256:ad40a37ccf2fe011
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Index:
+  digest: sha256:f9c51c4868ba51a0
   verdict: pending
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Item:
   digest: sha256:49355ad5d38a1be1
@@ -48,4 +60,7 @@ decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Subject:
   verdict: pending
 decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/data/Whole:
   digest: sha256:b7aee1d417aaca53
+  verdict: pending
+decision/haskell/src/RicesTax/Wire.hs/module/RicesTax.Wire/newtype/CardsRequest:
+  digest: sha256:ba521224841c17a4
   verdict: pending

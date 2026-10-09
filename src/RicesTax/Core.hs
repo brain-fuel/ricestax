@@ -37,6 +37,11 @@ module RicesTax.Core
   , canonCounts
   , liftSubject
   , redecide
+  , indexOf
+  , cardsOf
+  , groupOf
+  , lighten
+  , withVetting
   ) where
 
 import Canon.Config (Config (..), Runtime (..))
@@ -118,6 +123,16 @@ instance ToJSON s => ToJSON (Bound s)
 instance ToJSON s => ToJSON (Whole s)
 
 instance FromJSON s => FromJSON (ExemptRequest s)
+
+instance ToJSON s => ToJSON (Index s)
+
+instance ToJSON s => ToJSON (Group s)
+
+instance ToJSON s => ToJSON (Card s)
+
+instance FromJSON s => FromJSON (CardsRequest s)
+
+instance FromJSON s => FromJSON (GroupRequest s)
 
 -- | The language of a path, by the profile that owns its extension; a Folio page has none, since
 -- its
@@ -265,6 +280,8 @@ data Gathered = Gathered
   , gReport :: [Finding]
   , gFiles :: [FilePath]
   , gStamps :: Map.Map FilePath Text
+  , gEntries :: Map.Map VettingKey VettingEntry
+  , gSurveyedEntries :: Map.Map VettingKey VettingEntry
   }
 
 -- | The tangled files, so a mutant reported at a line of one lands on the unit whose page holds
@@ -314,6 +331,8 @@ gather project = do
       , gReport = surveyReport project survey
       , gFiles = map (makeRelative (projectDirectory project) . normalise) (walkedFiles (surveyWalked survey))
       , gStamps = stamps
+      , gEntries = vettingEntries (fromMaybe emptyVetting (projectVetting project))
+      , gSurveyedEntries = vettingEntries (fromMaybe emptyVetting (projectVetting project))
       }
 
 -- | A What row whose unit is gone, or no longer requires a comment, is an orphan of its own
@@ -329,10 +348,10 @@ assemble g = do
   let known = Map.fromList [(materialKey m, ()) | m <- gMaterials g]
       how = howItems g
       howKeys = Set.fromList (map key how)
-      orphans = [orphanItem g k e | (k, e) <- Map.toList (vettingEntries (gVetting g)), not (Map.member k known), not (isKindKey k), not (Set.member (renderVettingKey k) howKeys)]
-      whatOrphans = [(orphanItem g k e) {question = "What"} | (k, e) <- Map.toList (vettingEntries (gVetting g)), isNameKey k, not (Map.member k known)]
+      orphans = [orphanItem g k e | (k, e) <- Map.toList (gEntries g), not (Map.member k known), not (isKindKey k), not (Set.member (renderVettingKey k) howKeys)]
+      whatOrphans = [(orphanItem g k e) {question = "What"} | (k, e) <- Map.toList (gEntries g), isNameKey k, not (Map.member k known)]
       liveIds = Set.fromList (map (T.drop 1 . T.dropWhile (/= '/') . key) how)
-      gone = [goneItem g k e (Set.member (idOf k) liveIds) | (k, e) <- Map.toList (vettingEntries (gVetting g)), isKindKey k, not (isNameKey k), not (Set.member (renderVettingKey k) howKeys)]
+      gone = [goneItem g k e (Set.member (idOf k) liveIds) | (k, e) <- Map.toList (gEntries g), isKindKey k, not (isNameKey k), not (Set.member (renderVettingKey k) howKeys)]
       idOf k = case k of
         KindKey _ i -> i
         _ -> ""
@@ -511,6 +530,14 @@ orphanItem g k e =
     , exemptUntil = ""
     }
 
+-- | The project's rows replaced, with the merged view of them that every row's state is read
+-- from.
+-- ref:DEC-light-index
+--
+-- Specified by core S9.
+withVetting :: Vetting -> Gathered -> Gathered
+withVetting v g = g {gVetting = v, gEntries = vettingEntries v}
+
 -- | The exemption covering an item, as canon finds it: an item canon raises a pending finding on
 -- is
 -- exempt exactly when canon's exemptions turn that finding into an exempt one, under the
@@ -539,7 +566,7 @@ pendingFindings g k = if decidedSince g k then [] else filter findingPending (Ma
 --
 -- Specified by core S9.
 decidedSince :: Gathered -> VettingKey -> Bool
-decidedSince g k = Map.lookup k (vettingEntries (gVetting g)) /= Map.lookup k (vettingEntries (gSurveyed g))
+decidedSince g k = Map.lookup k (gEntries g) /= Map.lookup k (gSurveyedEntries g)
 
 -- | The state of a canon material is canon's: stale or pending where canon finds it so, and
 -- otherwise
@@ -612,7 +639,7 @@ base g m kindT questionT subj name ukind pathT ln txt cited codeLs codeMarks fro
     }
   where
     k = materialKey m
-    entry = Map.lookup k (vettingEntries (gVetting g))
+    entry = Map.lookup k (gEntries g)
 
 -- | Every live mutant of the run as an obligation: a surviving one is a judgement with wavelet's
 --
@@ -633,7 +660,7 @@ mutantItem g run m =
       isGap = gapWord /= Nothing
       kindT = if isGap then "observability" else "mutant" :: Text
       k = KindKey kindT (mutantId m)
-      entry = Map.lookup k (vettingEntries (gVetting g))
+      entry = Map.lookup k (gEntries g)
       pathT = T.pack (mutantFile m)
       (name, ukind) = unitFor g (mutantFile m) (mutantLine m) (mutantBinding m)
       own = Map.lookup (mutantId m) (runReadings run)
@@ -1051,7 +1078,7 @@ ingestHow :: Gathered -> IO (Int, Int)
 ingestHow g = case gRun g of
   Nothing -> pure (0, 0)
   Just run -> do
-    let existing = vettingEntries (gVetting g)
+    let existing = gEntries g
         rows =
           [ (materialShard i, (k, VettingEntry (Word (if kind i == "observability" then "gap" else "unreviewed")) (mutantContext m) Nothing Nothing (Just (runId run))))
           | m <- liveMutants run
@@ -1073,7 +1100,7 @@ ingestHow g = case gRun g of
 -- Specified by core S20.
 ingestWhat :: Gathered -> IO (Int, Int)
 ingestWhat g = do
-  let existing = vettingEntries (gVetting g)
+  let existing = gEntries g
       rows = [(materialFile m, (materialKey m, VettingEntry Pending (materialDigest m) Nothing Nothing Nothing)) | m <- gMaterials g, isNameKey (materialKey m), not (Map.member (materialKey m) existing)]
       byShard = Map.fromListWith (++) [(s, [r]) | (s, r) <- rows]
   mapM_ (\(shard, rs) -> writeShard g shard (Map.fromList rs)) (Map.toList byShard)
@@ -1200,9 +1227,8 @@ decideWith g d = historyLocked $ withLoaded $ \project' -> do
     Just path -> pure (Left (T.pack path <> " changed since the page read the project; re-read it before deciding, so the verdict is on what you see"))
     Nothing ->
       decideUnlocked
-        g
+        (withVetting (fromMaybe emptyVetting (projectVetting project')) g)
           { gProject = project'
-          , gVetting = fromMaybe emptyVetting (projectVetting project')
           , gMaterials = [m | m <- gMaterials g, not (ledgerOrRegistry (materialKey m))] ++ [m | m <- projectMaterials project' [], ledgerOrRegistry (materialKey m)]
           }
         d
@@ -1417,7 +1443,7 @@ historyTransaction g p h request = do
                   (fnv1aHex [historyRevision p, now, lifeKey l, action, T.pack (show n)]) action now
                   (if action == "archive" then "verified-kill" else T.strip (historyReason request))
                   (lifeItem l) (facts p)
-                  (maybe "" entryDigest (parseVettingKey (lifeKey l) >>= (\k -> Map.lookup k (vettingEntries (gVetting g)))))
+                  (maybe "" entryDigest (parseVettingKey (lifeKey l) >>= (\k -> Map.lookup k (gEntries g))))
                   (snapshotDigest (lifeItem l) (facts p)) (previous l)
                 next = h {historyEvents = historyEvents h ++ zipWith makeEvent [0 :: Int ..] selected}
             (temp, handle) <- openTempFile "canonical_history" ".mutations.yaml.tmp"
@@ -1471,3 +1497,54 @@ historyAudit = do
       pure $ case changed of
         Right t | T.null t -> []
         _ -> ["Decision history has uncommitted changes; its new events are not signed."]
+
+-- | A row without what only its card shows: its text and answer, what it cites, and its code and
+-- marks, and without its exemption's reason, which its group carries once. A mutant keeps its
+-- view, which the collapsed row of the How queue reads. ref:DEC-light-index
+--
+-- Specified by core S25.
+lighten :: Item Text -> Item Text
+lighten i = i {text = "", answer = "", refs = [], code = [], marks = [], exemptReason = ""}
+
+-- | The index of a payload: every row that is not open under an exemption, lightened, and the
+-- rest as
+-- one group per exemption and queue, with the count under each subject, so the page draws the
+-- queues and the switcher from a small answer. ref:DEC-light-index
+--
+-- Specified by core S26.
+indexOf :: Payload Text -> Index Text
+indexOf p =
+  Index
+    { indexProject = project p
+    , indexItems = [lighten i | i <- items p, not (owedExempt i)]
+    , indexGroups =
+        [ Group pat q (exemptReason first) (exemptUntil first) (length is) (Map.toList (Map.fromListWith (+) [(subject i, 1 :: Int) | i <- is]))
+        | ((q, pat), is@(first : _)) <- Map.toList (Map.fromListWith (flip (++)) [((question i, exempt i), [i]) | i <- items p, owedExempt i])
+        ]
+    , indexFacts = facts p
+    , indexRules = rules p
+    , indexLifecycle = lifecycle p
+    , indexHistoryRevision = historyRevision p
+    , indexRunIssue = runIssue p
+    , indexIngestionIssues = ingestionIssues p
+    , indexCanon = canonRunning p
+    }
+  where
+    owedExempt i = not (T.null (exempt i)) && state i `elem` ["pending", "stale", "unreviewed", "needs-research"]
+
+-- | The cards of the rows asked for, each whole with canon's finding on it, in the order asked.
+-- ref:DEC-light-index
+--
+-- Specified by core S27.
+cardsOf :: Payload Text -> [Text] -> [Card Text]
+cardsOf p ks =
+  let byKey = Map.fromList [(key i, i) | i <- items p]
+      found' = Map.fromList (found p)
+   in [Card i (Map.findWithDefault "" k found') | k <- ks, Just i <- [Map.lookup k byKey]]
+
+-- | The rows of one exempt group, lightened, for the page to list and ask cards of.
+-- ref:DEC-light-index
+--
+-- Specified by core S28.
+groupOf :: Payload Text -> Text -> Text -> [Item Text]
+groupOf p q pat = [lighten i | i <- items p, question i == q, exempt i == pat, state i `elem` ["pending", "stale", "unreviewed", "needs-research"]]

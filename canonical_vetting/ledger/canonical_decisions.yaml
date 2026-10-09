@@ -49,6 +49,9 @@ ledger/DEC-kinds-in-canon:
 ledger/DEC-ledger-shape:
   digest: sha256:e71d6ec0ad0a58d4
   verdict: pending
+ledger/DEC-light-index:
+  digest: sha256:73e97856fc2a2a0a
+  verdict: pending
 ledger/DEC-line-diff:
   digest: sha256:aed8f0511d3cdba0
   verdict: pending

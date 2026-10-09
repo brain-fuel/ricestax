@@ -60,6 +60,20 @@ export async function serve(call, port) {
         if (mutation.mutationState === "running") return send(res, req, 409, "text/plain; charset=utf-8", "the mutation is running; the project is re-read when it ends");
         return send(res, req, 200, mime[".json"], JSON.stringify(await call("reload", { root: "." })));
       }
+      // The page's light routes: the index, a card or a group on demand, and the index after a
+      // re-read or an exemption change (DEC-light-index); the routes above stay as they were.
+      if (req.method === "GET" && url.pathname === "/index") return send(res, req, 200, mime[".json"], JSON.stringify(await call("index", { root: "." })));
+      if (req.method === "GET" && url.pathname === "/index/reload") {
+        if (mutation.mutationState === "running") return send(res, req, 409, mime[".json"], JSON.stringify("the mutation is running; the project is re-read when it ends"));
+        await call("reload", { root: "." });
+        return send(res, req, 200, mime[".json"], JSON.stringify(await call("index", { root: "." })));
+      }
+      if (req.method === "POST" && ["/cards", "/group"].includes(url.pathname)) return send(res, req, 200, mime[".json"], JSON.stringify(await call(url.pathname.slice(1), { root: ".", ...JSON.parse(await body(req)) })));
+      if (req.method === "POST" && ["/index/exempt", "/index/lift"].includes(url.pathname)) {
+        const r = await call(url.pathname.slice(7), { root: ".", ...JSON.parse(await body(req)) });
+        if (r.error) return send(res, req, 400, mime[".json"], JSON.stringify(r.error));
+        return send(res, req, 200, mime[".json"], JSON.stringify(await call("index", { root: "." })));
+      }
       if (req.method === "GET" && url.pathname === "/mutation") return send(res, req, 200, mime[".json"], JSON.stringify(status()));
       if (req.method === "POST" && url.pathname === "/mutate") { const [code, text] = await start(call); return send(res, req, code, code === 200 ? mime[".json"] : "text/plain; charset=utf-8", text); }
       if (req.method === "GET" && url.pathname.startsWith("/whole/")) { const [, , kind, id] = url.pathname.split("/"); return send(res, req, 200, mime[".json"], JSON.stringify(await call("whole", { root: ".", kind, id }))); }

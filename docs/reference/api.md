@@ -137,6 +137,9 @@ exports =
   , Export "history" "Archives, restores, or retires decisions with retained evidence and optimistic revision checking." "{ root: string } & HistoryRequest" "Payload"
   , Export "exempt" "Declares a subject not owed until a version and returns the payload with the exemption applied." "{ root: string } & ExemptRequest" "Payload"
   , Export "lift" "Lifts the exemption over a subject, for the kinds given or all, narrowing a wider one to the rest of what it covered, and returns the payload." "{ root: string; exemptSubject: string; exemptKinds?: string[] }" "Payload"
+  , Export "index" "The page's index: the rows not owed under an exemption without their material, and the exempt ones as groups." "{ root: string }" "Index"
+  , Export "cards" "The cards of the rows named, each whole with canon's finding." "{ root: string; cardKeys: string[] }" "Card[]"
+  , Export "group" "The rows of one exempt group, without their material." "{ root: string; requestQuestion: string; requestPattern: string }" "Item[]"
   , Export "whole" "The whole definition around a mutant, for the zoom and the copy." "{ root: string; kind: string; id: string }" "Whole"
   , Export "importRecords" "Reads the decided headings of wavelet MUT- records into the ledger." "{ root: string; paths: string[] }" "{ imported: number; missed: number }[]"
   , Export "canon" "Runs one canon command at root, its output going to the terminal, and returns its exit code." "{ root: string; args: string[] }" "{ exit: number }"
@@ -201,6 +204,13 @@ call (Session held) name input = case eitherDecode input of
             Right _ -> regather root >>= pure . fmap (encode . snd)
       "exempt" -> exemptionCall True
       "lift" -> exemptionCall False
+      "index" -> gathered root >>= \r -> pure (fmap (encode . indexOf . snd) r)
+      "cards" -> case eitherDecode input of
+        Left err -> pure (Left (T.pack err))
+        Right (CardsRequest ks) -> gathered root >>= \r -> pure (fmap (\(_, p) -> encode (cardsOf p ks)) r)
+      "group" -> case eitherDecode input of
+        Left err -> pure (Left (T.pack err))
+        Right (GroupRequest q pat) -> gathered root >>= \r -> pure (fmap (\(_, p) -> encode (groupOf p q pat)) r)
       "whole" -> gathered root >>= \r -> pure (r >>= \(g, _) -> maybe (Left ("no definition for " <> field "kind" "" v <> "/" <> field "id" "" v)) (Right . encode) (wholeOf g (field "kind" "" v) (field "id" "" v)))
       "importRecords" -> case eitherDecode input of
         Left err -> pure (Left (T.pack err))
@@ -224,7 +234,7 @@ call (Session held) name input = case eitherDecode input of
       case result of
         Left err -> pure (Left err)
         Right (shard, k, e) -> do
-          let g' = g {gVetting = insertRow shard k e (gVetting g)}
+          let g' = withVetting (insertRow shard k e (gVetting g)) g
           p' <- redecide g' p (decideKey d)
           remember root (g', p')
           pure (Right (maybe (failure "decided, but the row is not in the payload") encode (rowOf (decideKey d) p')))
@@ -482,8 +492,11 @@ declarations =
       , "export type HistoryRequest = { historyAction: 'archive' | 'restore' | 'retire'; historyKeys: string[]; historyReason: string; expectedRevision: string };"
       , "export type HistoryEvent = { eventId: string; eventAction: string; eventTime: string; eventReason: string; eventSnapshot: Item; eventFacts: Facts | null; eventDecisionDigest: string; eventEvidenceDigest: string; eventPrevious: string };"
       , "export type Lifecycle = { lifeKey: string; lifeStatus: string; lifeMessage: string; lifeArchived: boolean; lifeItem: Item; lifeEvents: HistoryEvent[] };"
-      , "export type Payload = { project: string; subjects: Subject[]; items: Item[]; facts: Facts | null; rules: RuleSource[]; lifecycle: Lifecycle[]; historyRevision: string; runIssue: string; ingestionIssues: string[] };"
+      , "export type Payload = { project: string; subjects: Subject[]; items: Item[]; facts: Facts | null; rules: RuleSource[]; lifecycle: Lifecycle[]; historyRevision: string; runIssue: string; ingestionIssues: string[]; found: [string, string][]; canonRunning: string };"
       , "export type Whole = { wholeLines: string[]; wholeStart: number; wholeMarks: string[] };"
+      , "export type Group = { groupPattern: string; groupQuestion: string; groupReason: string; groupUntil: string; groupCount: number; groupSubjects: [string, number][] };"
+      , "export type Index = { indexProject: string; indexItems: Item[]; indexGroups: Group[]; indexFacts: Facts | null; indexRules: RuleSource[]; indexLifecycle: Lifecycle[]; indexHistoryRevision: string; indexRunIssue: string; indexIngestionIssues: string[]; indexCanon: string };"
+      , "export type Card = { cardItem: Item; cardFinding: string };"
       , "export type Decide = { decideKey: string; decideVerdict: string; decideNote: string; decideRevisit: string };"
       , "export type ExemptRequest = { exemptSubject: string; exemptKinds: string[]; exemptWhy: string; exemptRevisit: string };"
       , "export type Failure = { error: string };"

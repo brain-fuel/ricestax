@@ -25,6 +25,12 @@ export async function connect(root = process.cwd()) {
     exempt: (input) => call("exempt", { root, ...(input ?? {}) }),
     /** Lifts the exemption over a subject, for the kinds given or all, narrowing a wider one to the rest of what it covered, and returns the payload. */
     lift: (input) => call("lift", { root, ...(input ?? {}) }),
+    /** The page's index: the rows not owed under an exemption without their material, and the exempt ones as groups. */
+    index: (input) => call("index", { root, ...(input ?? {}) }),
+    /** The cards of the rows named, each whole with canon's finding. */
+    cards: (input) => call("cards", { root, ...(input ?? {}) }),
+    /** The rows of one exempt group, without their material. */
+    group: (input) => call("group", { root, ...(input ?? {}) }),
     /** The whole definition around a mutant, for the zoom and the copy. */
     whole: (input) => call("whole", { root, ...(input ?? {}) }),
     /** Reads the decided headings of wavelet MUT- records into the ledger. */

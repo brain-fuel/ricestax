@@ -121,6 +121,7 @@ spec = describe "rices-tax" $ do
     it "exemption.lifting-one-subject-narrows-a-directory" prop_liftingOneSubjectNarrowsADirectory
     it "exemption.edits-leave-other-entries-as-written" prop_exemptionEditsLeaveOtherEntriesAsWritten
     it "decide.refuses-a-source-changed-since-it-was-read" prop_decideRefusesAChangedSource
+    it "index.light-rows-groups-and-cards-make-up-the-payload" prop_indexGroupsAndCardsMakeUpThePayload
   describe "block" $ do
     it "binding.carries-its-comments" prop_bindingBlockCarriesItsComments
     it "binding.stops-at-a-blank-line" prop_bindingBlockStopsAtABlankLine
@@ -1032,4 +1033,35 @@ prop_decideRefusesAChangedSource = withLockstepScratch "changed" [] $ \dir -> wi
   g' <- gather project'
   accepted <- Core.decideWith g' (W.Decide k "good" "" "")
   either (const False) (const True) accepted `shouldBe` True
+```
+
+## 45. prop_indexGroupsAndCardsMakeUpThePayload
+
+The index the page opens on loses nothing: its rows are the payload's rows not owed under an
+exemption, without their material; its groups count exactly the rest, per subject; a group's rows
+are those rows; and the cards of every row are the payload's rows whole, with canon's finding.
+ref:REQ-light-index
+
+```haskell file=test/Corpus.hs def=prop_indexGroupsAndCardsMakeUpThePayload
+prop_indexGroupsAndCardsMakeUpThePayload :: IO ()
+prop_indexGroupsAndCardsMakeUpThePayload = withLockstepScratch "index" [] $ \dir -> withCurrentDirectory dir $ do
+  writeFile "canonical_exemptions.yaml" "/src/sub/:\n  kinds: [comment]\n  reason: later\n  revisit: 9.0.0\n\"*\":\n  kinds: [name]\n  reason: names later\n  revisit: 9.0.0\n"
+  Right fresh <- loadProject "."
+  _ <- gather fresh >>= Core.assess
+  Right project <- loadProject "."
+  p <- gather project >>= Core.assemble
+  let ix = Core.indexOf p
+      owed i = not (T.null (W.exempt i)) && W.state i `elem` ["pending", "stale", "unreviewed", "needs-research"]
+      exemptRows = [i | i <- W.items p, owed i]
+      groupRows = concat [Core.groupOf p (W.groupQuestion g) (W.groupPattern g) | g <- W.indexGroups ix]
+  (null exemptRows) `shouldBe` False
+  (null (W.indexItems ix)) `shouldBe` False
+  map W.key (W.indexItems ix) `shouldBe` [W.key i | i <- W.items p, not (owed i)]
+  all (\i -> null (W.code i) && null (W.marks i) && T.null (W.text i) && null (W.refs i)) (W.indexItems ix ++ groupRows) `shouldBe` True
+  sum (map W.groupCount (W.indexGroups ix)) `shouldBe` length exemptRows
+  sort (map W.key groupRows) `shouldBe` sort (map W.key exemptRows)
+  sort [(W.groupQuestion g, W.groupPattern g, s', c) | g <- W.indexGroups ix, (s', c) <- W.groupSubjects g] `shouldBe` sort [(q, pat, s', c) | ((q, pat, s'), c) <- Map.toList (Map.fromListWith (+) [((W.question i, W.exempt i, W.subject i), 1 :: Int) | i <- exemptRows])]
+  let cards = Core.cardsOf p (map W.key (W.items p))
+  map W.cardItem cards `shouldBe` W.items p
+  [(W.key (W.cardItem c), W.cardFinding c) | c <- cards, not (T.null (W.cardFinding c))] `shouldBe` [(k, f) | (k, f) <- W.found p, k `elem` map W.key (W.items p)]
 ```
