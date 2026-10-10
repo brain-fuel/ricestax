@@ -40,6 +40,9 @@ ledger/DEC-how-queue:
 ledger/DEC-how-subkinds:
   digest: sha256:597c4b819d7ab62f
   verdict: pending
+ledger/DEC-javascript-dialect-profile:
+  digest: sha256:00291fcfa799afd5
+  verdict: pending
 ledger/DEC-join-key:
   digest: sha256:9fb5ac35fa812e31
   verdict: pending
@@ -123,6 +126,9 @@ ledger/DEC-umbrella-surface:
   verdict: pending
 ledger/DEC-verdict-carry-over:
   digest: sha256:8428614dcee4f9cc
+  verdict: pending
+ledger/DEC-vetting-deferred:
+  digest: sha256:dd12749abd753b54
   verdict: pending
 ledger/DEC-wasm-toolchain:
   digest: sha256:bf0055beb35ca6a6

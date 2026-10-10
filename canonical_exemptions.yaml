@@ -1,8 +1,44 @@
-src/RicesTax/Sydtest.hs:
-  kinds: [observability]
-  reason: "the adapter's file reading has no corpus reaching it yet; a corpus over a recorded run is the work of 0.2.0"
-  revisit: 0.2.0
+/docs/:
+  kinds: [comment, doc]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/test/:
+  kinds: [comment]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/web/:
+  kinds: [comment]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/wasm/:
+  kinds: [comment]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/npm/:
+  kinds: [comment]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/tools/:
+  kinds: [comment]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/Makefile:
+  kinds: [comment]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+/src/:
+  kinds: [mutant, observability]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+ledger/*:
+  kinds: [ledger]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
+registry/*:
+  kinds: [registry]
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0
 "*":
   kinds: [name]
-  reason: "the What queue is new and every name of this project is owed at once; paying it is the work of 0.2.0"
-  revisit: 0.2.0
+  reason: "the owner defers vetting until 1.0, once 1.0 feature parity is reached"
+  revisit: 1.0.0

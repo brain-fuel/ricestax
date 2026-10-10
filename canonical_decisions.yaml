@@ -119,9 +119,9 @@ DEC-ui-shape:
 
 DEC-how-subkinds:
   status: open
-  question: Beyond the surviving mutant, what are the How kinds exactly? DEC-how-queue names observability of the body by its tests and the existence of blind spots. wavelet's coverage gap, a condition that never took both outcomes under the tests, is a work item and a candidate observability kind. What raises a blind-spot obligation, what its subject is, and what its verdict words are is not yet decided.
+  question: Beyond the surviving mutant, what are the How kinds exactly? DEC-how-queue names observability of the body by its tests and the existence of blind spots. wavelet's coverage gap, a condition that never took both outcomes under the tests, is a work item and a candidate observability kind. What raises a blind-spot obligation, what its subject is, and what its verdict words are is not yet decided. The owner deferred this question, with the vetting of canonical material, to 1.0, once 1.0 feature parity is reached.
   opened: 0.1.0
-  revisit: 0.2.0
+  revisit: 1.0.0
   refs: [wavelet-adr-0021]
 
 DEC-why-digest-scope:
@@ -144,9 +144,9 @@ DEC-subject-granularity:
 
 DEC-grammar-sharing:
   status: open
-  question: The Haskell dialect is copied from canon at commit f639753 into grammars/haskell so canon can check this project. Should canon ship its dialect grammars as part of the package, or resolve them from the dependency, so that a copy does not drift?
+  question: The Haskell dialect is copied from canon at commit f639753 into grammars/haskell so canon can check this project. Should canon ship its dialect grammars as part of the package, or resolve them from the dependency, so that a copy does not drift? The owner deferred this question, with the vetting of canonical material, to 1.0, once 1.0 feature parity is reached.
   opened: 0.1.0
-  revisit: 0.2.0
+  revisit: 1.0.0
   refs: [canon]
 
 DEC-mutant-location:
@@ -439,3 +439,21 @@ DEC-light-index:
   opened: 0.4.0
   decided: 0.4.0
   refs: [REQ-light-index]
+
+DEC-vetting-deferred:
+  status: decided
+  question: assess records every comment, page, decision, reference, and name of Rice's Tax as an open row, and audit fails on any open row outside an exemption or any exemption past its revisit, so the exemptions written for 0.2.0 had expired and audit could not pass at a release. How does Rice's Tax release before its material is vetted?
+  answer: |
+    The owner defers vetting until 1.0, as LawSpec and canon do: rough 1.0 feature parity comes first, then the rewrite, the clean-up and the sign-off. canonical_exemptions.yaml exempts every kind of open material at the root until 1.0.0, so releases carry the debt counted without signing it off. The open decisions whose revisit had come are deferred with it to 1.0.0. Decided by the owner for 0.4.0.
+  opened: 0.4.0
+  decided: 0.4.0
+  refs: [canon]
+
+DEC-javascript-dialect-profile:
+  status: decided
+  question: This project's JavaScript profile read the Node launcher, server, and tools through the plain grammar with units, which takes every line comment as documentation, so ten ordinary comments inside functions were reported as doc comments attached to no unit. An orphan is not a debt an exemption can carry, so audit could not pass with the vetting deferred. Which profile reads this project's JavaScript?
+  answer: |
+    canon 0.2.0's canonically commented JavaScript dialect, vendored under grammars/javascript/canonically_commented and named in the profile with no units, as LawSpec does. It reads JSDoc as documentation and an ordinary comment as neither a Why nor an orphan. The rows of the plain profile were pending and are dropped on ingest; the units the dialect requires are owed under the exemptions of DEC-vetting-deferred. The package presets keep the plain grammar for projects that adopt it.
+  opened: 0.4.0
+  decided: 0.4.0
+  refs: [canon]

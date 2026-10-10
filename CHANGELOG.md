@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
-## 0.4.0 — Unreleased
+## [0.4.0] - 2026-10-10
 
 - Lockstep with canon 0.2.0 (`DEC-canon-lockstep`): built only against that
   canon, which `package.yaml` pins; a project names the canon its rows were
@@ -38,6 +38,15 @@ and this project adheres to
 - Doc cards show the whole page; a pending row no longer shows its ingester as
   its signer.
 - The binary runs with parallel garbage collection off, as canon's does.
+- Rice's Tax's own vetting is deferred until 1.0 (`DEC-vetting-deferred`):
+  `canonical_exemptions.yaml` exempts every kind of open material at the root
+  until 1.0.0, replacing the exemptions that expired at 0.2.0, and the open
+  decisions `DEC-how-subkinds` and `DEC-grammar-sharing` are revisited in
+  1.0.0, so `audit` and canon's check pass with the debt counted.
+- This project's JavaScript is read through canon's canonically commented
+  JavaScript dialect, vendored under `grammars/javascript/canonically_commented`
+  (`DEC-javascript-dialect-profile`), so an ordinary comment inside a function
+  is no longer reported as an orphaned doc comment.
 
 ## 0.3.2 — 22 September 2026
 
