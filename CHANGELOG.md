@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-10-10
+
+- Lockstep with canon 0.2.1, and with any patch of canon 0.2
+  (`DEC-canon-patch-compatibility`): a canon patch never changes ids, digests,
+  or vetting files, so the binary refuses only a canon of another minor,
+  `package.yaml` allows `canon >= 0.2.1 && < 0.3`, and every verb reads a
+  project whose `canon.yaml` names any `0.2.x`, or `0.2.x` itself, as it
+  stands, as `canon check` does; one naming another minor is still refused
+  until `assess --upgrade-canon`. `requiredCanon` is `0.2.1`, and a corpus rule
+  checks that a patch is accepted and another minor refused.
+- The Haskell grammars under `grammars/` are canon 0.2.1's, which read the
+  valid Haskell canon 0.2.0 could not: a `case` inside a list comprehension, a
+  `let` in a guard before a comma, a `do` block as a `case`'s scrutinee, a guard
+  after a `do` block, a `let` with explicit braces, and ghc's explicit-brace
+  style. Every id and digest of this project is unchanged.
+
 ## [0.4.0] - 2026-10-10
 
 - Lockstep with canon 0.2.0 (`DEC-canon-lockstep`): built only against that

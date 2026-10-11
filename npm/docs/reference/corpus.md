@@ -39,7 +39,7 @@ import Canon.Profile (CommentSyntax (..), DocStyle (..), Embedding (..), default
 import Canon.Project (Survey (..), checkProject, exemptFinding, loadProject, surveyProject)
 import Canon.Exemptions (Exemption (..), Exemptions (..), exemptionFor)
 import Canon.Model.Finding (Finding (..), findingKey, findingPending)
-import Canon.Version (canonVersion, parseVersion)
+import Canon.Version (Version (..), canonVersion, parseVersion, patchCompatible)
 import Control.Monad (forM_)
 import System.Directory (doesDirectoryExist)
 import Canon.Tangle (Origin (..), Tangled (..), assemble, originOf)
@@ -118,6 +118,7 @@ spec = describe "rices-tax" $ do
     it "lockstep.another-canon-in-canon-yaml-is-refused-until-upgraded" prop_anotherCanonIsRefusedUntilUpgraded
     it "lockstep.audit-and-canon-check-agree-on-the-pending-set" prop_auditAndCanonCheckAgreeOnThePendingSet
     it "lockstep.vendored-grammars-are-canon's" prop_vendoredGrammarsAreCanons
+    it "lockstep.a-patch-of-the-canon-is-accepted" prop_aPatchOfTheCanonIsAccepted
     it "exemption.lifting-one-subject-narrows-a-directory" prop_liftingOneSubjectNarrowsADirectory
     it "exemption.edits-leave-other-entries-as-written" prop_exemptionEditsLeaveOtherEntriesAsWritten
     it "decide.refuses-a-source-changed-since-it-was-read" prop_decideRefusesAChangedSource
@@ -861,12 +862,12 @@ withLockstepScratch name extra action = do
 
 ## 37. prop_builtWithTheCanonItIsReleasedWith
 
-This Rice's Tax is linked against the canon it names, so its ids and digests are that canon's.
-ref:REQ-canon-lockstep
+This Rice's Tax is linked against the canon it names, or a patch of its minor, so its ids and
+digests are that canon's. ref:REQ-canon-lockstep
 
 ```haskell file=test/Corpus.hs def=prop_builtWithTheCanonItIsReleasedWith
 prop_builtWithTheCanonItIsReleasedWith :: IO ()
-prop_builtWithTheCanonItIsReleasedWith = T.pack canonVersion `shouldBe` Core.requiredCanon
+prop_builtWithTheCanonItIsReleasedWith = patchCompatible Core.requiredCanon (T.pack canonVersion) `shouldBe` True
 ```
 
 ## 38. prop_anotherCanonIsRefusedUntilUpgraded
@@ -969,6 +970,27 @@ prop_vendoredGrammarsAreCanons = do
     ours <- TIO.readFile (here </> "grammars" </> g)
     theirs <- TIO.readFile (canonGrammars </> g)
     (g, ours == theirs) `shouldBe` (g, True)
+```
+
+## 41. prop_aPatchOfTheCanonIsAccepted
+
+A canon patch never changes ids, digests, or vetting files, so a project whose canon.yaml names an
+earlier or later patch of the running canon's minor, or the line as major.minor.x, is read as it
+stands, without an upgrade, while one naming another minor is still refused.
+ref:REQ-canon-lockstep
+
+```haskell file=test/Corpus.hs def=prop_aPatchOfTheCanonIsAccepted
+prop_aPatchOfTheCanonIsAccepted :: IO ()
+prop_aPatchOfTheCanonIsAccepted = do
+  let Just running = parseVersion (T.pack canonVersion)
+      line = show (versionMajor running) ++ "." ++ show (versionMinor running)
+      patches = [line ++ ".0", line ++ "." ++ show (versionPatch running + 1), line ++ ".x"]
+  forM_ patches $ \named -> withLockstepScratch "patch" ["canon: " ++ named] $ \dir -> withCurrentDirectory dir $ do
+    accepted <- Core.withLoaded (\_ -> pure (Right ()))
+    (named, accepted) `shouldBe` (named, Right ())
+  withLockstepScratch "minor" ["canon: " ++ show (versionMajor running) ++ "." ++ show (versionMinor running + 1) ++ ".0"] $ \dir -> withCurrentDirectory dir $ do
+    refused <- Core.withLoaded (\_ -> pure (Right ()))
+    either (T.isInfixOf "--upgrade-canon") (const False) refused `shouldBe` True
 ```
 
 ## 42. prop_liftingOneSubjectNarrowsADirectory

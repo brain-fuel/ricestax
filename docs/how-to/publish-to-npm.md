@@ -55,12 +55,15 @@ or `wasm/ricestax-wasm.cabal`. Hpack updates `rices-tax.cabal`. Example project
 versions, historical records and dependency versions are separate.
 
 A release of canon that changes ids, digests, or vetting files changes canon's
-version, and ships together with a Rice's Tax release built against it: set
-`requiredCanon` in `docs/reference/core.md` and the `canon ==` bound in
+minor, and ships together with a Rice's Tax release built against it: set
+`requiredCanon` in `docs/reference/core.md` and the `canon` bounds in
 `package.yaml` to it, re-vendor `grammars/` from that canon (the corpus rule
 `lockstep.vendored-grammars-are-canon's` fails until they match), and run the
 corpus, whose `lockstep` rules compare `ricestax audit` with `canon check`
-(`DEC-canon-lockstep`).
+(`DEC-canon-lockstep`). A canon patch changes none of them
+(`DEC-canon-patch-compatibility`): Rice's Tax reads with any patch of its
+minor, so one needs no release, though a release built against it re-vendors
+its grammars the same way.
 
 ## Build and validate
 

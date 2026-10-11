@@ -457,3 +457,12 @@ DEC-javascript-dialect-profile:
   opened: 0.4.0
   decided: 0.4.0
   refs: [canon]
+
+DEC-canon-patch-compatibility:
+  status: decided
+  question: canon 0.2.1 reads Haskell canon 0.2.0 could not and changes no id, digest, or vetting file, yet Rice's Tax refused to run when built against any canon but 0.2.0 and every verb refused a project naming another canon (DEC-canon-lockstep). Must a canon patch force a Rice's Tax release and every project's re-ingest?
+  answer: |
+    No. canon decides that a patch never changes ids, digests, or vetting files (canon's DEC-canon-patch-compatibility), so Rice's Tax accepts any patch of its canon's minor: requiredCanon names the canon it is released with, 0.2.1, the binary refuses only a canon of another minor, package.yaml allows canon >= 0.2.1 && < 0.3, and a project's canon.yaml naming any 0.2.x, or 0.2.x itself, is read as it stands, through canon's lockstepFindings and patchCompatible, so Rice's Tax and canon check accept the same versions. The grammars under grammars/ are canon 0.2.1's, since the corpus rule that they match canon's stays.
+  opened: 0.4.1
+  decided: 0.4.1
+  refs: [canon, REQ-canon-lockstep]

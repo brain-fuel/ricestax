@@ -4,6 +4,9 @@ decision/haskell/test/Corpus.hs/module/Main:
 decision/haskell/test/Corpus.hs/module/Main/function/main:
   digest: sha256:2c979a713acc0e41
   verdict: pending
+decision/haskell/test/Corpus.hs/module/Main/function/prop_aPatchOfTheCanonIsAccepted:
+  digest: sha256:d42a1de3ea8058bc
+  verdict: pending
 decision/haskell/test/Corpus.hs/module/Main/function/prop_aWordDecides:
   digest: sha256:0a2c7925a1e4fcf5
   verdict: pending

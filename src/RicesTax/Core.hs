@@ -63,7 +63,7 @@ import Canon.Project
 import Canon.Tangle (Origin (..), Tangled (..), originOf)
 import Canon.Registry (Reference (..), Registry (..))
 import Canon.Span (Position (..), Span (..))
-import Canon.Version (canonVersion, parseVersion, renderVersion)
+import Canon.Version (canonVersion, parseVersion, patchCompatible, renderVersion)
 import Canon.Walk (Walked (..))
 import Canon.Vetting hiding (assess, entryRevisit)
 import qualified Canon.Vetting as V
@@ -203,21 +203,27 @@ withLoaded continue = do
 -- | The canon version this Rice's Tax is released with: ids, digests, the vetting files, and the
 -- findings are canon's, read through its library, so the two ship together, and a canon change
 -- to
--- any of them is a Rice's Tax release too. ref:DEC-canon-lockstep
+-- any of them is a Rice's Tax release too. A canon patch changes none of them, so any patch of
+-- this
+-- canon's minor reads alike. ref:DEC-canon-lockstep ref:DEC-canon-patch-compatibility
 --
 -- Specified by core S2.
 requiredCanon :: Text
-requiredCanon = "0.2.0"
+requiredCanon = "0.2.1"
 
--- | Why this Rice's Tax cannot read a project, if it cannot: it was built against another canon
--- than
--- the one it is released with, or the project's canon.yaml names another canon than the running
--- one under canon. The message says what to run instead. ref:DEC-canon-lockstep
+-- | Why this Rice's Tax cannot read a project, if it cannot: it was built against a canon of
+-- another
+-- minor than the one it is released with, or the project's canon.yaml names a canon of another
+-- minor
+-- than the running one under canon. Any patch of the same minor is accepted, as canon's own
+-- check
+-- accepts it. The message says what to run instead. ref:DEC-canon-lockstep
+-- ref:DEC-canon-patch-compatibility
 --
 -- Specified by core S2.
 lockstepIssue :: Project -> Maybe Text
 lockstepIssue project
-  | T.pack canonVersion /= requiredCanon = Just ("this Rice's Tax is released with canon " <> requiredCanon <> " but was built against canon " <> T.pack canonVersion <> "; build it against canon " <> requiredCanon <> ", the canon its stack.yaml names")
+  | not (patchCompatible requiredCanon (T.pack canonVersion)) = Just ("this Rice's Tax is released with canon " <> requiredCanon <> " but was built against canon " <> T.pack canonVersion <> "; build it against canon " <> requiredCanon <> ", the canon its stack.yaml names")
   | otherwise = case lockstepFindings (projectConfig project) of
       (CanonVersionMismatch declared running : _) -> Just ("canon.yaml says this project was assessed with canon " <> declared <> ", and this Rice's Tax runs canon " <> running <> "; use the Rice's Tax released with canon " <> declared <> ", or run ricestax assess --upgrade-canon to re-ingest the rows under canon " <> running)
       _ -> Nothing

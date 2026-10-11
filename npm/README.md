@@ -157,17 +157,18 @@ the commit this release names.
 
 ### Lockstep with canon
 
-Rice's Tax 0.4.0 is released with canon 0.2.0 and only that canon
-(`DEC-canon-lockstep`). Ids, digests, vetting files, exemptions, and findings
+Rice's Tax 0.4.1 is released with canon 0.2.1 and reads with any canon 0.2.x
+(`DEC-canon-lockstep`, `DEC-canon-patch-compatibility`). Ids, digests, vetting files, exemptions, and findings
 are canon's, read through its library: a row's state on the page is the state
 canon check gives it, and `ricestax audit` counts pending sign-off as canon
-check does. `package.yaml` depends on `canon == 0.2.0`, and the binary refuses
-to run when built against another canon. A project names the canon its rows
-were written with under `canon` in `canon.yaml`; `ricestax assess` adds it,
-every verb refuses a project that names another canon, and
+check does. `package.yaml` depends on `canon >= 0.2.1 && < 0.3`, and the binary
+refuses to run when built against a canon of another minor. A project names the
+canon its rows were written with under `canon` in `canon.yaml`; `ricestax assess`
+adds it, every verb refuses a project that names a canon of another minor, and
 `ricestax assess --upgrade-canon` re-ingests under the running one. A canon
-change that affects ids, digests, or vetting files changes canon's version and
-ships together with a matching Rice's Tax release. The WebAssembly halves and the npm package are built
+patch never changes ids, digests, or vetting files, so a project naming any
+`0.2.x` reads as it stands; a canon change that affects them changes canon's
+minor and ships together with a matching Rice's Tax release. The WebAssembly halves and the npm package are built
 with `stack build --exec tools/wasm.sh`; the how-to page on building for
 WebAssembly says what that needs.
 
