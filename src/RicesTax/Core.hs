@@ -209,7 +209,7 @@ withLoaded continue = do
 --
 -- Specified by core S2.
 requiredCanon :: Text
-requiredCanon = "0.2.1"
+requiredCanon = "0.2.2"
 
 -- | Why this Rice's Tax cannot read a project, if it cannot: it was built against a canon of
 -- another

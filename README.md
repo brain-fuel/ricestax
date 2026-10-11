@@ -157,11 +157,11 @@ the commit this release names.
 
 ### Lockstep with canon
 
-Rice's Tax 0.4.1 is released with canon 0.2.1 and reads with any canon 0.2.x
+Rice's Tax 0.4.2 is released with canon 0.2.2 and reads with any canon 0.2.x
 (`DEC-canon-lockstep`, `DEC-canon-patch-compatibility`). Ids, digests, vetting files, exemptions, and findings
 are canon's, read through its library: a row's state on the page is the state
 canon check gives it, and `ricestax audit` counts pending sign-off as canon
-check does. `package.yaml` depends on `canon >= 0.2.1 && < 0.3`, and the binary
+check does. `package.yaml` depends on `canon >= 0.2.2 && < 0.3`, and the binary
 refuses to run when built against a canon of another minor. A project names the
 canon its rows were written with under `canon` in `canon.yaml`; `ricestax assess`
 adds it, every verb refuses a project that names a canon of another minor, and

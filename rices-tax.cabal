@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           rices-tax
-version:        0.4.1
+version:        0.4.2
 synopsis:       The ledger of what a machine raised about a codebase and a person must decide
 description:    Please see README.md
 author:         brain-fuel
@@ -55,7 +55,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
-    , canon >=0.2.1 && <0.3
+    , canon >=0.2.2 && <0.3
     , containers
     , cryptohash-sha256
     , directory

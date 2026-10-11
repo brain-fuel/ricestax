@@ -1,5 +1,5 @@
-version: 0.4.1
-canon: 0.2.1
+version: 0.4.2
+canon: 0.2.2
 registry: canonical_refs.yaml
 decisions: canonical_decisions.yaml
 ignore:

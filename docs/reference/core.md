@@ -254,7 +254,7 @@ canon's minor reads alike. ref:DEC-canon-lockstep ref:DEC-canon-patch-compatibil
 
 ```haskell file=src/RicesTax/Core.hs def=requiredCanon
 requiredCanon :: Text
-requiredCanon = "0.2.1"
+requiredCanon = "0.2.2"
 ```
 
 ## 2c. lockstepIssue

@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2] - 2026-10-11
+
+- Built against canon 0.2.2, a patch of canon 0.2
+  (`DEC-canon-patch-compatibility`): `requiredCanon` is `0.2.2`, `package.yaml`
+  allows `canon >= 0.2.2 && < 0.3`, and a project naming any `0.2.x` reads as it
+  stands. canon 0.2.2 binds a Haddock comment before a Haskell constructor to
+  that constructor, which canon 0.2.1 reported as an orphan no exemption covers
+  (canon's `DEC-haskell-constructor-haddock`), and reads Kotlin scripts, such as
+  Gradle Kotlin DSL build scripts, from `kotlinFile` (canon's
+  `DEC-kotlin-script`).
+- The Haskell grammars under `grammars/` are canon 0.2.2's: its dialect binds
+  constructor Haddock. Every id and digest of this project is unchanged.
+
 ## [0.4.1] - 2026-10-10
 
 - Lockstep with canon 0.2.1, and with any patch of canon 0.2
